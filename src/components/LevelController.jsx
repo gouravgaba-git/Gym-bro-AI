@@ -19,7 +19,7 @@ const LevelController = ({
         <div className="tip-badge">
           <span className="tip-badge-icon" role="img" aria-label="Tip Icon">💡</span>
           <div>
-            <strong>Full Body Locked:</strong> Beginners excel best on 3-Day Full Body splits for maximum recovery, neural adaptations, and consistent progress.
+            <strong>Full Body Locked:</strong> Beginners excel best on 4-Day Full Body splits for maximum recovery, neural adaptations, and consistent progress.
           </div>
         </div>
       </div>

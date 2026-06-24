@@ -82,7 +82,7 @@ const ResultsDashboard = ({ plan }) => {
                           <svg className="watch-btn-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z" />
                           </svg>
-                          <span>Watch Video</span>
+                          <span>get info</span>
                         </a>
                       </td>
                     </tr>

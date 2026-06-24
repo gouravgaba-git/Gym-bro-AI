@@ -75,7 +75,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
     },
     Legs: {
       muscle_gain: [
-        { name: "Barbell Back Squat", target: "Legs", setsReps: "4 sets x 8-10 reps", videoUrl: "#" },
+        { name: "Barbell Back Squat", target: "Legs", setsReps: "4 sets x 8-10 reps", videoUrl: "/infopage.jsx" },
         { name: "Romanian Deadlift (Dumbbell)", target: "Legs", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
         { name: "Leg Press", target: "Legs", setsReps: "3 sets x 12 reps", videoUrl: "#" }
       ],
@@ -131,7 +131,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
   if (level === 'beginner') {
     // Beginner locked to 3-day Full Body split
     return {
-      splitName: "3-Day Full Body Split",
+      splitName: "4-Day Full Body Split",
       goalLabel: goalLabels[goal],
       levelLabel: levelLabels[level],
       days: [
@@ -170,6 +170,17 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             ...getExercisesForMuscle('Arms').slice(0, 1),
             ...getExercisesForMuscle('Core').slice(0, 1),
           ]
+        }, {
+          name: "Day 4 (Full Body B)",
+          focus: "Hinge & Pull Emphasis",
+          exercises: [
+            ...getExercisesForMuscle('Legs').slice(1, 2),
+            ...getExercisesForMuscle('Back').slice(1, 2),
+            ...getExercisesForMuscle('Chest').slice(1, 2),
+            ...getExercisesForMuscle('Shoulders').slice(1, 2),
+            ...getExercisesForMuscle('Arms').slice(1, 2),
+            ...getExercisesForMuscle('Core').slice(1, 2),
+          ]
         }
       ]
     };
@@ -206,8 +217,8 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             name: "Day 3 (Leg Focus)",
             focus: "Quads, Hamstrings & Calves",
             exercises: [
-              ...getExercisesForMuscle('Legs', 2),
-              ...getExercisesForMuscle('Core', 1)
+              ...getExercisesForMuscle('Legs', 3),
+              ...getExercisesForMuscle('Core', 2)
             ]
           }
         ]
@@ -249,9 +260,9 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             name: "Day 4 (Lower B)",
             focus: "Hinge Emphasis & Hams",
             exercises: [
-              ...getExercisesForMuscle('Legs').slice(1, 3),
-              ...getExercisesForMuscle('Back').slice(1, 2),
-              ...getExercisesForMuscle('Core', 1)
+              ...getExercisesForMuscle('Legs').slice(0, 3),
+              ...getExercisesForMuscle('Back').slice(0, 2),
+              ...getExercisesForMuscle('Core', 2)
             ]
           }
         ]
@@ -311,16 +322,16 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
 function App() {
   // 1. Goal state (default: Muscle Gain)
   const [goal, setGoal] = useState('muscle_gain');
-  
+
   // 2. Level state (default: Beginner)
   const [level, setLevel] = useState('beginner');
-  
+
   // 3. Frequency split state (for Intermediate - default: null but set on transition)
   const [days, setDays] = useState(null);
-  
+
   // 4. Targeted muscles state (for Advanced)
   const [selectedMuscles, setSelectedMuscles] = useState([]);
-  
+
   // 5. App UI states
   const [isGenerating, setIsGenerating] = useState(false);
   const [workoutPlan, setWorkoutPlan] = useState(null);
