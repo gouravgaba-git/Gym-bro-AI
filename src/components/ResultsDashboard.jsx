@@ -1,11 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import InfoTemplate from "./infopage.jsx";
 
 /**
  * ResultsDashboard displays the generated workout plan with detail cards and exercises.
  */
 const ResultsDashboard = ({ plan }) => {
   const containerRef = useRef(null);
-
+  const [showTemplate, setShowTemplate] = useState(false);
   // Scroll to results when plan is loaded
   useEffect(() => {
     if (plan && containerRef.current) {
@@ -19,6 +20,9 @@ const ResultsDashboard = ({ plan }) => {
 
   return (
     <div className="card results-container" ref={containerRef} id="workout-results-dashboard">
+      {showTemplate && (
+        <InfoTemplate onClose={() => setShowTemplate(false)} />
+      )}
       {/* Dashboard Top Header */}
       <div className="results-header">
         <div className="results-title-group">
@@ -68,22 +72,19 @@ const ResultsDashboard = ({ plan }) => {
                         <span className="sets-reps-text">{ex.setsReps}</span>
                       </td>
                       <td style={{ textAlign: 'right' }}>
-                        <a
+                        <button
                           href={ex.videoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="watch-btn"
                           aria-label={`Watch tutorial video for ${ex.name}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            alert(`Simulating form guide video tutorial for: ${ex.name}`);
-                          }}
+                          onClick={() => setShowTemplate(true)}
                         >
                           <svg className="watch-btn-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z" />
                           </svg>
                           <span>get info</span>
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   ))}
