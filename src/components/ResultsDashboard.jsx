@@ -6,7 +6,7 @@ import InfoTemplate from "./infopage.jsx";
  */
 const ResultsDashboard = ({ plan }) => {
   const containerRef = useRef(null);
-  const [showTemplate, setShowTemplate] = useState(false);
+  const [selectedexercise, setselectedexercise] = useState(null);
   // Scroll to results when plan is loaded
   useEffect(() => {
     if (plan && containerRef.current) {
@@ -20,8 +20,8 @@ const ResultsDashboard = ({ plan }) => {
 
   return (
     <div className="card results-container" ref={containerRef} id="workout-results-dashboard">
-      {showTemplate && (
-        <InfoTemplate onClose={() => setShowTemplate(false)} />
+      {selectedexercise && (
+        <InfoTemplate exercise={selectedexercise} onClose={() => setselectedexercise(null)} />
       )}
       {/* Dashboard Top Header */}
       <div className="results-header">
@@ -78,7 +78,7 @@ const ResultsDashboard = ({ plan }) => {
                           rel="noopener noreferrer"
                           className="watch-btn"
                           aria-label={`Watch tutorial video for ${ex.name}`}
-                          onClick={() => setShowTemplate(true)}
+                          onClick={() => setselectedexercise(ex)}
                         >
                           <svg className="watch-btn-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z" />

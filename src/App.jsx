@@ -340,12 +340,29 @@ function App() {
     setIsGenerating(true);
     setWorkoutPlan(null); // Clear old results to make loading experience prominent
 
-    // Simulate API delay (1 second setTimeout as requested)
-    setTimeout(() => {
-      const plan = generateWorkoutPlan(goal, level, days, selectedMuscles);
-      setWorkoutPlan(plan);
-      setIsGenerating(false);
-    }, 1000);
+    // Request the workout plan from the Express backend API
+    fetch("http://localhost:5000/api/workout-plan", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ goal, level, days, selectedMuscles })
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Server response error");
+        return res.json();
+      })
+      .then((data) => {
+        setWorkoutPlan(data);
+        setIsGenerating(false);
+      })
+      .catch((err) => {
+        console.warn("Backend API not reachable. Falling back to local generation. Details:", err.message);
+        // Seamless fallback to client-side generator
+        const plan = generateWorkoutPlan(goal, level, days, selectedMuscles);
+        setWorkoutPlan(plan);
+        setIsGenerating(false);
+      });
   };
 
   return (
