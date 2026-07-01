@@ -1158,6 +1158,25 @@ footer a:hover {
   display: block;
 }
 
+.pose-video-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.pose-canvas {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+
+  pointer-events: none;
+}
+
 .pose-detection-container {
   display: flex;
   align-items: center;
