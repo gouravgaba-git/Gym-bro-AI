@@ -30,7 +30,8 @@ export default function PoseDetection() {
     const poseLandmarkerRef = useRef(null);
     const canvasRef = useRef(null);
     const [reps, setreps] = useState(0);
-    const stageRef = useRef("down");
+    const stageleftbicepRef = useRef("down");
+    const stagerightbicepRef = useRef("down")
 
 
     async function CreatePoseLandmarker() {
@@ -106,17 +107,29 @@ export default function PoseDetection() {
         if (results.landmarks.length > 0) {
             const landmarks = results.landmarks[0];
 
-            const angle = calculateAngle(
+            const leftbicepsangle = calculateAngle(
                 landmarks[11], // Left Shoulder
                 landmarks[13], // Left Elbow
                 landmarks[15]  // Left Wrist
             );
+            const rightbicepangle = calculateAngle(
+                landmarks[12], // right Shoulder
+                landmarks[14], // right Elbow
+                landmarks[16]  // right Wrist
+            );
 
-            if (angle > 160) {
-                stageRef.current = "down";
+            if (leftbicepsangle > 160) {
+                stageleftbicepRef.current = "down";
             }
-            if (angle < 40 && stageRef.current === "down") {
-                stageRef.current = "up"
+            if (leftbicepsangle < 40 && stageleftbicepRef.current === "down") {
+                stageleftbicepRef.current = "up"
+                setreps(prev => prev + 1);
+            }
+            if (rightbicepangle > 160) {
+                stagerightbicepRef.current = "down";
+            }
+            if (rightbicepangle < 40 && stagerightbicepRef.current === "down") {
+                stagerightbicepRef.current = "up"
                 setreps(prev => prev + 1);
             }
             console.log(reps);
