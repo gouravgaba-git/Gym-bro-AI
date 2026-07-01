@@ -1,5 +1,7 @@
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
+import Camerahandle from "./cameraupload.jsx";
+import PoseDetection from "./posedet.jsx";
 
 function InfoTemplate({ exercise, onClose }) {
     const [details, setDetails] = useState(null);
@@ -85,19 +87,19 @@ function InfoTemplate({ exercise, onClose }) {
                                        Future Video Player Block:
                                        To use video in the future, set mediaType to 'video' and mediaUrl to your file/embed link.
                                     */
-                                    <video 
-                                        src={details.mediaUrl} 
-                                        className="exercise-media-element" 
-                                        controls 
-                                        autoPlay 
-                                        muted 
+                                    <video
+                                        src={details.mediaUrl}
+                                        className="exercise-media-element"
+                                        controls
+                                        autoPlay
+                                        muted
                                         loop
                                     />
                                 ) : (
                                     <div className="image-container-relative">
-                                        <img 
-                                            src={details.mediaUrl || "/exercise_placeholder.png"} 
-                                            alt={`${name} demonstration`} 
+                                        <img
+                                            src={details.mediaUrl || "/exercise_placeholder.png"}
+                                            alt={`${name} demonstration`}
                                             className="exercise-media-element"
                                         />
                                         <div className="media-overlay-glow"></div>
@@ -138,12 +140,16 @@ function InfoTemplate({ exercise, onClose }) {
                         )}
                     </>
                 )}
-                
+
                 {/* Secondary Bottom Close Button */}
                 <div className="modal-footer-close">
                     <button className="footer-close-btn" onClick={onClose}>
                         Close Guide
                     </button>
+                    <div className="modal-footer-actions">
+                        <Camerahandle />
+                        <PoseDetection />
+                    </div>
                 </div>
             </div>
         </div>,

@@ -110,15 +110,18 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
     Core: {
       muscle_gain: [
         { name: "Hanging Leg Raise", target: "Core", setsReps: "3 sets x 12-15 reps", videoUrl: "#" },
-        { name: "Ab-Wheel Rollout", target: "Core", setsReps: "3 sets x 10 reps", videoUrl: "#" }
+        { name: "Ab-Wheel Rollout", target: "Core", setsReps: "3 sets x 10 reps", videoUrl: "#" },
+        { name: "Plank", target: "Core", setsReps: "3 sets x 60 seconds", videoUrl: "#" }
       ],
       fat_loss: [
         { name: "Hanging Knee Raise", target: "Core", setsReps: "3 sets x 15-20 reps", videoUrl: "#" },
-        { name: "Weighted Plank", target: "Core", setsReps: "3 sets x 60 seconds", videoUrl: "#" }
+        { name: "Weighted Plank", target: "Core", setsReps: "3 sets x 60 seconds", videoUrl: "#" },
+        { name: "Bicycle Crunches", target: "Core", setsReps: "3 sets x 20 reps", videoUrl: "#" }
       ],
       strength: [
         { name: "Heavy Standing Cable Crunch", target: "Core", setsReps: "4 sets x 8-10 reps", videoUrl: "#" },
-        { name: "Pallof Press (Cable)", target: "Core", setsReps: "3 sets x 10 reps (each side)", videoUrl: "#" }
+        { name: "Pallof Press (Cable)", target: "Core", setsReps: "3 sets x 10 reps (each side)", videoUrl: "#" },
+        { name: "Cable Woodchopper", target: "Core", setsReps: "3 sets x 10 reps (each side)", videoUrl: "#" }
       ]
     }
   };
@@ -271,9 +274,9 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
   }
 
   if (level === 'advanced') {
-    // Advanced: custom muscle target splits distributed into 3 workouts
+    // Advanced: custom muscle target splits in a combined session
     const daysData = [];
-    const numDays = 3;
+    const numDays = 1;
     const distributedMuscles = Array.from({ length: numDays }, () => []);
 
     selectedMuscles.forEach((muscle, index) => {
@@ -285,11 +288,11 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
       if (dayMuscles.length > 0) {
         const exercisesList = [];
         dayMuscles.forEach(muscle => {
-          exercisesList.push(...getExercisesForMuscle(muscle, 2));
+          exercisesList.push(...getExercisesForMuscle(muscle, 3));
         });
 
         daysData.push({
-          name: `Day ${i + 1}`,
+          name: "Workout Session",
           focus: `${dayMuscles.join(' & ')} Focus`,
           exercises: exercisesList
         });
@@ -298,12 +301,12 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
 
     if (daysData.length === 0) {
       daysData.push({
-        name: "Day 1",
+        name: "Workout Session",
         focus: "General Hypertrophy Focus",
         exercises: [
-          ...getExercisesForMuscle('Chest', 1),
-          ...getExercisesForMuscle('Back', 1),
-          ...getExercisesForMuscle('Legs', 1)
+          ...getExercisesForMuscle('Chest', 1)
+          // ...getExercisesForMuscle('Back', 1),
+          // ...getExercisesForMuscle('Legs', 1)
         ]
       });
     }

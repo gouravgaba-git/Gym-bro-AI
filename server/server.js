@@ -62,7 +62,7 @@ app.get("/api/exercises", async (req, res) => {
 app.get("/api/exercises/details/:name", async (req, res) => {
   try {
     const exercise = await Exercise.findOne({ name: req.params.name.trim() });
-    
+
     if (!exercise) {
       // Return a clean fallback structure if the database does not contain this specific entry
       const normalizedName = req.params.name;
@@ -269,7 +269,7 @@ app.post("/api/workout-plan", async (req, res) => {
       }
     } else if (level === 'advanced') {
       const daysData = [];
-      const numDays = 3;
+      const numDays = 1;
       const distributedMuscles = Array.from({ length: numDays }, () => []);
 
       const musclesList = selectedMuscles || [];
@@ -282,11 +282,11 @@ app.post("/api/workout-plan", async (req, res) => {
         if (dayMuscles.length > 0) {
           const exercisesList = [];
           dayMuscles.forEach(muscle => {
-            exercisesList.push(...getExercisesForMuscle(muscle, 2));
+            exercisesList.push(...getExercisesForMuscle(muscle, 3));
           });
 
           daysData.push({
-            name: `Day ${i + 1}`,
+            name: "Workout Session",
             focus: `${dayMuscles.join(' & ')} Focus`,
             exercises: exercisesList
           });
@@ -295,7 +295,7 @@ app.post("/api/workout-plan", async (req, res) => {
 
       if (daysData.length === 0) {
         daysData.push({
-          name: "Day 1",
+          name: "Workout Session",
           focus: "General Hypertrophy Focus",
           exercises: [
             ...getExercisesForMuscle('Chest', 1),

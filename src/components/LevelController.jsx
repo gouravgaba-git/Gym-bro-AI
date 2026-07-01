@@ -64,10 +64,11 @@ const LevelController = ({
   // Advanced view: Multi-select muscle group checkboxes
   if (level === 'advanced') {
     const handleToggleMuscle = (muscle) => {
-      if (selectedMuscles.includes(muscle)) {
-        setSelectedMuscles(selectedMuscles.filter(m => m !== muscle));
+      const currentSelected = selectedMuscles || [];
+      if (currentSelected.includes(muscle)) {
+        setSelectedMuscles(currentSelected.filter(m => m !== muscle));
       } else {
-        setSelectedMuscles([...selectedMuscles, muscle]);
+        setSelectedMuscles([...currentSelected, muscle]);
       }
     };
 
@@ -81,7 +82,7 @@ const LevelController = ({
         </p>
         <div className="muscle-grid" role="group" aria-label="Select target muscle groups">
           {ADVANCED_MUSCLES.map((muscle) => {
-            const isSelected = selectedMuscles.includes(muscle);
+            const isSelected = (selectedMuscles || []).includes(muscle);
             return (
               <div
                 key={muscle}

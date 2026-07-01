@@ -649,6 +649,21 @@ const exercises = [
     ]
   },
   {
+    name: "Plank",
+    target: "Core",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 60 seconds",
+    steps: [
+      "Place your forearms on the floor with elbows aligned below shoulders.",
+      "Keep your body in a straight line from head to heels.",
+      "Engage your core, glutes, and quadriceps to hold the position."
+    ],
+    tips: [
+      "Keep your neck neutral and look down at the floor.",
+      "Do not let your hips sag or hike upwards."
+    ]
+  },
+  {
     name: "Hanging Knee Raise",
     target: "Core",
     goal: "fat_loss",
@@ -673,6 +688,20 @@ const exercises = [
     ]
   },
   {
+    name: "Bicycle Crunches",
+    target: "Core",
+    goal: "fat_loss",
+    setsReps: "3 sets x 20 reps",
+    steps: [
+      "Lie flat on the floor with your lower back pressed to the ground. Place your hands lightly behind your head.",
+      "Raise your shoulders and bring your knees up. Alternately rotate your elbow to the opposite knee in a pedaling motion."
+    ],
+    tips: [
+      "Focus on the contraction of your obliques on each twist.",
+      "Keep the movement slow and controlled rather than rushing through."
+    ]
+  },
+  {
     name: "Heavy Standing Cable Crunch",
     target: "Core",
     goal: "strength",
@@ -694,6 +723,20 @@ const exercises = [
     ],
     tips: [
       "This is an anti-rotation movement; keep your torso perfectly locked forward."
+    ]
+  },
+  {
+    name: "Cable Woodchopper",
+    target: "Core",
+    goal: "strength",
+    setsReps: "3 sets x 10 reps (each side)",
+    steps: [
+      "Set cable pulley to high position. Stand sideways, grip handle with both hands, and pull diagonally down across your body.",
+      "Control the return phase back to the high starting position."
+    ],
+    tips: [
+      "Pivot your back foot slightly as you rotate your torso to protect your knees.",
+      "Keep your arms relatively straight to engage the obliques."
     ]
   }
 ];

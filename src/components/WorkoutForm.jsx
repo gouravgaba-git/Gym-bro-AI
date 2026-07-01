@@ -58,7 +58,7 @@ const WorkoutForm = ({
   const isFormValid = () => {
     if (!goal) return false;
     if (level === 'intermediate' && !days) return false;
-    if (level === 'advanced' && selectedMuscles.length === 0) return false;
+    if (level === 'advanced' && (!selectedMuscles || selectedMuscles.length === 0)) return false;
     return true;
   };
 
@@ -73,7 +73,7 @@ const WorkoutForm = ({
       setSelectedMuscles([]);
     } else if (newLevel === 'advanced') {
       setDays(null);
-      setSelectedMuscles(['Chest', 'Back', 'Legs']); // Default selections
+      setSelectedMuscles([]); // Default selection is empty
     }
   };
 
