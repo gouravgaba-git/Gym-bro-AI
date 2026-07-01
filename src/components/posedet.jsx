@@ -1,5 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
+function calculateAngle(A, B, C) {
+
+    let radians =
+        Math.atan2(
+            C.y - B.y,
+            C.x - B.x
+        ) -
+        Math.atan2(
+            A.y - B.y,
+            A.x - B.x
+        );
+
+    let angle =
+        Math.abs(radians * 180.0 / Math.PI);
+
+    if (angle > 180) {
+        angle = 360 - angle;
+    }
+
+    return angle;
+}
 
 export default function PoseDetection() {
 
@@ -8,6 +29,8 @@ export default function PoseDetection() {
     const streamRef = useRef(null);
     const poseLandmarkerRef = useRef(null);
     const canvasRef = useRef(null);
+    const [reps, setreps] = useState(0);
+    const stageRef = useRef("down");
 
 
     async function CreatePoseLandmarker() {
@@ -66,7 +89,7 @@ export default function PoseDetection() {
         // ctx.fill();
     }
     function detectpose() {
-        if (!poseLandmarkerRef.current) return;
+        if (!poseLandmarkerRef.current || !videoRef.current || !videoRef.current.srcObject) return;
         if (videoRef.current.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
             requestAnimationFrame(detectpose);
             return;
@@ -79,6 +102,24 @@ export default function PoseDetection() {
             console.log(results.landmarks[0]);
             drawpose(results.landmarks[0]) //ye [0] one person ko dikha rha hai
 
+        }
+        if (results.landmarks.length > 0) {
+            const landmarks = results.landmarks[0];
+
+            const angle = calculateAngle(
+                landmarks[11], // Left Shoulder
+                landmarks[13], // Left Elbow
+                landmarks[15]  // Left Wrist
+            );
+
+            if (angle > 160) {
+                stageRef.current = "down";
+            }
+            if (angle < 40 && stageRef.current === "down") {
+                stageRef.current = "up"
+                setreps(prev => prev + 1);
+            }
+            console.log(reps);
         }
 
         requestAnimationFrame(detectpose);
@@ -128,6 +169,7 @@ export default function PoseDetection() {
                 <canvas
                     ref={canvasRef}
                     className="pose-canvas" />
+                <h2>{reps}</h2>
                 <div className="pose-video-overlay-glow"></div>
             </div>
         </div>
