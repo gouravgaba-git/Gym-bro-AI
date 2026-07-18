@@ -156,7 +156,7 @@ function InfoTemplate({ exercise, onClose }) {
                     </button>
                     <div className="modal-footer-actions">
                         <Camerahandle />
-                        <PoseDetection />
+                        <PoseDetection exerciseName={name} />
                     </div>
                 </div>
             </div>
