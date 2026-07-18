@@ -108,6 +108,22 @@ const exercises = [
     ]
   },
   {
+    name: "Pec Dec",
+    target: "Chest",
+    goal: "fat_loss",
+    setsReps: "3 sets x 12-15 reps",
+    steps: [
+      "Sit on the pec dec machine with your back flat against the pad.",
+      "Grip the handles or place your forearms on the pads, keeping elbows bent at 90 degrees.",
+      "Contract your chest to pull the handles/pads together in front of you.",
+      "Squeeze your chest at the center, then slowly return to the starting position."
+    ],
+    tips: [
+      "Keep your shoulders pressed down and back to isolate the chest.",
+      "Do not let the weight stack touch between reps to maintain tension."
+    ]
+  },
+  {
     name: "Barbell Bench Press",
     target: "Chest",
     goal: "strength",
@@ -146,6 +162,22 @@ const exercises = [
     ],
     tips: [
       "Leaning forward targets the lower pecs; staying upright targets the triceps."
+    ]
+  },
+  {
+    name: "Pec Dec",
+    target: "Chest",
+    goal: "strength",
+    setsReps: "3 sets x 12-15 reps",
+    steps: [
+      "Sit on the pec dec machine with your back flat against the pad.",
+      "Grip the handles or place your forearms on the pads, keeping elbows bent at 90 degrees.",
+      "Contract your chest to pull the handles/pads together in front of you.",
+      "Squeeze your chest at the center, then slowly return to the starting position."
+    ],
+    tips: [
+      "Keep your shoulders pressed down and back to isolate the chest.",
+      "Do not let the weight stack touch between reps to maintain tension."
     ]
   },
 
@@ -737,6 +769,275 @@ const exercises = [
     tips: [
       "Pivot your back foot slightly as you rotate your torso to protect your knees.",
       "Keep your arms relatively straight to engage the obliques."
+    ]
+  },
+  // === TRICEPS ===
+  {
+    name: "Overhead Dumbbell Tricep Extension",
+    target: "Triceps",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10-12 reps",
+    steps: [
+      "Sit or stand upright holding a dumbbell overhead with both hands cup-gripping the top plate.",
+      "Keeping your upper arms vertical and close to your head, slowly lower the dumbbell behind your head.",
+      "Raise the dumbbell back to the starting position by extending your elbows, squeezing the triceps at the top."
+    ],
+    tips: [
+      "Keep your elbows pointed forward and do not let them flare out wide.",
+      "Ensure your core is braced and avoid arching your lower back."
+    ]
+  },
+  {
+    name: "Cable Tricep Pushdown (Straight Bar)",
+    target: "Triceps",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 12 reps",
+    steps: [
+      "Attach a straight bar to a high cable pulley. Stand close to the pulley, grip the bar at shoulder-width, and tuck your elbows in.",
+      "Push the bar down until your elbows are fully extended, contracting the triceps.",
+      "Slowly raise the bar back up to about chest height, keeping your elbows locked in place."
+    ],
+    tips: [
+      "Keep your body stable and avoid leaning forward too much to push with chest weight.",
+      "Ensure your wrists remain neutral throughout."
+    ]
+  },
+  {
+    name: "Cable Overhead Rope Extension",
+    target: "Triceps",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 12-15 reps",
+    steps: [
+      "Attach a rope to a high cable pulley. Turn away from the stack, pull the rope behind your head, and step forward into a lunge stance.",
+      "Extend your arms forward and up in front of you, separating the rope ends at lockout.",
+      "Return slowly to the starting position behind your head under control."
+    ],
+    tips: [
+      "Maintain a strong, stable torso; do not let the cable pull you out of position.",
+      "Focus on the stretch at the bottom of the movement."
+    ]
+  },
+  {
+    name: "Bench Dips",
+    target: "Triceps",
+    goal: "fat_loss",
+    setsReps: "3 sets x 15-20 reps",
+    steps: [
+      "Sit on the edge of a bench. Place your hands next to your hips and extend your legs forward.",
+      "Slide your hips off the bench and bend your elbows to lower your body toward the floor.",
+      "Press through your palms to return to the starting position, squeezing your triceps."
+    ],
+    tips: [
+      "Keep your back close to the bench to avoid shoulder strain.",
+      "Maintain a controlled, steady pace."
+    ]
+  },
+  {
+    name: "Dumbbell Tricep Kickback",
+    target: "Triceps",
+    goal: "fat_loss",
+    setsReps: "3 sets x 15 reps",
+    steps: [
+      "Stand holding a dumbbell in one hand, hinge forward, and place your other hand/knee on a bench for support.",
+      "Tuck your elbow high so your upper arm is parallel to the floor.",
+      "Extend your arm straight back, locking your elbow out and squeezing the tricep.",
+      "Lower the weight back to the start position without swinging."
+    ],
+    tips: [
+      "Only your forearm should move; keep your upper arm completely still.",
+      "Keep your head and neck aligned with your back."
+    ]
+  },
+  {
+    name: "Single-Arm Cable Pushdown",
+    target: "Triceps",
+    goal: "fat_loss",
+    setsReps: "3 sets x 15 reps",
+    steps: [
+      "Grip the cable handle with one hand and stand facing the high pulley with your elbow tucked.",
+      "Push the cable straight down until your arm is locked.",
+      "Slowly control the weight back up to the starting position."
+    ],
+    tips: [
+      "Keep the tempo steady and avoid using body momentum.",
+      "Squeeze your tricep hard at the bottom."
+    ]
+  },
+  {
+    name: "Close-Grip Barbell Bench Press",
+    target: "Triceps",
+    goal: "strength",
+    setsReps: "4 sets x 6 reps",
+    steps: [
+      "Lie on a flat bench. Grip the barbell with hands about shoulder-width apart.",
+      "Unrack the bar and lower it under control to your lower chest, keeping your elbows tucked close to your torso.",
+      "Press the bar back up forcefully, engaging your triceps."
+    ],
+    tips: [
+      "Do not place your hands too close together (less than shoulder-width) as this can strain the wrists.",
+      "Ensure the bar path remains vertical."
+    ]
+  },
+  {
+    name: "Weighted Chest Dips",
+    target: "Triceps",
+    goal: "strength",
+    setsReps: "3 sets x 6-8 reps",
+    steps: [
+      "Attach a dip belt around your waist with weights or hold a dumbbell between your feet.",
+      "Mount the dip bars, lock your arms, and lean forward slightly.",
+      "Lower your body by bending your elbows until they reach a 90-degree angle.",
+      "Push through your hands to return to the top lockout position."
+    ],
+    tips: [
+      "Keep your shoulders depressed and avoid shrugging at the top.",
+      "Only go as deep as is comfortable for your shoulder joints."
+    ]
+  },
+  {
+    name: "Skull Crushers (EZ-Bar)",
+    target: "Triceps",
+    goal: "strength",
+    setsReps: "3 sets x 8 reps",
+    steps: [
+      "Lie flat on a bench holding an EZ-bar over your chest with a narrow grip.",
+      "Bend your elbows to lower the bar towards your forehead, keeping your upper arms vertical.",
+      "Extend your arms back to the starting position, squeezing your triceps."
+    ],
+    tips: [
+      "Keep your elbows tucked and avoid letting them flare outward.",
+      "Lower the bar under strict control to prevent head injury."
+    ]
+  },
+  // === FOREARMS ===
+  {
+    name: "Barbell Wrist Curl",
+    target: "Forearms",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 15 reps",
+    steps: [
+      "Sit on a bench, resting your forearms on your thighs with your palms facing up, holding a barbell.",
+      "Allow the barbell to roll down to your fingers, then curl your wrists upward to lift the bar.",
+      "Slowly lower the barbell back to the starting position."
+    ],
+    tips: [
+      "Resting your forearms on your thighs ensures the movement is isolated to the wrists.",
+      "Do not use body momentum to raise the bar."
+    ]
+  },
+  {
+    name: "Reverse EZ-Bar Curl",
+    target: "Forearms",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 12 reps",
+    steps: [
+      "Stand holding an EZ-bar with an overhand (pronated) grip at shoulder-width.",
+      "Curl the bar upward toward your shoulders, keeping your elbows tucked.",
+      "Lower the bar slowly under control back to the starting position."
+    ],
+    tips: [
+      "Keep your wrists straight and firm; do not let them bend backward.",
+      "Focus on squeezing the forearm muscles at the top."
+    ]
+  },
+  {
+    name: "Dumbbell Hammer Curl",
+    target: "Forearms",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 12 reps",
+    steps: [
+      "Stand with dumbbells in hands, palms facing each other (neutral grip).",
+      "Curl the weights upward while keeping your palms facing inward.",
+      "Lower the weights slowly back to the bottom."
+    ],
+    tips: [
+      "Keep your elbows locked to your sides; do not let them drift forward.",
+      "Squeeze your forearms and biceps at the peak of the curl."
+    ]
+  },
+  {
+    name: "Dumbbell Wrist Curls (Palms Down)",
+    target: "Forearms",
+    goal: "fat_loss",
+    setsReps: "3 sets x 15-20 reps",
+    steps: [
+      "Sit on a bench, resting your forearms on your thighs with palms facing down, holding dumbbells.",
+      "Extend your wrists upward to lift the dumbbells, then lower them slowly back down."
+    ],
+    tips: [
+      "Use a lighter weight to ensure strict form and high volume.",
+      "Keep the tempo steady."
+    ]
+  },
+  {
+    name: "Plate Pinches",
+    target: "Forearms",
+    goal: "fat_loss",
+    setsReps: "3 sets x 45 seconds",
+    steps: [
+      "Pinch two smooth weight plates together (smooth side facing out) using only your fingers and thumb.",
+      "Hold the plates by your side for the designated time."
+    ],
+    tips: [
+      "Engage your core to maintain a straight, upright posture.",
+      "Keep your shoulders relaxed."
+    ]
+  },
+  {
+    name: "Dumbbell Farmer's Walk",
+    target: "Forearms",
+    goal: "fat_loss",
+    setsReps: "3 sets x 60 seconds",
+    steps: [
+      "Hold a heavy dumbbell in each hand by your side.",
+      "Walk in a straight line with a tall posture and braced core for the designated duration."
+    ],
+    tips: [
+      "Do not look down; look straight ahead to maintain spinal alignment.",
+      "Keep your grip firm and do not let the weights swing."
+    ]
+  },
+  {
+    name: "Heavy Farmer's Carry",
+    target: "Forearms",
+    goal: "strength",
+    setsReps: "3 sets x 30-45 seconds",
+    steps: [
+      "Deadlift two very heavy dumbbells, kettlebells, or farmer's walk handles.",
+      "Walk forward with short, quick steps while keeping your shoulders packed and core tight."
+    ],
+    tips: [
+      "Squeeze your grip as hard as possible to maximize muscle recruitment.",
+      "Do not lean forward; maintain an upright torso."
+    ]
+  },
+  {
+    name: "Barbell Static Hold",
+    target: "Forearms",
+    goal: "strength",
+    setsReps: "3 sets x max hold time",
+    steps: [
+      "Set a barbell in a rack at about thigh height. Grab it with an overhand grip.",
+      "Lift it off the pins and stand holding the bar for as long as possible before your grip fails."
+    ],
+    tips: [
+      "Use a double overhand grip (no hook grip or mixed grip) to maximize forearm loading.",
+      "Brace your core and squeeze your glutes for stability."
+    ]
+  },
+  {
+    name: "Behind-the-Back Wrist Curl",
+    target: "Forearms",
+    goal: "strength",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Stand holding a barbell behind your back with an overhand grip (palms facing away from your body).",
+      "Let the bar roll down into your fingers, then curl your wrists upward to lift the bar.",
+      "Lower the bar slowly back to the starting position."
+    ],
+    tips: [
+      "Keep your shoulders pulled back throughout the movement.",
+      "Squeeze the forearms at the top of the curl."
     ]
   }
 ];

@@ -7,19 +7,25 @@ function InfoTemplate({ exercise, onClose }) {
     const [details, setDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    if (!exercise) return null;
+    // Destructure exercise object with fallback handling safely
+    const name = exercise && typeof exercise === "object" ? exercise.name : (exercise || "");
+    const target = exercise && typeof exercise === "object" ? exercise.target : "Full Body";
+    const setsReps = exercise && typeof exercise === "object" ? exercise.setsReps : null;
 
-    // Destructure exercise object with fallback handling
-    const name = typeof exercise === "object" ? exercise.name : exercise;
-    const target = typeof exercise === "object" ? exercise.target : "Full Body";
-    const setsReps = typeof exercise === "object" ? exercise.setsReps : null;
+    const [prevName, setPrevName] = useState(null);
+    if (name !== prevName) {
+        setPrevName(name);
+        setIsLoading(true);
+        setDetails(null);
+    }
 
     useEffect(() => {
+        if (!exercise) return;
+
         // Disable background scrolling when modal is open
         document.body.style.overflow = "hidden";
 
         // Fetch instructions and tips dynamically from the backend API
-        setIsLoading(true);
         fetch(`http://localhost:5000/api/exercises/details/${encodeURIComponent(name)}`)
             .then((res) => {
                 if (!res.ok) throw new Error("Network response was not ok");
@@ -48,7 +54,9 @@ function InfoTemplate({ exercise, onClose }) {
             // Restore scrolling when modal closes
             document.body.style.overflow = "auto";
         };
-    }, [name, target]);
+    }, [exercise, name, target]);
+
+    if (!exercise) return null;
 
     return createPortal(
         <div className="overlay" onClick={onClose}>

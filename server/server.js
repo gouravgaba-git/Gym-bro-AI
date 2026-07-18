@@ -106,6 +106,10 @@ app.post("/api/workout-plan", async (req, res) => {
   try {
     const { goal, level, days, selectedMuscles } = req.body;
 
+    if (mongoose.connection.readyState !== 1) {
+      throw new Error("Database not connected");
+    }
+
     // Fetch exercises from MongoDB matching this fitness goal
     const rawExercises = await Exercise.find({ goal });
 
@@ -165,7 +169,7 @@ app.post("/api/workout-plan", async (req, res) => {
             name: "Day 3 (Full Body C)",
             focus: "Hypertrophy & Volume Emphasis",
             exercises: [
-              ...getExercisesForMuscle('Legs').slice(0, 1),
+              ...getExercisesForMuscle('Legs', 3).slice(2, 3),
               ...getExercisesForMuscle('Chest').slice(0, 1),
               ...getExercisesForMuscle('Back').slice(0, 1),
               ...getExercisesForMuscle('Shoulders').slice(0, 1),

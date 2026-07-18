@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 function Camerahandle() {
     const [file, setFile] = useState(null);
@@ -11,7 +11,7 @@ function Camerahandle() {
             setPreview(URL.createObjectURL(selected))
         }
     };
-    const submitfile = (e) => {
+    const submitfile = () => {
         alert("done")
     }
 

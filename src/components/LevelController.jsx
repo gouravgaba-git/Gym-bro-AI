@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ADVANCED_MUSCLES = ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms', 'Core'];
+const ADVANCED_MUSCLES = ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms', 'Core', 'Triceps', 'Forearms'];
 
 /**
  * LevelController renders different selection elements conditionally based on the user's selected level.
@@ -55,6 +55,28 @@ const LevelController = ({
           >
             <div className="day-option-title">4 Day Split</div>
             <div className="day-option-desc">Ideal for Upper / Lower or Torso / Limbs splits</div>
+          </div>
+          <div
+            id="day-split-5"
+            className={`day-option ${days === '5' ? 'selected' : ''}`}
+            onClick={() => setDays('5')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('5'); }}
+          >
+            <div className="day-option-title">5 Day Split</div>
+            <div className="day-option-desc">Ideal for Upper / Lower or Torso / Limbs splits/legs</div>
+          </div>
+          <div
+            id="day-split-6"
+            className={`day-option ${days === '6' ? 'selected' : ''}`}
+            onClick={() => setDays('6')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('6'); }}
+          >
+            <div className="day-option-title">6 Day Split</div>
+            <div className="day-option-desc">Ideal and best</div>
           </div>
         </div>
       </div>
