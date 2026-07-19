@@ -51,7 +51,7 @@ export const exerciseDetailsDb = {
       "Do not bounce the bar off your chest. Touch lightly, pause for a split second, and press.",
       "Maintain a natural arch in your lower back, but keep your glutes planted on the bench."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kYJvM9e6-0I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ptpmRrzRtWQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Lat Pulldown (Wide Grip)": {
@@ -66,7 +66,7 @@ export const exerciseDetailsDb = {
       "Use your hands as hooks. Focus on driving your elbows down rather than pulling with your forearms/biceps.",
       "Avoid using momentum or swinging your torso to pull the weight down."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/s0P25H7L2eU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/O94yEoGXtBY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Seated Dumbbell Shoulder Press": {
@@ -81,7 +81,7 @@ export const exerciseDetailsDb = {
       "Avoid flaring your elbows directly out to the sides; tucking them slightly is safer for the rotator cuff.",
       "Keep your ribs down and core braced to avoid hyperextending your lower back."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kYJv-l0j_h4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/21lYP86dHW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Dumbbell Bicep Incline Curl": {
@@ -96,7 +96,7 @@ export const exerciseDetailsDb = {
       "Do not swing your elbows forward as you curl; keeping them back isolates the long head of the biceps.",
       "Control the eccentric (lowering) phase for at least 2 seconds."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kYJ-wL8yX2w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/GNO4OtYoCYk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Hanging Leg Raise": {
@@ -121,7 +121,7 @@ export const exerciseDetailsDb = {
     tips: [
       "Keep the bar close to your body (dragging up shins and thighs) to protect your spine."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wG7p73a6vWw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/VL5Ab0T07e4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Push-ups (to Failure)": {
@@ -134,7 +134,7 @@ export const exerciseDetailsDb = {
       "Do not let your hips sag or your lower back arch.",
       "Perform each rep through a full range of motion, touching your chest to the floor if possible."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/gT8Zt9v-a-4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/b6ouj88iBZs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Leg Press": {
@@ -144,7 +144,7 @@ export const exerciseDetailsDb = {
     tips: [
       "Do not lock out your knees at the top, and do not let your lower back curl off the pad."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/c3pbe3qzatQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/fKAmwrtUxI8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Hammer Curls": {
