@@ -83,8 +83,8 @@ app.get("/api/exercises/details/:name", async (req, res) => {
         target: "Full Body",
         steps: fallbackSteps,
         tips: fallbackTips,
-        mediaUrl: "/exercise_placeholder.png",
-        mediaType: "image"
+        mediaUrl: "/exercise_placeholder.mp4",
+        mediaType: "video"
       });
     }
 

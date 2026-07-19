@@ -26,7 +26,9 @@ const exercises = [
     tips: [
       "Keep your shoulder blades retracted and pressed into the bench to protect your shoulders.",
       "Do not lock your elbows fully at the top to maintain tension on the upper chest."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/IP4oeKh1Sd4?si=0ApVvt2iryzpb-gO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Flat Barbell Bench Press",
@@ -434,7 +436,9 @@ const exercises = [
       "Maintain a proud chest throughout the movement to prevent your hips from rising too fast (good morning squat).",
       "Actively screw your feet into the floor to activate the glutes and prevent knee cave-in.",
       "If ankle mobility is a bottleneck, try elevating your heels slightly or using weightlifting shoes."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/aOzrA4FgnM0?si=iZb-N37gw30fykN_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Romanian Deadlift (Dumbbell)",
@@ -1054,17 +1058,21 @@ async function seedDatabase() {
     await mongoose.connect(mongoUri);
     console.log("✅ Connected to MongoDB.");
 
-    console.log("🧹 Clearing existing exercises...");
-    await Exercise.deleteMany({});
-    console.log("✅ Cleared old database records.");
+    console.log("🧹 Clearing existing exercises and resetting collection...");
+    try {
+      await Exercise.collection.drop();
+      console.log("✅ Cleared old database records and dropped collection.");
+    } catch (err) {
+      console.log("ℹ️ Collection could not be dropped (likely does not exist yet).");
+    }
 
     console.log(`🌱 Seeding ${exercises.length} exercises into the database...`);
     
     // Map default properties to each entry if not present
     const seededExercises = exercises.map(ex => ({
       ...ex,
-      mediaUrl: ex.mediaUrl || "/exercise_placeholder.png",
-      mediaType: ex.mediaType || "image",
+      mediaUrl: ex.mediaUrl || "/exercise_placeholder.mp4",
+      mediaType: ex.mediaType || "video",
       videoUrl: ex.videoUrl || "#"
     }));
 

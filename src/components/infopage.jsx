@@ -91,18 +91,21 @@ function InfoTemplate({ exercise, onClose }) {
                             {/* Left Side: Media Container (Future-Proofed for Video) */}
                             <div className="modal-media-wrapper">
                                 {details.mediaType === "video" ? (
-                                    /* 
-                                       Future Video Player Block:
-                                       To use video in the future, set mediaType to 'video' and mediaUrl to your file/embed link.
-                                    */
-                                    <video
-                                        src={details.mediaUrl}
-                                        className="exercise-media-element"
-                                        controls
-                                        autoPlay
-                                        muted
-                                        loop
-                                    />
+                                    details.mediaUrl && details.mediaUrl.trim().startsWith("<iframe") ? (
+                                        <div 
+                                            className="exercise-media-element iframe-container"
+                                            dangerouslySetInnerHTML={{ __html: details.mediaUrl }}
+                                        />
+                                    ) : (
+                                        <video
+                                            src={details.mediaUrl}
+                                            className="exercise-media-element"
+                                            controls
+                                            autoPlay
+                                            muted
+                                            loop
+                                        />
+                                    )
                                 ) : (
                                     <div className="image-container-relative">
                                         <img

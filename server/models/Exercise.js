@@ -34,11 +34,11 @@ const exerciseSchema = new mongoose.Schema({
   },
   mediaUrl: {
     type: String,
-    default: "/exercise_placeholder.png"
+    default: "/exercise_placeholder.mp4"
   },
   mediaType: {
     type: String,
-    default: "image",
+    default: "video",
     enum: ["image", "video"]
   }
 }, {
@@ -46,7 +46,7 @@ const exerciseSchema = new mongoose.Schema({
 });
 
 // Create index on name, target, and goal for fast lookups
-exerciseSchema.index({ name: 1 }, { unique: true });
+exerciseSchema.index({ name: 1, goal: 1 }, { unique: true });
 exerciseSchema.index({ target: 1, goal: 1 });
 
 const Exercise = mongoose.model("Exercise", exerciseSchema);

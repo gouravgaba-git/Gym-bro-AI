@@ -19,8 +19,23 @@ export const exerciseDetailsDb = {
       "Actively screw your feet into the floor to activate the glutes and prevent knee cave-in.",
       "If ankle mobility is a bottleneck, try elevating your heels slightly or using weightlifting shoes."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image" // Can be changed to "video" in the future
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/aOzrA4FgnM0?si=iZb-N37gw30fykN_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video" // Can be changed to "video" in the future
+  },
+  "Incline Dumbbell Bench Press": {
+    steps: [
+      "Set an incline bench to 30-45 degrees. Sit back with a dumbbell in each hand on your thighs.",
+      "Lie back on the bench, bring the dumbbells to your shoulders with elbows tucked slightly.",
+      "Brace your core and press the weights straight up over your chest until arms are extended.",
+      "Lower the dumbbells slowly to the sides of your upper chest, keeping your forearms vertical.",
+      "Press the weights back up in a slight inward arc, contracting your upper chest at the top."
+    ],
+    tips: [
+      "Keep your shoulder blades retracted and pressed into the bench to protect your shoulders.",
+      "Do not lock your elbows fully at the top to maintain tension on the upper chest."
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/IP4oeKh1Sd4?si=0ApVvt2iryzpb-gO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   "Flat Barbell Bench Press": {
     steps: [
@@ -36,8 +51,8 @@ export const exerciseDetailsDb = {
       "Do not bounce the bar off your chest. Touch lightly, pause for a split second, and press.",
       "Maintain a natural arch in your lower back, but keep your glutes planted on the bench."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: "/exercise_placeholder.mp4",
+    mediaType: "video"
   },
   "Lat Pulldown (Wide Grip)": {
     steps: [
@@ -51,8 +66,8 @@ export const exerciseDetailsDb = {
       "Use your hands as hooks. Focus on driving your elbows down rather than pulling with your forearms/biceps.",
       "Avoid using momentum or swinging your torso to pull the weight down."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: "/exercise_placeholder.mp4",
+    mediaType: "video"
   },
   "Seated Dumbbell Shoulder Press": {
     steps: [
@@ -66,8 +81,8 @@ export const exerciseDetailsDb = {
       "Avoid flaring your elbows directly out to the sides; tucking them slightly is safer for the rotator cuff.",
       "Keep your ribs down and core braced to avoid hyperextending your lower back."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: "/exercise_placeholder.mp4",
+    mediaType: "video"
   },
   "Dumbbell Bicep Incline Curl": {
     steps: [
@@ -81,8 +96,8 @@ export const exerciseDetailsDb = {
       "Do not swing your elbows forward as you curl; keeping them back isolates the long head of the biceps.",
       "Control the eccentric (lowering) phase for at least 2 seconds."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: "/exercise_placeholder.mp4",
+    mediaType: "video"
   },
   "Hanging Leg Raise": {
     steps: [
@@ -96,8 +111,8 @@ export const exerciseDetailsDb = {
       "Avoid swinging or using momentum. If you swing, reset and focus on core activation.",
       "If straight legs are too difficult, bend your knees and perform Hanging Knee Raises instead."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: "/exercise_placeholder.mp4",
+    mediaType: "video"
   }
 };
 
@@ -135,7 +150,7 @@ export function getExerciseDetails(exerciseName, targetMuscle = "Full Body") {
   return {
     steps: fallbackSteps,
     tips: fallbackTips,
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: "/exercise_placeholder.mp4",
+    mediaType: "video"
   };
 }
