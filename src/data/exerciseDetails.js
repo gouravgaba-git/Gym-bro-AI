@@ -51,7 +51,7 @@ export const exerciseDetailsDb = {
       "Do not bounce the bar off your chest. Touch lightly, pause for a split second, and press.",
       "Maintain a natural arch in your lower back, but keep your glutes planted on the bench."
     ],
-    mediaUrl: "/exercise_placeholder.mp4",
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kYJvM9e6-0I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Lat Pulldown (Wide Grip)": {
@@ -66,7 +66,7 @@ export const exerciseDetailsDb = {
       "Use your hands as hooks. Focus on driving your elbows down rather than pulling with your forearms/biceps.",
       "Avoid using momentum or swinging your torso to pull the weight down."
     ],
-    mediaUrl: "/exercise_placeholder.mp4",
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/s0P25H7L2eU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Seated Dumbbell Shoulder Press": {
@@ -81,7 +81,7 @@ export const exerciseDetailsDb = {
       "Avoid flaring your elbows directly out to the sides; tucking them slightly is safer for the rotator cuff.",
       "Keep your ribs down and core braced to avoid hyperextending your lower back."
     ],
-    mediaUrl: "/exercise_placeholder.mp4",
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kYJv-l0j_h4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Dumbbell Bicep Incline Curl": {
@@ -96,7 +96,7 @@ export const exerciseDetailsDb = {
       "Do not swing your elbows forward as you curl; keeping them back isolates the long head of the biceps.",
       "Control the eccentric (lowering) phase for at least 2 seconds."
     ],
-    mediaUrl: "/exercise_placeholder.mp4",
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kYJ-wL8yX2w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   "Hanging Leg Raise": {
@@ -112,6 +112,49 @@ export const exerciseDetailsDb = {
       "If straight legs are too difficult, bend your knees and perform Hanging Knee Raises instead."
     ],
     mediaUrl: "/exercise_placeholder.mp4",
+  },
+  "Conventional Deadlift": {
+    steps: [
+      "Stand with feet hip-width apart under the barbell. Hinge down and grip the bar.",
+      "Flatten your back, wedge your hips, pull the slack out of the bar, and push the floor away to stand up."
+    ],
+    tips: [
+      "Keep the bar close to your body (dragging up shins and thighs) to protect your spine."
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wG7p73a6vWw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  },
+  "Push-ups (to Failure)": {
+    steps: [
+      "Set up in a high plank position with hands slightly wider than shoulder-width, body in a straight line.",
+      "Lower your chest to the floor by bending your elbows at a 45-degree angle.",
+      "Push through your hands to return to the starting plank position, maintaining a tight core."
+    ],
+    tips: [
+      "Do not let your hips sag or your lower back arch.",
+      "Perform each rep through a full range of motion, touching your chest to the floor if possible."
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/gT8Zt9v-a-4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  },
+  "Leg Press": {
+    steps: [
+      "Sit in the leg press machine. Place feet shoulder-width on the sled. Lower the sled under control, then press up."
+    ],
+    tips: [
+      "Do not lock out your knees at the top, and do not let your lower back curl off the pad."
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/c3pbe3qzatQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  },
+  "Hammer Curls": {
+    steps: [
+      "Stand holding dumbbells with palms facing each other. Curl the weights up while maintaining a neutral grip."
+    ],
+    tips: [
+      "Hammer curls target the brachialis and brachioradialis for forearm thickness."
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/8XLxfXROrTo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   }
 };
