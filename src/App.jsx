@@ -309,79 +309,28 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
       };
     }
     else if (days === '5') {
-      // 5 Day Split -> Upper / Lower Split
+      // 5 Day Split -> Push / Pull / Legs / Upper / Lower
       return {
         goalLabel: goalLabels[goal],
         levelLabel: levelLabels[level],
         days: [
           {
-            splitName: "5-Day Upper / Lower Split",
-
-            name: "Day 1 (Upper A)",
-            focus: "Chest & Back Emphasis",
-            exercises: [
-              ...getExercisesForMuscle('Back', 3),
-              ...getExercisesForMuscle('Arms', 3)
-            ]
-          },
-          {
-            name: "Day 2 (Lower A)",
-            focus: "Squat Heavy & Core",
-            exercises: [
-              ...getExercisesForMuscle('Chest', 3),
-              ...getExercisesForMuscle('Triceps', 3)
-            ]
-          },
-          {
-            name: "Day 3 (Upper B)",
-            focus: "Shoulder Overhead & Arms Volume",
-            exercises: [
-              ...getExercisesForMuscle('Legs', 3),
-              ...getExercisesForMuscle('Shoulders', 3)
-            ]
-          },
-          {
-            name: "Day 4 (Lower B)",
-            focus: "Hinge Emphasis & Hams",
-            exercises: [
-              ...getExercisesForMuscle('Core', 3),
-              ...getExercisesForMuscle('Forearms', 3)
-            ]
-          },
-          {
-            name: "Day 5 (Lower B)",
-            focus: "Hinge Emphasis & Hams",
-            exercises: [
-              ...getExercisesForMuscle('Chest', 3),
-              ...getExercisesForMuscle('Triceps', 3)
-            ]
-          }
-
-
-        ]
-      };
-    }
-    else {
-      // 6 Day Split -> Upper / Lower Split
-      return {
-        splitName: "6-Day Upper / Lower Split",
-        goalLabel: goalLabels[goal],
-        levelLabel: levelLabels[level],
-        days: [
-          {
+            splitName: "5-Day Push / Pull / Legs / Upper / Lower Split",
             name: "Day 1 (Push Focus)",
             focus: "Chest, Shoulders & Triceps",
             exercises: [
-              ...getExercisesForMuscle('Back', 3),
-              ...getExercisesForMuscle('Arms', 3)
+              ...getExercisesForMuscle('Chest', 2),
+              ...getExercisesForMuscle('Shoulders', 2),
+              ...getExercisesForMuscle('Triceps', 1)
             ]
           },
           {
             name: "Day 2 (Pull Focus)",
             focus: "Back, Rear Delts & Biceps",
             exercises: [
-              ...getExercisesForMuscle('Chest', 3),
-              ...getExercisesForMuscle('Triceps', 3)
+              ...getExercisesForMuscle('Back', 2),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 2)
             ]
           },
           {
@@ -389,31 +338,87 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             focus: "Quads, Hamstrings & Calves",
             exercises: [
               ...getExercisesForMuscle('Legs', 3),
-              ...getExercisesForMuscle('Shoulders', 3)
+              ...getExercisesForMuscle('Core', 2)
             ]
           },
           {
-            name: "Day 4 (Push Focus)",
-            focus: "Chest, Shoulders & Triceps",
+            name: "Day 4 (Upper Body Volume)",
+            focus: "Chest, Back, Shoulders & Arms",
             exercises: [
-              ...getExercisesForMuscle('Back', 3),
-              ...getExercisesForMuscle('Arms', 3)
+              ...getExercisesForMuscle('Chest', 2),
+              ...getExercisesForMuscle('Back', 2),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 2)
             ]
           },
           {
-            name: "Day 5 (Pull Focus)",
-            focus: "Back, Rear Delts & Biceps",
+            name: "Day 5 (Lower Body Focus)",
+            focus: "Legs Heavy & Core Power",
             exercises: [
-              ...getExercisesForMuscle('Chest', 3),
-              ...getExercisesForMuscle('Triceps', 3)
+              ...getExercisesForMuscle('Legs', 3),
+              ...getExercisesForMuscle('Core', 2)
+            ]
+          }
+        ]
+      };
+    }
+    else {
+      // 6 Day Split -> Repeat Push / Pull / Legs
+      return {
+        splitName: "6-Day Push / Pull / Legs Split",
+        goalLabel: goalLabels[goal],
+        levelLabel: levelLabels[level],
+        days: [
+          {
+            name: "Day 1 (Push A)",
+            focus: "Chest, Shoulders & Triceps Focus",
+            exercises: [
+              ...getExercisesForMuscle('Chest', 2),
+              ...getExercisesForMuscle('Shoulders', 2),
+              ...getExercisesForMuscle('Triceps', 1)
             ]
           },
           {
-            name: "Day 6 (Leg Focus)",
+            name: "Day 2 (Pull A)",
+            focus: "Back, Rear Delts & Biceps Focus",
+            exercises: [
+              ...getExercisesForMuscle('Back', 2),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 2)
+            ]
+          },
+          {
+            name: "Day 3 (Legs A)",
             focus: "Quads, Hamstrings & Calves",
             exercises: [
-              ...getExercisesForMuscle('Core', 3),
-              ...getExercisesForMuscle('Forearms', 3)
+              ...getExercisesForMuscle('Legs', 3),
+              ...getExercisesForMuscle('Core', 1)
+            ]
+          },
+          {
+            name: "Day 4 (Push B)",
+            focus: "Chest, Shoulders & Triceps Hypertrophy",
+            exercises: [
+              ...getExercisesForMuscle('Chest', 2),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 2)
+            ]
+          },
+          {
+            name: "Day 5 (Pull B)",
+            focus: "Back, Rear Delts & Biceps Hypertrophy",
+            exercises: [
+              ...getExercisesForMuscle('Back', 2),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 2)
+            ]
+          },
+          {
+            name: "Day 6 (Legs B)",
+            focus: "Quads, Hamstrings & Calves",
+            exercises: [
+              ...getExercisesForMuscle('Legs', 3),
+              ...getExercisesForMuscle('Core', 2)
             ]
           }
         ]

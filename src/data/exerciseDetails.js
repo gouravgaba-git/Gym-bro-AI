@@ -19,7 +19,7 @@ export const exerciseDetailsDb = {
       "Actively screw your feet into the floor to activate the glutes and prevent knee cave-in.",
       "If ankle mobility is a bottleneck, try elevating your heels slightly or using weightlifting shoes."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/aOzrA4FgnM0?si=iZb-N37gw30fykN_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/mTaiQemkEpU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video" // Can be changed to "video" in the future
   },
   "Incline Dumbbell Bench Press": {
