@@ -16,6 +16,7 @@ const WorkoutStats = ({ user }) => {
       accent: "#8b5cf6",
       description: "Personal best streak"
     },
+    /*
     {
       title: "Total Workouts",
       value: user?.workoutsCompleted || 0,
@@ -44,6 +45,7 @@ const WorkoutStats = ({ user }) => {
       accent: "#ec4899",
       description: "Completed exercise count"
     }
+    */
   ];
 
   return (
