@@ -19,7 +19,7 @@ export const exerciseDetailsDb = {
       "Actively screw your feet into the floor to activate the glutes and prevent knee cave-in.",
       "If ankle mobility is a bottleneck, try elevating your heels slightly or using weightlifting shoes."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/mTaiQemkEpU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/aOzrA4FgnM0?si=5AfmjivHaK_loDd2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video" // Can be changed to "video" in the future
   },
   "Incline Dumbbell Bench Press": {
@@ -111,7 +111,7 @@ export const exerciseDetailsDb = {
       "Avoid swinging or using momentum. If you swing, reset and focus on core activation.",
       "If straight legs are too difficult, bend your knees and perform Hanging Knee Raises instead."
     ],
-    mediaUrl: "/exercise_placeholder.mp4",
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/vwl68EF9M2Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
   },
   "Conventional Deadlift": {
     steps: [

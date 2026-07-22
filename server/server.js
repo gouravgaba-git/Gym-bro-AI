@@ -3,13 +3,14 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import Exercise from "./models/Exercise.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +18,45 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+function formatMediaUrl(url) {
+  if (!url || url === "#" || url.startsWith("/exercise")) return url;
+  if (url.trim().startsWith("<iframe")) return url.trim();
+
+  let embedUrl = url.trim();
+  if (embedUrl.includes("youtube.com/watch?v=")) {
+    const videoId = embedUrl.split("v=")[1]?.split("&")[0];
+    if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  } else if (embedUrl.includes("youtu.be/")) {
+    const videoId = embedUrl.split("youtu.be/")[1]?.split("?")[0];
+    if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  if (embedUrl.startsWith("http")) {
+    return `<iframe width="560" height="315" src="${embedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+  }
+  return embedUrl;
+}
+
+function getLiveExerciseLink(exerciseName) {
+  try {
+    const linksPath = path.join(__dirname, "../exercises_links.txt");
+    if (fs.existsSync(linksPath)) {
+      const content = fs.readFileSync(linksPath, "utf-8");
+      for (const line of content.split("\n")) {
+        const parts = line.split(" - ");
+        if (parts.length >= 2) {
+          const name = parts[0].trim();
+          const link = parts.slice(1).join(" - ").trim();
+          if (name && exerciseName && name.toLowerCase() === exerciseName.trim().toLowerCase() && link && (link.startsWith("http") || link.startsWith("<iframe"))) {
+            return formatMediaUrl(link);
+          }
+        }
+      }
+    }
+  } catch (e) {}
+  return null;
+}
 
 // Database connection
 const mongoUri = process.env.MONGODB_URI;
@@ -61,11 +101,13 @@ app.get("/api/exercises", async (req, res) => {
 // 2. Get instructions, tips, and media details for a single exercise by name
 app.get("/api/exercises/details/:name", async (req, res) => {
   try {
-    const exercise = await Exercise.findOne({ name: req.params.name.trim() });
+    const nameParam = req.params.name.trim();
+    const liveLink = getLiveExerciseLink(nameParam);
+    const exercise = await Exercise.findOne({ name: nameParam });
 
     if (!exercise) {
       // Return a clean fallback structure if the database does not contain this specific entry
-      const normalizedName = req.params.name;
+      const normalizedName = nameParam;
       const fallbackSteps = [
         `Set up safely for ${normalizedName} by checking your equipment, posture, and alignment.`,
         `Initiate the movement by contracting your target muscle group under control.`,
@@ -83,18 +125,21 @@ app.get("/api/exercises/details/:name", async (req, res) => {
         target: "Full Body",
         steps: fallbackSteps,
         tips: fallbackTips,
-        mediaUrl: "/exercise_placeholder.mp4",
+        mediaUrl: liveLink || "/exercise_placeholder.mp4",
         mediaType: "video"
       });
     }
+
+    const finalMediaUrl = liveLink || exercise.mediaUrl;
+    const isIframe = finalMediaUrl && finalMediaUrl.startsWith("<iframe");
 
     res.json({
       name: exercise.name,
       target: exercise.target,
       steps: exercise.steps,
       tips: exercise.tips,
-      mediaUrl: exercise.mediaUrl,
-      mediaType: exercise.mediaType
+      mediaUrl: finalMediaUrl,
+      mediaType: isIframe ? "video" : (exercise.mediaType || "video")
     });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch exercise details." });

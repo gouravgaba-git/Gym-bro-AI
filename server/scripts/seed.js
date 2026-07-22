@@ -27,8 +27,8 @@ const exercises = [
       "Keep your shoulder blades retracted and pressed into the bench to protect your shoulders.",
       "Do not lock your elbows fully at the top to maintain tension on the upper chest."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/IP4oeKh1Sd4?si=0ApVvt2iryzpb-gO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
-    mediaType: "video"
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/sVLVLcsfWSo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video",
   },
   {
     name: "Flat Barbell Bench Press",
@@ -184,7 +184,9 @@ const exercises = [
     tips: [
       "Keep your shoulders pressed down and back to isolate the chest.",
       "Do not let the weight stack touch between reps to maintain tension."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/h_qLxCGaeU8?si=T3PAqElMqXosDMyQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video",
   },
 
   // === BACK ===
