@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
-import WorkoutForm from './components/WorkoutForm';
-import Spinner from './components/Spinner';
-import ResultsDashboard from './components/ResultsDashboard';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Navbar from './components/Navbar';
+import ToastNotification from './components/ToastNotification';
+import ProtectedRoute from './components/ProtectedRoute';
+
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
+import CompleteProfilePage from './pages/CompleteProfilePage';
+import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage';
+
 
 /**
  * Custom function to generate workout splits on the fly.
@@ -475,93 +485,56 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
   return null;
 };
 
-function App() {
-  // 1. Goal state (default: Muscle Gain)
-  const [goal, setGoal] = useState('muscle_gain');
-
-  // 2. Level state (default: Beginner)
-  const [level, setLevel] = useState('beginner');
-
-  // 3. Frequency split state (for Intermediate - default: null but set on transition)
-  const [days, setDays] = useState(null);
-
-  // 4. Targeted muscles state (for Advanced)
-  const [selectedMuscles, setSelectedMuscles] = useState([]);
-
-  // 5. App UI states
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [workoutPlan, setWorkoutPlan] = useState(null);
-
-  const handleGeneratePlan = () => {
-    setIsGenerating(true);
-    setWorkoutPlan(null); // Clear old results to make loading experience prominent
-
-    // Request the workout plan from the Express backend API
-    fetch("http://localhost:5000/api/workout-plan", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ goal, level, days, selectedMuscles })
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Server response error");
-        return res.json();
-      })
-      .then((data) => {
-        setWorkoutPlan(data);
-        setIsGenerating(false);
-      })
-      .catch((err) => {
-        console.warn("Backend API not reachable. Falling back to local generation. Details:", err.message);
-        // Seamless fallback to client-side generator
-        const plan = generateWorkoutPlan(goal, level, days, selectedMuscles);
-        setWorkoutPlan(plan);
-        setIsGenerating(false);
-      });
-  };
+function AppContent() {
+  const { toast } = useAuth();
 
   return (
     <div className="app-container">
-      {/* Brand Hero Heading */}
-      <header>
-        <div className="logo-container">
-          <span className="logo-icon" role="img" aria-label="Gym Bro Logo">💪</span>
-          <span className="logo-text">The Gym Bro</span>
-        </div>
-        <h1 id="app-heading-title">Create Your Ultimate Workout Split</h1>
-        <p className="hero-subtitle">
-          Enter your metrics below to instantly outline a high-yield athletic routine customized around your capacity.
-        </p>
-      </header>
+      <Navbar />
 
-      {/* Main Form Selection */}
-      <main>
-        <WorkoutForm
-          goal={goal}
-          setGoal={setGoal}
-          level={level}
-          setLevel={setLevel}
-          days={days}
-          setDays={setDays}
-          selectedMuscles={selectedMuscles}
-          setSelectedMuscles={setSelectedMuscles}
-          onSubmit={handleGeneratePlan}
-          isGenerating={isGenerating}
+      <ToastNotification toast={toast} />
+
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute requireCompleteProfile={true}>
+              <DashboardPage generateWorkoutPlanFallback={generateWorkoutPlan} />
+            </ProtectedRoute>
+          }
         />
-
-        {/* Loading Spinner */}
-        {isGenerating && <Spinner />}
-
-        {/* Generated Workout Plan Results */}
-        {!isGenerating && workoutPlan && (
-          <ResultsDashboard plan={workoutPlan} />
-        )}
-      </main>
+        <Route
+          path="/complete-profile"
+          element={
+            <ProtectedRoute requireCompleteProfile={false}>
+              <CompleteProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute requireCompleteProfile={true}>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute requireCompleteProfile={true}>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
 
       {/* Gym Bro Footer */}
       <footer>
-        <p>© 2026 <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>The Gym Bro MVP</span>. Built for premium athletes.</p>
+        <p>© 2026 <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>The Gym Bro</span>. Built for premium athletes.</p>
         <p style={{ marginTop: '6px', fontSize: '11px' }}>
           Disclaimer: Consult a physician before beginning any training program.
         </p>
@@ -570,4 +543,19 @@ function App() {
   );
 }
 
+function App() {
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "dummy-client-id";
+
+  return (
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <AuthProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </AuthProvider>
+    </GoogleOAuthProvider>
+  );
+}
+
 export default App;
+

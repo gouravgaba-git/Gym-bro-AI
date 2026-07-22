@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import InfoTemplate from "./infopage.jsx";
+import { useAuth } from "../context/AuthContext";
 
 /**
  * ResultsDashboard displays the generated workout plan with detail cards and exercises.
+ * Includes interactive workout logging to update user statistics & streaks in MongoDB.
  */
 const ResultsDashboard = ({ plan }) => {
   const containerRef = useRef(null);
   const [selectedexercise, setselectedexercise] = useState(null);
+  const [loggingDay, setLoggingDay] = useState(null);
+  const { logWorkoutSession, isAuthenticated } = useAuth();
+
   // Scroll to results when plan is loaded
   useEffect(() => {
     if (plan && containerRef.current) {
@@ -17,6 +22,23 @@ const ResultsDashboard = ({ plan }) => {
   if (!plan) return null;
 
   const { splitName, goalLabel, levelLabel, days } = plan;
+
+  const handleCompleteDay = async (day, idx) => {
+    try {
+      setLoggingDay(idx);
+      const exercisesCount = day.exercises ? day.exercises.length : 4;
+      await logWorkoutSession({
+        workoutName: `${day.name} - ${day.focus}`,
+        durationMinutes: 45,
+        exercisesCount,
+        setsCount: exercisesCount * 3
+      });
+    } catch (err) {
+      console.error("Complete day error:", err);
+    } finally {
+      setLoggingDay(null);
+    }
+  };
 
   return (
     <div className="card results-container" ref={containerRef} id="workout-results-dashboard">
@@ -41,11 +63,24 @@ const ResultsDashboard = ({ plan }) => {
         {days.map((day, idx) => (
           <div key={idx} className="day-card" id={`workout-day-${idx + 1}`}>
             {/* Day Header */}
-            <div className="day-header">
-              <span className="day-name">
-                <span style={{ color: '#ff4b2b' }}>➔</span> {day.name}
-              </span>
-              <span className="day-target-summary">{day.focus}</span>
+            <div className="day-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+              <div>
+                <span className="day-name">
+                  <span style={{ color: '#ff4b2b' }}>➔</span> {day.name}
+                </span>
+                <span className="day-target-summary" style={{ marginLeft: '12px' }}>{day.focus}</span>
+              </div>
+
+              {isAuthenticated && (
+                <button
+                  className="btn-primary"
+                  style={{ padding: '8px 16px', fontSize: '13px' }}
+                  onClick={() => handleCompleteDay(day, idx)}
+                  disabled={loggingDay === idx}
+                >
+                  {loggingDay === idx ? "Saving..." : "✓ Complete Workout Session"}
+                </button>
+              )}
             </div>
 
             {/* Exercise Details Table */}
@@ -73,9 +108,6 @@ const ResultsDashboard = ({ plan }) => {
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         <button
-                          href={ex.videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
                           className="watch-btn"
                           aria-label={`Watch tutorial video for ${ex.name}`}
                           onClick={() => setselectedexercise(ex)}
