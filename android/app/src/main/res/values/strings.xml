@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Gymz AI</string>
+    <string name="title_activity_main">Gymz AI</string>
+    <string name="package_name">com.gymzai.app</string>
+    <string name="custom_url_scheme">com.gymzai.app</string>
+</resources>
