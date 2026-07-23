@@ -432,22 +432,26 @@ export default function PoseDetection({ exerciseName }) {
             `}} />
 
             <button
-                className={`pose-det-btn ${isCameraOn ? "active" : ""}`}
+                className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer border flex items-center gap-2 ${
+                    isCameraOn
+                        ? "bg-rose-500/10 text-rose-400 border-rose-500/30 hover:bg-rose-500/20"
+                        : "bg-[#ff4b2b] text-white border-transparent hover:bg-[#ff416c] shadow-md shadow-[#ff4b2b]/20"
+                }`}
                 onClick={isCameraOn ? stopCamera : startCamera}
             >
                 📹 {isCameraOn ? "Stop AI Gym Coach" : "Start AI Gym Coach"}
             </button>
 
-            <div className={`pose-video-wrapper ${isCameraOn ? "visible" : ""}`}>
+            <div className={`relative w-full rounded-2xl overflow-hidden border border-white/10 bg-[#060913] shadow-2xl ${isCameraOn ? "block" : "hidden"}`}>
                 <video
                     ref={videoRef}
                     autoPlay
                     playsInline
-                    className="pose-video-feed"
+                    className="w-full h-auto object-cover"
                 />
                 <canvas
                     ref={canvasRef}
-                    className="pose-canvas" 
+                    className="absolute inset-0 w-full h-full pointer-events-none z-10" 
                 />
                 
                 {/* HUD Display Overlay */}

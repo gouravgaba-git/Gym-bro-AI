@@ -10,11 +10,25 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(null); // { message, type: 'success' | 'error' | 'info' }
 
+  // Auth Modal State for prompting unauthenticated users when performing protected tasks
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalReason, setAuthModalReason] = useState("");
+
   const showToast = (message, type = "info") => {
     setToast({ message, type });
     setTimeout(() => {
       setToast(null);
     }, 4000);
+  };
+
+  const openAuthModal = (reason = "") => {
+    setAuthModalReason(reason);
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+    setAuthModalReason("");
   };
 
   // Fetch current user from backend database on mount or token change
@@ -78,6 +92,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("gym_bro_token", data.token);
       setToken(data.token);
       setUser(data.user);
+      closeAuthModal();
       showToast(`Welcome back, ${data.user.name}! 💪`, "success");
       return data.user;
     } catch (error) {
@@ -121,7 +136,10 @@ export const AuthProvider = ({ children }) => {
   // Log a completed workout session
   const logWorkoutSession = async (workoutPayload) => {
     try {
-      if (!token) throw new Error("Please log in to track workout completions.");
+      if (!token) {
+        openAuthModal("Please sign in with Google to log completed workout sessions and track your athletic streak!");
+        throw new Error("Please log in to track workout completions.");
+      }
 
       const res = await fetch(`${API_BASE_URL}/api/workouts/log`, {
         method: "POST",
@@ -152,6 +170,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("gym_bro_token");
     setToken(null);
     setUser(null);
+    closeAuthModal();
     showToast("Logged out successfully.", "info");
   };
 
@@ -175,6 +194,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("gym_bro_token");
       setToken(null);
       setUser(null);
+      closeAuthModal();
       showToast("Account deleted successfully.", "info");
     } catch (error) {
       showToast(error.message || "Failed to delete account", "error");
@@ -190,6 +210,10 @@ export const AuthProvider = ({ children }) => {
         loading,
         toast,
         showToast,
+        isAuthModalOpen,
+        authModalReason,
+        openAuthModal,
+        closeAuthModal,
         loginWithGoogle,
         updateUserProfile,
         logWorkoutSession,

@@ -5,46 +5,46 @@ function Camerahandle() {
     const [preview, setPreview] = useState("");
 
     const filehandle = (e) => {
-        const selected = e.target.files[0]
+        const selected = e.target.files[0];
         if (e.target.files && e.target.files.length > 0) {
             setFile(selected);
-            setPreview(URL.createObjectURL(selected))
+            setPreview(URL.createObjectURL(selected));
         }
     };
     const submitfile = () => {
-        alert("done")
-    }
+        alert("File uploaded successfully!");
+    };
 
     return (
-        <div className="camera-upload-container">
-            <label className="camera-upload-btn">
-                <span>📷 {file ? "Change File" : "Upload File/Video"}</span>
+        <div className="flex items-center gap-2">
+            <label className="px-3 py-1.5 text-xs font-semibold text-gray-200 bg-[#0f1524] hover:bg-white/10 border border-white/10 rounded-xl cursor-pointer transition-all flex items-center gap-1.5">
+                <span>📷 {file ? "Change File" : "Upload Media"}</span>
                 <input
                     type="file"
                     accept="image/*,video/*"
                     onChange={filehandle}
-                    style={{ display: "none" }}
+                    className="hidden"
                 />
             </label>
 
             {file && (
-                <span className="camera-upload-filename" title={file.name}>
+                <span className="text-xs text-gray-400 max-w-[100px] truncate" title={file.name}>
                     {file.name}
                 </span>
             )}
 
             {file && (
-                <button className="camera-submit-btn" onClick={submitfile}>
+                <button className="px-3 py-1.5 text-xs font-bold text-white bg-[#ff4b2b] hover:bg-[#ff416c] rounded-xl transition-all cursor-pointer shadow-sm" onClick={submitfile}>
                     Submit
                 </button>
             )}
 
             {file && (
-                <div className="camera-preview-wrapper">
+                <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/10 shrink-0">
                     {file.type.startsWith("image") ? (
-                        <img src={preview} className="camera-preview-media" alt="Upload preview" />
+                        <img src={preview} className="w-full h-full object-cover" alt="Upload preview" />
                     ) : (
-                        <video src={preview} controls className="camera-preview-media" />
+                        <video src={preview} className="w-full h-full object-cover" />
                     )}
                 </div>
             )}

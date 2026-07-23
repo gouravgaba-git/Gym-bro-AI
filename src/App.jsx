@@ -5,13 +5,13 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import ToastNotification from './components/ToastNotification';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthModal from './components/AuthModal';
 
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import CompleteProfilePage from './pages/CompleteProfilePage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
-
 
 /**
  * Custom function to generate workout splits on the fly.
@@ -38,7 +38,6 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
         { name: "Flat Barbell Bench Press", target: "Chest", setsReps: "3 sets x 10 reps", videoUrl: "#" },
         { name: "Cable Chest Fly", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" },
         { name: "Incline Barbell Bench Press", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" }
-
       ],
       fat_loss: [
         { name: "Dumbbell Bench Press", target: "Chest", setsReps: "3 sets x 15 reps", videoUrl: "#" },
@@ -92,14 +91,12 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
         { name: "Leg Extension", target: "Legs", setsReps: "3 sets x 12-15 reps", videoUrl: "/infopage.jsx" },
         { name: "Leg Press", target: "Legs", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
         { name: "Barbell Back Squat", target: "Legs", setsReps: "3 sets x 12 reps", videoUrl: "#" }
-
       ],
       fat_loss: [
         { name: "Barbell Goblet Squat", target: "Legs", setsReps: "3 sets x 15 reps", videoUrl: "#" },
         { name: "Dumbbell Walking Lunges", target: "Legs", setsReps: "3 sets x 24 steps total", videoUrl: "#" },
         { name: "Leg Curls", target: "Legs", setsReps: "3 sets x 15 reps", videoUrl: "#" },
         { name: "Leg Press", target: "Legs", setsReps: "3 sets x 10-12 reps", videoUrl: "#" }
-
       ],
       strength: [
         { name: "Leg Press", target: "Legs", setsReps: "5 sets x 5 reps (Heavy)", videoUrl: "#" },
@@ -141,7 +138,6 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
         { name: "Cable Woodchopper", target: "Core", setsReps: "3 sets x 10 reps (each side)", videoUrl: "#" }
       ]
     },
-
     Triceps: {
       muscle_gain: [
         { name: "Overhead Dumbbell Tricep Extension", target: "Triceps", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
@@ -184,7 +180,6 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
   };
 
   if (level === 'beginner') {
-    // Beginner locked to 3-day Full Body split
     return {
       splitName: "4-Day Full Body Split",
       goalLabel: goalLabels[goal],
@@ -199,7 +194,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             ...getExercisesForMuscle('Back', 1),
             ...getExercisesForMuscle('Shoulders', 1),
             ...getExercisesForMuscle('Arms', 1),
-            ...getExercisesForMuscle('Core', 1),
+            ...getExercisesForMuscle('Core', 1)
           ]
         },
         {
@@ -211,7 +206,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             ...getExercisesForMuscle('Chest').slice(1, 2),
             ...getExercisesForMuscle('Shoulders').slice(1, 2),
             ...getExercisesForMuscle('Arms').slice(1, 2),
-            ...getExercisesForMuscle('Core').slice(1, 2),
+            ...getExercisesForMuscle('Core').slice(1, 2)
           ]
         },
         {
@@ -223,9 +218,10 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             ...getExercisesForMuscle('Back').slice(0, 1),
             ...getExercisesForMuscle('Shoulders').slice(0, 1),
             ...getExercisesForMuscle('Arms').slice(0, 1),
-            ...getExercisesForMuscle('Core', 3).slice(2, 3),
+            ...getExercisesForMuscle('Core', 3).slice(2, 3)
           ]
-        }, {
+        },
+        {
           name: "Day 4 (Full Body D)",
           focus: "Squat & Push Emphasis",
           exercises: [
@@ -234,7 +230,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             ...getExercisesForMuscle('Back', 1),
             ...getExercisesForMuscle('Shoulders', 1),
             ...getExercisesForMuscle('Arms', 1),
-            ...getExercisesForMuscle('Core', 1),
+            ...getExercisesForMuscle('Core', 1)
           ]
         }
       ]
@@ -242,8 +238,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
   }
 
   if (level === 'intermediate') {
-    if (days === '3') {
-      // 3 Day Split -> Push / Pull / Legs
+    if (days === '3' || days === 3) {
       return {
         splitName: "3-Day Push / Pull / Legs (PPL)",
         goalLabel: goalLabels[goal],
@@ -253,16 +248,18 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             name: "Day 1 (Push Focus)",
             focus: "Chest, Shoulders & Triceps",
             exercises: [
-              ...getExercisesForMuscle('Back', 3),
-              ...getExercisesForMuscle('Arms', 3)
+              ...getExercisesForMuscle('Chest', 2),
+              ...getExercisesForMuscle('Shoulders', 2),
+              ...getExercisesForMuscle('Triceps', 1)
             ]
           },
           {
             name: "Day 2 (Pull Focus)",
             focus: "Back, Rear Delts & Biceps",
             exercises: [
-              ...getExercisesForMuscle('Chest', 3),
-              ...getExercisesForMuscle('Triceps', 3)
+              ...getExercisesForMuscle('Back', 2),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 2)
             ]
           },
           {
@@ -270,62 +267,18 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             focus: "Quads, Hamstrings & Calves",
             exercises: [
               ...getExercisesForMuscle('Legs', 3),
-              ...getExercisesForMuscle('Shoulders', 3)
+              ...getExercisesForMuscle('Core', 2)
             ]
           }
         ]
       };
-    } else if (days === '4') {
-      // 4 Day Split -> Upper / Lower Split
+    } else if (days === '5' || days === 5) {
       return {
+        splitName: "5-Day Push / Pull / Legs / Upper / Lower Split",
         goalLabel: goalLabels[goal],
         levelLabel: levelLabels[level],
         days: [
           {
-            splitName: "4-Day Upper / Lower Split",
-
-            name: "Day 1 (Upper A)",
-            focus: "Chest & Back Emphasis",
-            exercises: [
-              ...getExercisesForMuscle('Back', 3),
-              ...getExercisesForMuscle('Arms', 3)
-            ]
-          },
-          {
-            name: "Day 2 (Lower A)",
-            focus: "Squat Heavy & Core",
-            exercises: [
-              ...getExercisesForMuscle('Chest', 3),
-              ...getExercisesForMuscle('Triceps', 3)
-            ]
-          },
-          {
-            name: "Day 3 (Upper B)",
-            focus: "Shoulder Overhead & Arms Volume",
-            exercises: [
-              ...getExercisesForMuscle('Legs', 3),
-              ...getExercisesForMuscle('Shoulders', 3)
-            ]
-          },
-          {
-            name: "Day 4 (Lower B)",
-            focus: "Hinge Emphasis & Hams",
-            exercises: [
-              ...getExercisesForMuscle('Core', 3),
-              ...getExercisesForMuscle('Forearms', 3)
-            ]
-          }
-        ]
-      };
-    }
-    else if (days === '5') {
-      // 5 Day Split -> Push / Pull / Legs / Upper / Lower
-      return {
-        goalLabel: goalLabels[goal],
-        levelLabel: levelLabels[level],
-        days: [
-          {
-            splitName: "5-Day Push / Pull / Legs / Upper / Lower Split",
             name: "Day 1 (Push Focus)",
             focus: "Chest, Shoulders & Triceps",
             exercises: [
@@ -357,7 +310,6 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
             exercises: [
               ...getExercisesForMuscle('Chest', 2),
               ...getExercisesForMuscle('Back', 2),
-              ...getExercisesForMuscle('Shoulders', 1),
               ...getExercisesForMuscle('Arms', 2)
             ]
           },
@@ -371,61 +323,42 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
           }
         ]
       };
-    }
-    else {
-      // 6 Day Split -> Repeat Push / Pull / Legs
+    } else {
       return {
-        splitName: "6-Day Push / Pull / Legs Split",
+        splitName: "4-Day Upper / Lower Split",
         goalLabel: goalLabels[goal],
         levelLabel: levelLabels[level],
         days: [
           {
-            name: "Day 1 (Push A)",
-            focus: "Chest, Shoulders & Triceps Focus",
+            name: "Day 1 (Upper A)",
+            focus: "Chest & Back Emphasis",
             exercises: [
               ...getExercisesForMuscle('Chest', 2),
-              ...getExercisesForMuscle('Shoulders', 2),
-              ...getExercisesForMuscle('Triceps', 1)
-            ]
-          },
-          {
-            name: "Day 2 (Pull A)",
-            focus: "Back, Rear Delts & Biceps Focus",
-            exercises: [
               ...getExercisesForMuscle('Back', 2),
-              ...getExercisesForMuscle('Shoulders', 1),
-              ...getExercisesForMuscle('Arms', 2)
+              ...getExercisesForMuscle('Arms', 1)
             ]
           },
           {
-            name: "Day 3 (Legs A)",
-            focus: "Quads, Hamstrings & Calves",
+            name: "Day 2 (Lower A)",
+            focus: "Squat Heavy & Core",
             exercises: [
               ...getExercisesForMuscle('Legs', 3),
-              ...getExercisesForMuscle('Core', 1)
+              ...getExercisesForMuscle('Core', 2)
             ]
           },
           {
-            name: "Day 4 (Push B)",
-            focus: "Chest, Shoulders & Triceps Hypertrophy",
+            name: "Day 3 (Upper B)",
+            focus: "Shoulders & Arms Volume",
             exercises: [
-              ...getExercisesForMuscle('Chest', 2),
-              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Shoulders', 2),
+              ...getExercisesForMuscle('Chest', 1),
+              ...getExercisesForMuscle('Back', 1),
               ...getExercisesForMuscle('Arms', 2)
             ]
           },
           {
-            name: "Day 5 (Pull B)",
-            focus: "Back, Rear Delts & Biceps Hypertrophy",
-            exercises: [
-              ...getExercisesForMuscle('Back', 2),
-              ...getExercisesForMuscle('Shoulders', 1),
-              ...getExercisesForMuscle('Arms', 2)
-            ]
-          },
-          {
-            name: "Day 6 (Legs B)",
-            focus: "Quads, Hamstrings & Calves",
+            name: "Day 4 (Lower B)",
+            focus: "Hinge Emphasis & Calves",
             exercises: [
               ...getExercisesForMuscle('Legs', 3),
               ...getExercisesForMuscle('Core', 2)
@@ -437,7 +370,6 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
   }
 
   if (level === 'advanced') {
-    // Advanced: custom muscle target splits in a combined session
     const daysData = [];
     const numDays = 1;
     const distributedMuscles = Array.from({ length: numDays }, () => []);
@@ -450,7 +382,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
       const dayMuscles = distributedMuscles[i];
       if (dayMuscles.length > 0) {
         const exercisesList = [];
-        dayMuscles.forEach(muscle => {
+        dayMuscles.forEach((muscle) => {
           exercisesList.push(...getExercisesForMuscle(muscle, 3));
         });
 
@@ -467,9 +399,8 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
         name: "Workout Session",
         focus: "General Hypertrophy Focus",
         exercises: [
-          ...getExercisesForMuscle('Chest', 1)
-          // ...getExercisesForMuscle('Back', 1),
-          // ...getExercisesForMuscle('Legs', 1)
+          ...getExercisesForMuscle('Chest', 2),
+          ...getExercisesForMuscle('Back', 2)
         ]
       });
     }
@@ -486,7 +417,7 @@ const generateWorkoutPlan = (goal, level, days, selectedMuscles) => {
 };
 
 function AppContent() {
-  const { toast } = useAuth();
+  const { toast, isAuthModalOpen, closeAuthModal } = useAuth();
 
   return (
     <div className="app-container">
@@ -494,17 +425,23 @@ function AppContent() {
 
       <ToastNotification toast={toast} />
 
+      {/* Global Auth Modal Overlay when isAuthModalOpen is true */}
+      {isAuthModalOpen && (
+        <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <AuthModal onClose={closeAuthModal} />
+        </div>
+      )}
+
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<LoginPage />} />
+        
+        {/* Dashboard is unlocked and accessible to everyone! */}
         <Route
           path="/dashboard"
-          element={
-            <ProtectedRoute requireCompleteProfile={true}>
-              <DashboardPage generateWorkoutPlanFallback={generateWorkoutPlan} />
-            </ProtectedRoute>
-          }
+          element={<DashboardPage generateWorkoutPlanFallback={generateWorkoutPlan} />}
         />
+
         <Route
           path="/complete-profile"
           element={
@@ -533,10 +470,10 @@ function AppContent() {
       </Routes>
 
       {/* Gym Bro Footer */}
-      <footer>
-        <p>© 2026 <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>The Gym Bro</span>. Built for premium athletes.</p>
-        <p style={{ marginTop: '6px', fontSize: '11px' }}>
-          Disclaimer: Consult a physician before beginning any training program.
+      <footer className="text-center text-xs text-gray-500 py-8 border-t border-white/10 mt-12 space-y-1.5">
+        <p>© 2026 <strong className="text-white font-extrabold">The Gym Bro</strong>. Built for premium athletes.</p>
+        <p className="text-[11px] text-gray-600">
+          Disclaimer: Consult a physician before beginning any athletic training program.
         </p>
       </footer>
     </div>
@@ -558,4 +495,3 @@ function App() {
 }
 
 export default App;
-

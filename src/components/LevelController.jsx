@@ -1,134 +1,160 @@
-import React from 'react';
+import React from "react";
 
-const ADVANCED_MUSCLES = ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms', 'Core', 'Triceps', 'Forearms'];
-
-/**
- * LevelController renders different selection elements conditionally based on the user's selected level.
- */
 const LevelController = ({
   level,
+  setLevel,
   days,
   setDays,
   selectedMuscles,
   setSelectedMuscles
 }) => {
-  // Beginner view: Lock to Full Body, display tips badge
-  if (level === 'beginner') {
-    return (
-      <div className="conditional-container" id="beginner-settings">
-        <div className="tip-badge">
-          <span className="tip-badge-icon" role="img" aria-label="Tip Icon">💡</span>
-          <div>
-            <strong>Full Body Locked:</strong> Beginners excel best on 4-Day Full Body splits for maximum recovery, neural adaptations, and consistent progress.
-          </div>
-        </div>
+  const levels = [
+    { id: "beginner", label: "Beginner 🟢", tag: "Full Body Focus" },
+    { id: "intermediate", label: "Intermediate 🟡", tag: "Split Presets" },
+    { id: "advanced", label: "Advanced 🔴", tag: "Custom Target" }
+  ];
+
+  const intermediateDayOptions = [
+    { count: 3, label: "3 Days / Week", desc: "Full Body / PPL Hybrid" },
+    { count: 4, label: "4 Days / Week", desc: "Upper / Lower Split" },
+    { count: 5, label: "5 Days / Week", desc: "Push / Pull / Legs + Upper" },
+    { count: 6, label: "6 Days / Week", desc: "Push / Pull / Legs x2" }
+  ];
+
+  const muscleGroups = [
+    "Chest",
+    "Back",
+    "Shoulders",
+    "Legs",
+    "Arms",
+    "Core",
+    "Triceps",
+    "Forearms"
+  ];
+
+  const toggleMuscle = (muscle) => {
+    if (selectedMuscles.includes(muscle)) {
+      setSelectedMuscles(selectedMuscles.filter((m) => m !== muscle));
+    } else {
+      setSelectedMuscles([...selectedMuscles, muscle]);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Level Segmented Selector Bar */}
+      <div className="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-[#0a0e19] border border-white/10 shadow-inner">
+        {levels.map((lvl) => {
+          const isSelected = level === lvl.id;
+          return (
+            <button
+              key={lvl.id}
+              type="button"
+              onClick={() => setLevel(lvl.id)}
+              className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-300 flex flex-col items-center justify-center gap-0.5 cursor-pointer ${
+                isSelected
+                  ? "bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white shadow-lg shadow-[#ff4b2b]/30 scale-[1.02]"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <span>{lvl.label}</span>
+              <span className={`text-[9px] font-medium tracking-wider uppercase ${
+                isSelected ? "text-white/80" : "text-gray-500"
+              }`}>
+                {lvl.tag}
+              </span>
+            </button>
+          );
+        })}
       </div>
-    );
-  }
 
-  // Intermediate view: Select 3 Day or 4 Day Split
-  if (level === 'intermediate') {
-    return (
-      <div className="conditional-container" id="intermediate-settings">
-        <label className="section-label" htmlFor="day-selection">
-          <span className="label-number">3</span> Choose Weekly Frequency
-        </label>
-        <div className="days-grid" id="day-selection">
-          <div
-            id="day-split-3"
-            className={`day-option ${days === '3' ? 'selected' : ''}`}
-            onClick={() => setDays('3')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('3'); }}
-          >
-            <div className="day-option-title">3 Day Split</div>
-            <div className="day-option-desc">Ideal for Push / Pull / Legs (PPL) routines</div>
-          </div>
-          <div
-            id="day-split-4"
-            className={`day-option ${days === '4' ? 'selected' : ''}`}
-            onClick={() => setDays('4')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('4'); }}
-          >
-            <div className="day-option-title">4 Day Split</div>
-            <div className="day-option-desc">Ideal for Upper / Lower or Torso / Limbs splits</div>
-          </div>
-          <div
-            id="day-split-5"
-            className={`day-option ${days === '5' ? 'selected' : ''}`}
-            onClick={() => setDays('5')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('5'); }}
-          >
-            <div className="day-option-title">5 Day Split</div>
-            <div className="day-option-desc">Ideal for Upper / Lower or Torso / Limbs splits/legs</div>
-          </div>
-          <div
-            id="day-split-6"
-            className={`day-option ${days === '6' ? 'selected' : ''}`}
-            onClick={() => setDays('6')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('6'); }}
-          >
-            <div className="day-option-title">6 Day Split</div>
-            <div className="day-option-desc">Ideal and best</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Advanced view: Multi-select muscle group checkboxes
-  if (level === 'advanced') {
-    const handleToggleMuscle = (muscle) => {
-      const currentSelected = selectedMuscles || [];
-      if (currentSelected.includes(muscle)) {
-        setSelectedMuscles(currentSelected.filter(m => m !== muscle));
-      } else {
-        setSelectedMuscles([...currentSelected, muscle]);
-      }
-    };
-
-    return (
-      <div className="conditional-container" id="advanced-settings">
-        <label className="section-label">
-          <span className="label-number">3</span> Select Target Muscle Groups
-        </label>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>
-          Select at least one muscle group to custom-tailor your hypertrophic splits.
-        </p>
-        <div className="muscle-grid" role="group" aria-label="Select target muscle groups">
-          {ADVANCED_MUSCLES.map((muscle) => {
-            const isSelected = (selectedMuscles || []).includes(muscle);
-            return (
-              <div
-                key={muscle}
-                id={`muscle-card-${muscle.toLowerCase()}`}
-                className={`muscle-checkbox-card ${isSelected ? 'selected' : ''}`}
-                onClick={() => handleToggleMuscle(muscle)}
-                role="checkbox"
-                aria-checked={isSelected}
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleToggleMuscle(muscle); }}
-              >
-                <div className="custom-checkbox" aria-hidden="true">
-                  {isSelected && '✓'}
-                </div>
-                <span className="muscle-name">{muscle}</span>
+      {/* Dynamic Render based on Experience Level */}
+      <div className="space-y-4 pt-2">
+        {level === "beginner" && (
+          <div className="bg-blue-500/10 border border-blue-500/30 text-blue-200 p-4 sm:p-5 rounded-2xl flex items-start gap-3.5 backdrop-blur-md shadow-md">
+            <span className="text-2xl shrink-0">💡</span>
+            <div className="space-y-1">
+              <div className="font-extrabold text-sm text-blue-400 uppercase tracking-wide">
+                Full Body Progression Preset Locked
               </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
+              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                Beginners excel best on <strong>4-Day Full Body</strong> splits for maximum movement pattern frequency, rapid neural adaptations, and optimal muscle protein synthesis recovery windows.
+              </p>
+            </div>
+          </div>
+        )}
 
-  return null;
+        {level === "intermediate" && (
+          <div className="space-y-3">
+            <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider">
+              Select Weekly Training Frequency
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {intermediateDayOptions.map((opt) => {
+                const isSelected = days === opt.count;
+                return (
+                  <div
+                    key={opt.count}
+                    onClick={() => setDays(opt.count)}
+                    className={`p-4 rounded-2xl cursor-pointer transition-all duration-300 border flex flex-col justify-between gap-2 ${
+                      isSelected
+                        ? "bg-[#162035] border-[#ff4b2b] shadow-[0_0_20px_rgba(255,75,43,0.2)] scale-[1.02]"
+                        : "bg-[#121929]/70 hover:bg-[#162035] border-white/10 hover:border-white/20"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-black text-sm text-white">{opt.label}</span>
+                      {isSelected && <span className="text-xs text-[#ff4b2b] font-bold">✓</span>}
+                    </div>
+                    <span className="text-[11px] text-gray-400 font-medium">{opt.desc}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {level === "advanced" && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider">
+                Select Target Muscle Groups
+              </label>
+              <span className="text-xs text-[#ff4b2b] font-extrabold">
+                {selectedMuscles.length} Selected
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {muscleGroups.map((muscle) => {
+                const isChecked = selectedMuscles.includes(muscle);
+                return (
+                  <div
+                    key={muscle}
+                    onClick={() => toggleMuscle(muscle)}
+                    className={`p-3.5 rounded-2xl cursor-pointer transition-all duration-300 border flex items-center justify-between gap-2 select-none ${
+                      isChecked
+                        ? "bg-[#162035] border-[#ff4b2b] shadow-[0_0_15px_rgba(255,75,43,0.2)]"
+                        : "bg-[#121929]/70 hover:bg-[#162035] border-white/10 hover:border-white/20"
+                    }`}
+                  >
+                    <span className={`text-xs font-bold ${isChecked ? "text-white" : "text-gray-300"}`}>
+                      {muscle}
+                    </span>
+                    <div className={`w-5 h-5 rounded-lg border flex items-center justify-center text-xs font-black transition-all ${
+                      isChecked ? "bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] border-transparent text-white shadow-sm" : "border-white/20 text-transparent"
+                    }`}>
+                      ✓
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default LevelController;

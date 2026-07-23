@@ -17,15 +17,15 @@ const ProfilePage = () => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-      {/* Profile Header (Photo, Name, Read-only Email, Member Since) */}
+    <div className="flex flex-col gap-8">
+      {/* Profile Header */}
       <ProfileHeader user={user} />
 
-      {/* Workout Statistics Grid (System Calculated) */}
+      {/* Workout Statistics Grid */}
       <WorkoutStats user={user} />
 
       {/* Personal & Fitness Information Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <PersonalInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
         <FitnessInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
       </div>

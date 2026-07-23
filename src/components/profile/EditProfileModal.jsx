@@ -35,7 +35,6 @@ const EditProfileModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Frontend Validations
     if (!formData.name || formData.name.trim() === "") {
       showToast("Name cannot be empty.", "error");
       return;
@@ -86,27 +85,27 @@ const EditProfileModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="overlay">
-      <div className="modal card edit-profile-modal">
-        <div className="modal-header">
-          <h2 className="modal-title">✏️ Edit Personal & Fitness Metrics</h2>
-          <button className="modal-close-btn" onClick={onClose}>
+    <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="w-full max-w-2xl max-h-[90vh] bg-[#0f1524] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-y-auto space-y-6 relative">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white">✏️ Edit Personal & Fitness Metrics</h2>
+          <button className="w-8 h-8 rounded-full bg-white/5 hover:bg-rose-500 hover:text-white border border-white/10 flex items-center justify-center text-sm text-gray-400 transition-all cursor-pointer" onClick={onClose}>
             ✕
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="edit-profile-form">
-          <div className="read-only-notice">
-            <span className="notice-icon">🔒</span>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-blue-500/10 border border-blue-500/30 text-blue-300 p-3.5 rounded-2xl text-xs flex items-start gap-2.5">
+            <span className="text-base shrink-0">🔒</span>
             <span>
               Google Email (<strong>{user?.email}</strong>) is read-only. You can edit your display name, avatar URL, and physical metrics below.
             </span>
           </div>
 
-          <div className="form-section-title">Identity & Profile Picture</div>
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="form-label">Display Name *</label>
+          <div className="text-sm font-bold text-[#ff4b2b] uppercase tracking-wider border-b border-white/10 pb-2">Identity & Profile Picture</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Display Name *</label>
               <input
                 type="text"
                 name="name"
@@ -114,27 +113,27 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 onChange={handleChange}
                 placeholder="Your full name"
                 required
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Profile Photo URL</label>
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Profile Photo URL</label>
               <input
                 type="url"
                 name="profilePhoto"
                 value={formData.profilePhoto}
                 onChange={handleChange}
                 placeholder="https://example.com/avatar.jpg"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
           </div>
 
-          <div className="form-section-title">Personal Metrics</div>
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="form-label">Age (years)</label>
+          <div className="text-sm font-bold text-[#ff4b2b] uppercase tracking-wider border-b border-white/10 pb-2">Personal Metrics</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Age (years)</label>
               <input
                 type="number"
                 name="age"
@@ -143,13 +142,13 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 24"
                 min="10"
                 max="120"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Gender</label>
-              <select name="gender" value={formData.gender} onChange={handleChange} className="input-field">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Gender</label>
+              <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all">
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -158,8 +157,8 @@ const EditProfileModal = ({ isOpen, onClose }) => {
               </select>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Height (cm)</label>
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Height (cm)</label>
               <input
                 type="number"
                 name="height"
@@ -168,12 +167,12 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 178"
                 min="50"
                 max="280"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Current Weight (kg)</label>
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Current Weight (kg)</label>
               <input
                 type="number"
                 name="weight"
@@ -182,33 +181,33 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 75"
                 min="20"
                 max="300"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
           </div>
 
-          <div className="form-section-title">Fitness & Training Targets</div>
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="form-label">Fitness Goal</label>
-              <select name="fitnessGoal" value={formData.fitnessGoal} onChange={handleChange} className="input-field">
+          <div className="text-sm font-bold text-[#ff4b2b] uppercase tracking-wider border-b border-white/10 pb-2">Fitness & Training Targets</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Fitness Goal</label>
+              <select name="fitnessGoal" value={formData.fitnessGoal} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all">
                 <option value="muscle_gain">Muscle Gain</option>
                 <option value="fat_loss">Fat Loss</option>
                 <option value="strength">Raw Strength</option>
               </select>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Workout Experience</label>
-              <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="input-field">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Workout Experience</label>
+              <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all">
                 <option value="beginner">Beginner</option>
                 <option value="intermediate">Intermediate</option>
                 <option value="advanced">Advanced</option>
               </select>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Target Weight (kg)</label>
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Target Weight (kg)</label>
               <input
                 type="number"
                 name="targetWeight"
@@ -217,13 +216,13 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 80"
                 min="20"
                 max="300"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Activity Level</label>
-              <select name="activityLevel" value={formData.activityLevel} onChange={handleChange} className="input-field">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Activity Level</label>
+              <select name="activityLevel" value={formData.activityLevel} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all">
                 <option value="Sedentary">Sedentary (Little to no exercise)</option>
                 <option value="Lightly Active">Lightly Active (1-3 days/week)</option>
                 <option value="Moderate">Moderate (3-5 days/week)</option>
@@ -233,10 +232,10 @@ const EditProfileModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          <div className="form-section-title">Nutrition Targets</div>
-          <div className="form-grid">
-            <div className="form-group">
-              <label className="form-label">Daily Calories (kcal)</label>
+          <div className="text-sm font-bold text-[#ff4b2b] uppercase tracking-wider border-b border-white/10 pb-2">Nutrition Targets</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Daily Calories (kcal)</label>
               <input
                 type="number"
                 name="dailyCalories"
@@ -245,12 +244,12 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 2500"
                 min="500"
                 max="10000"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Daily Protein Goal (grams)</label>
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Daily Protein Goal (grams)</label>
               <input
                 type="number"
                 name="proteinGoal"
@@ -259,12 +258,12 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 160"
                 min="10"
                 max="500"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Daily Water Goal (Liters)</label>
+            <div>
+              <label className="block text-xs font-bold text-gray-300 mb-1.5">Daily Water Goal (Liters)</label>
               <input
                 type="number"
                 step="0.1"
@@ -274,28 +273,28 @@ const EditProfileModal = ({ isOpen, onClose }) => {
                 placeholder="e.g. 3.5"
                 min="0.5"
                 max="20"
-                className="input-field"
+                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
               />
             </div>
           </div>
 
-          <div className="form-group full-width">
-            <label className="form-label">Bio / Notes</label>
+          <div>
+            <label className="block text-xs font-bold text-gray-300 mb-1.5">Bio / Notes</label>
             <textarea
               name="bio"
               value={formData.bio}
               onChange={handleChange}
               placeholder="Tell the bro community about your goals..."
               rows="3"
-              className="input-field textarea-field"
+              className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all resize-y"
             />
           </div>
 
-          <div className="modal-actions">
-            <button type="button" className="btn-secondary" onClick={onClose}>
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10 mt-6">
+            <button type="button" className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-bold text-sm transition-all cursor-pointer" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" className="btn-primary" disabled={loading}>
+            <button type="submit" className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] hover:from-[#ff4b2b] hover:to-[#ff416c] text-white font-bold text-sm shadow-md shadow-[#ff4b2b]/20 active:scale-95 transition-all cursor-pointer disabled:opacity-50" disabled={loading}>
               {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>

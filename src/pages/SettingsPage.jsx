@@ -3,10 +3,10 @@ import SettingsCard from "../components/profile/SettingsCard";
 
 const SettingsPage = () => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      <header style={{ marginBottom: "16px", textAlign: "left" }}>
-        <h2 style={{ fontSize: "32px", fontWeight: "800", marginBottom: "8px" }}>App Settings</h2>
-        <p style={{ color: "var(--text-secondary)", fontSize: "15px" }}>
+    <div className="flex flex-col gap-6">
+      <header className="mb-2 text-left space-y-1">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-white">App Settings</h2>
+        <p className="text-sm text-gray-400">
           Manage your session, notification preferences, and account privacy.
         </p>
       </header>
