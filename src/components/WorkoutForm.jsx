@@ -19,88 +19,88 @@ const WorkoutForm = ({
       title: "Muscle Gain",
       icon: "💪",
       badge: "Hypertrophy",
-      accent: "from-blue-600 to-blue-400",
-      description: "Progressive overload focused on muscle growth & balanced volume."
+      accent: "from-[#ff416c] to-[#ff4b2b]",
+      description: "Maximize volume, hypertrophy sets, and clean muscle tissue retention."
     },
     {
       id: "fat_loss",
       title: "Fat Loss",
       icon: "🔥",
-      badge: "Conditioning",
-      accent: "from-red-600 to-red-400",
-      description: "Higher pace, circuit sets, and elevated calorie burn."
+      badge: "Metabolic",
+      accent: "from-[#f59e0b] to-[#ff4b2b]",
+      description: "High energy output, circuit sets, and elevated cardiovascular conditioning."
     },
     {
       id: "strength",
       title: "Raw Strength",
       icon: "⚡",
-      badge: "Heavy Power",
-      accent: "from-blue-600 to-red-500",
-      description: "Focus on compound lifts, heavy loading, and max power output."
+      badge: "Neural Drive",
+      accent: "from-[#3b82f6] to-[#8b5cf6]",
+      description: "Focus on heavy compound lifts, low reps, and maximum force output."
     }
   ];
 
   return (
-    <div className="bg-[#0f172a]/90 border border-white/10 rounded-2xl p-5 sm:p-8 shadow-xl backdrop-blur-xl relative overflow-hidden space-y-6">
-      {/* Top Accent Line */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-red-500" />
+    <div className="bg-[#0d1322]/90 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-2xl relative overflow-hidden space-y-8">
+      {/* Metallic Top Edge Line */}
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#ff416c] via-[#ff4b2b] to-[#3b82f6]" />
 
       <form
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
-        className="space-y-6"
+        className="space-y-8"
       >
         {/* Step 1: Choose Fitness Goal */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2.5">
-            <span className="w-7 h-7 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-md shadow-blue-500/20">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white font-black text-xs flex items-center justify-center shadow-md shadow-[#ff4b2b]/30">
               01
             </span>
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-white">Choose Primary Goal</h2>
-              <p className="text-xs text-slate-400">Select your target outcome for this routine.</p>
+              <h2 className="text-lg sm:text-xl font-extrabold text-white">Choose Primary Fitness Goal</h2>
+              <p className="text-xs text-gray-400">Select the primary target for your workout split program.</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {goals.map((g) => {
               const isSelected = goal === g.id;
               return (
                 <div
                   key={g.id}
                   onClick={() => setGoal(g.id)}
-                  className={`relative p-4 rounded-xl cursor-pointer transition-all duration-200 flex flex-col justify-between gap-3 border ${
+                  className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between gap-4 border ${
                     isSelected
-                      ? "bg-slate-800/90 border-blue-500 shadow-md shadow-blue-500/15"
-                      : "bg-slate-900/50 hover:bg-slate-800/60 border-white/10 hover:border-white/20"
+                      ? "bg-[#162035] border-[#ff4b2b] shadow-[0_0_30px_rgba(255,75,43,0.25)] scale-[1.02]"
+                      : "bg-[#121929]/70 hover:bg-[#162035] border-white/10 hover:border-white/20 hover:scale-[1.01]"
                   }`}
                 >
-                  {/* Selected Checkmark */}
+                  {/* Selected Indicator Checkmark */}
                   {isSelected && (
-                    <span className="absolute top-3 right-3 w-4 h-4 rounded-full bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
+                    <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white text-xs font-black flex items-center justify-center shadow-sm">
                       ✓
                     </span>
                   )}
 
-                  <div className="space-y-2.5">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${
-                        isSelected ? `bg-gradient-to-tr ${g.accent} text-white` : "bg-white/5 text-slate-300"
+                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${
+                        isSelected ? `bg-gradient-to-tr ${g.accent} text-white shadow-lg` : "bg-white/5 text-gray-300"
                       }`}>
                         {g.icon}
                       </div>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider ${
-                        isSelected ? "bg-blue-500/20 text-blue-400 border border-blue-500/30" : "bg-white/5 text-slate-400 border border-white/10"
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                        isSelected ? "bg-[#ff4b2b]/20 text-[#ff4b2b] border border-[#ff4b2b]/30" : "bg-white/5 text-gray-400 border border-white/10"
                       }`}>
                         {g.badge}
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="text-sm font-bold text-white">{g.title}</h3>
-                      <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">{g.description}</p>
+                      <h3 className="text-base font-extrabold text-white">{g.title}</h3>
+                      <p className="text-xs text-gray-400 mt-1 leading-relaxed">{g.description}</p>
                     </div>
                   </div>
                 </div>
@@ -111,15 +111,15 @@ const WorkoutForm = ({
 
         <div className="border-t border-white/10" />
 
-        {/* Step 2: Choose Experience Level & Frequency */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2.5">
-            <span className="w-7 h-7 rounded-lg bg-red-600 text-white font-bold text-xs flex items-center justify-center shadow-md shadow-red-500/20">
+        {/* Step 2: Choose Experience Level & Metrics */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <span className="w-8 h-8 rounded-full bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white font-black text-xs flex items-center justify-center shadow-md shadow-[#ff4b2b]/30">
               02
             </span>
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-white">Experience & Schedule</h2>
-              <p className="text-xs text-slate-400">Configure your training frequency and intensity.</p>
+              <h2 className="text-lg sm:text-xl font-extrabold text-white">Select Experience Level & Frequency</h2>
+              <p className="text-xs text-gray-400">Tailor training volume and muscle group focus according to your preferences.</p>
             </div>
           </div>
 
@@ -134,14 +134,15 @@ const WorkoutForm = ({
         </div>
 
         {/* Submit Action Button */}
-        <div className="pt-2">
+        <div className="pt-4">
           <button
             type="submit"
             disabled={isGenerating}
-            className="w-full py-3.5 sm:py-4 px-6 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-red-600 hover:from-blue-500 hover:to-red-500 text-white font-bold text-sm sm:text-base tracking-wide uppercase shadow-lg shadow-blue-600/20 hover:scale-[1.01] active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-4 sm:py-5 px-8 rounded-2xl bg-gradient-to-r from-[#ff416c] via-[#ff4b2b] to-[#ff8c00] hover:from-[#ff8c00] hover:to-[#ff416c] text-white font-black text-base sm:text-lg tracking-wide uppercase shadow-[0_0_35px_rgba(255,75,43,0.35)] hover:scale-[1.01] active:scale-95 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
-            <span>{isGenerating ? "Generating Plan..." : "Generate Workout Plan"}</span>
-            <span className="text-base">➔</span>
+            <span>🚀</span>
+            <span>{isGenerating ? "Generating Plan..." : "Generate Custom Workout Plan"}</span>
+            <span className="text-xl">➔</span>
           </button>
         </div>
       </form>

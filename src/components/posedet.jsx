@@ -434,12 +434,12 @@ export default function PoseDetection({ exerciseName }) {
             <button
                 className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer border flex items-center gap-2 ${
                     isCameraOn
-                        ? "bg-red-500/10 text-red-400 border-red-500/30 hover:bg-red-500/20"
-                        : "bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-500 hover:to-red-500 text-white border-transparent shadow-md shadow-blue-500/20"
+                        ? "bg-rose-500/10 text-rose-400 border-rose-500/30 hover:bg-rose-500/20"
+                        : "bg-[#ff4b2b] text-white border-transparent hover:bg-[#ff416c] shadow-md shadow-[#ff4b2b]/20"
                 }`}
                 onClick={isCameraOn ? stopCamera : startCamera}
             >
-                📹 {isCameraOn ? "Stop Camera Coach" : "AI Camera Coach"}
+                📹 {isCameraOn ? "Stop AI Gym Coach" : "Start AI Gym Coach"}
             </button>
 
             <div className={`relative w-full rounded-2xl overflow-hidden border border-white/10 bg-[#060913] shadow-2xl ${isCameraOn ? "block" : "hidden"}`}>

@@ -11,7 +11,7 @@ const ResultsDashboard = ({ plan }) => {
 
   const toggleDayComplete = async (dayIndex, dayName) => {
     if (!isAuthenticated) {
-      openAuthModal("Please sign in to log completed workout sessions.");
+      openAuthModal("Please sign in with Google to log completed workout sessions and track your athletic streak! 🔥");
       return;
     }
 
@@ -29,43 +29,43 @@ const ResultsDashboard = ({ plan }) => {
 
   const getTargetBadgeColor = (target) => {
     const t = target?.toLowerCase() || "";
-    if (t.includes("chest")) return "bg-blue-500/10 text-blue-400 border-blue-500/20";
-    if (t.includes("back") || t.includes("lat")) return "bg-indigo-500/10 text-indigo-400 border-indigo-500/20";
-    if (t.includes("leg") || t.includes("quad") || t.includes("hamstring")) return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-    if (t.includes("shoulder") || t.includes("delt")) return "bg-red-500/10 text-red-400 border-red-500/20";
-    if (t.includes("arm") || t.includes("bicep") || t.includes("tricep")) return "bg-purple-500/10 text-purple-400 border-purple-500/20";
-    return "bg-slate-800 text-slate-300 border-slate-700";
+    if (t.includes("chest")) return "bg-rose-500/10 text-rose-400 border-rose-500/30";
+    if (t.includes("back") || t.includes("lat")) return "bg-blue-500/10 text-blue-400 border-blue-500/30";
+    if (t.includes("leg") || t.includes("quad") || t.includes("hamstring")) return "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
+    if (t.includes("shoulder") || t.includes("delt")) return "bg-amber-500/10 text-amber-400 border-amber-500/30";
+    if (t.includes("arm") || t.includes("bicep") || t.includes("tricep")) return "bg-purple-500/10 text-purple-400 border-purple-500/30";
+    return "bg-gray-500/10 text-gray-300 border-gray-500/30";
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Dashboard Top Header & Badges */}
-      <div className="bg-[#0f172a]/90 border border-white/10 rounded-2xl p-5 sm:p-7 shadow-xl backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0d1322]/90 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-3 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-600 text-white">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white shadow-md shadow-[#ff4b2b]/20">
               {plan.splitName || plan.splitType || "WORKOUT PLAN"}
             </span>
-            <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 border border-white/10">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/20 text-blue-400 border border-blue-500/30">
               GOAL: {plan.goalLabel || plan.goal?.replace("_", " ") || "MUSCLE GAIN"}
             </span>
-            <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 border border-white/10">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
               LEVEL: {plan.levelLabel || plan.level || "BEGINNER"}
             </span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-            Your Training Split
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Your Custom Athletic Routine
           </h2>
-          <p className="text-xs text-slate-400">
-            Follow this progressive routine over your training cycle for consistent results.
+          <p className="text-xs sm:text-sm text-gray-400">
+            Follow this progressive overload structure over your training cycle for optimal results.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => window.print()}
-            className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/10 text-slate-200 font-medium text-xs transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-4 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-bold text-xs transition-all cursor-pointer flex items-center gap-2"
           >
             <span>🖨️</span>
             <span>Print Routine</span>
@@ -74,91 +74,90 @@ const ResultsDashboard = ({ plan }) => {
       </div>
 
       {/* Routine Days List */}
-      <div className="space-y-5">
+      <div className="space-y-6">
         {plan.days?.map((day, dIdx) => {
           const isCompleted = completedDays.includes(dIdx);
           return (
             <div
               key={dIdx}
-              className={`bg-[#0f172a]/90 border rounded-2xl overflow-hidden shadow-lg backdrop-blur-xl transition-all duration-200 ${
-                isCompleted ? "border-emerald-500/40 opacity-90" : "border-white/10"
+              className={`bg-[#0d1322]/90 border rounded-3xl overflow-hidden shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
+                isCompleted ? "border-emerald-500/40 opacity-90" : "border-white/10 hover:border-white/20"
               }`}
             >
               {/* Day Header */}
-              <div className="bg-slate-900/80 border-b border-white/10 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="bg-[#121929] border-b border-white/10 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs ${
-                    isCompleted ? "bg-emerald-500 text-white" : "bg-blue-600 text-white shadow-sm shadow-blue-500/30"
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm ${
+                    isCompleted ? "bg-emerald-500 text-white" : "bg-gradient-to-tr from-[#ff416c] to-[#ff4b2b] text-white shadow-md shadow-[#ff4b2b]/20"
                   }`}>
                     {isCompleted ? "✓" : dIdx + 1}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <h3 className="text-lg font-black text-white flex items-center gap-2">
                       {day.dayName}
                     </h3>
-                    <span className="text-xs font-normal text-slate-400">
-                      Focus: {day.targetSummary || "Compound Training"}
+                    <span className="text-xs font-semibold text-gray-400">
+                      Focus: {day.targetSummary || "Compound Overload"}
                     </span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => toggleDayComplete(dIdx, day.dayName)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold tracking-wide transition-all cursor-pointer shrink-0 border flex items-center gap-1.5 self-start sm:self-auto ${
+                  className={`px-4 py-2 rounded-xl text-xs font-black tracking-wide transition-all cursor-pointer shrink-0 border flex items-center gap-2 self-start sm:self-auto ${
                     isCompleted
-                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30"
-                      : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white"
+                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30"
+                      : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white"
                   }`}
                 >
-                  <span>{isCompleted ? "✓ Completed" : "Mark Complete"}</span>
+                  <span>{isCompleted ? "✓ Completed" : "Mark Day Complete"}</span>
                 </button>
               </div>
 
-              {/* Responsive Exercises Container */}
               {/* Desktop Table View */}
               <div className="hidden sm:block overflow-x-auto w-full">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[650px]">
                   <thead>
-                    <tr className="border-b border-white/10 bg-slate-900/40">
-                      <th className="px-5 py-3 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-                        Exercise
+                    <tr className="border-b border-white/10 bg-white/[0.02]">
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase">
+                        EXERCISE MOVEMENT
                       </th>
-                      <th className="px-5 py-3 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-                        Target
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase">
+                        TARGET MUSCLE
                       </th>
-                      <th className="px-5 py-3 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-                        Sets & Reps
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase">
+                        SETS & REPS
                       </th>
-                      <th className="px-5 py-3 text-[10px] font-bold tracking-wider text-slate-400 uppercase text-right">
-                        Form Guide
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase text-right">
+                        FORM GUIDE & COACH
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5 text-xs text-slate-200">
+                  <tbody className="divide-y divide-white/5 text-sm font-medium text-gray-200">
                     {day.exercises?.map((ex, eIdx) => (
                       <tr key={eIdx} className="hover:bg-white/[0.02] transition-colors">
-                        <td className="px-5 py-3.5">
-                          <span className="font-bold text-white text-sm block">
+                        <td className="px-6 py-4">
+                          <span className="font-extrabold text-white text-sm block">
                             {ex.name}
                           </span>
                         </td>
-                        <td className="px-5 py-3.5">
-                          <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-semibold border inline-block ${getTargetBadgeColor(ex.target)}`}>
+                        <td className="px-6 py-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold border inline-block ${getTargetBadgeColor(ex.target)}`}>
                             {ex.target}
                           </span>
                         </td>
-                        <td className="px-5 py-3.5">
-                          <span className="font-semibold text-blue-400 text-xs">
+                        <td className="px-6 py-4">
+                          <span className="font-extrabold text-[#ff4b2b] text-sm">
                             {ex.setsReps ? ex.setsReps : `${ex.sets || 3} sets × ${ex.reps || 10}`}
                           </span>
                         </td>
-                        <td className="px-5 py-3.5 text-right">
+                        <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => setSelectedExercise(ex)}
-                            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-blue-600 border border-white/10 hover:border-transparent text-slate-200 hover:text-white font-medium text-xs transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5"
+                            className="px-3.5 py-1.5 rounded-xl bg-[#162035] hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b] border border-white/10 hover:border-transparent text-gray-200 hover:text-white font-bold text-xs transition-all duration-300 cursor-pointer shadow-sm inline-flex items-center gap-1.5"
                           >
-                            <span>📹</span>
-                            <span>View Guide</span>
+                            <span>⚡</span>
+                            <span>Guide & AI Coach</span>
                           </button>
                         </td>
                       </tr>
@@ -170,26 +169,26 @@ const ResultsDashboard = ({ plan }) => {
               {/* Mobile Stacked Card View */}
               <div className="sm:hidden divide-y divide-white/5">
                 {day.exercises?.map((ex, eIdx) => (
-                  <div key={eIdx} className="p-4 space-y-2.5">
+                  <div key={eIdx} className="p-4 space-y-3">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <span className="font-bold text-white text-sm block">
+                        <span className="font-black text-white text-sm block">
                           {ex.name}
                         </span>
-                        <span className={`mt-1 px-2 py-0.5 rounded-md text-[10px] font-semibold border inline-block ${getTargetBadgeColor(ex.target)}`}>
+                        <span className={`mt-1.5 px-3 py-1 rounded-full text-[10px] font-bold border inline-block ${getTargetBadgeColor(ex.target)}`}>
                           {ex.target}
                         </span>
                       </div>
-                      <span className="font-bold text-blue-400 text-xs bg-blue-500/10 px-2 py-1 rounded-md border border-blue-500/20">
+                      <span className="font-black text-[#ff4b2b] text-xs bg-[#ff4b2b]/10 px-2.5 py-1 rounded-xl border border-[#ff4b2b]/20">
                         {ex.setsReps ? ex.setsReps : `${ex.sets || 3} sets × ${ex.reps || 10}`}
                       </span>
                     </div>
 
                     <button
                       onClick={() => setSelectedExercise(ex)}
-                      className="w-full py-2 rounded-lg bg-slate-800 hover:bg-blue-600 border border-white/10 text-slate-200 hover:text-white font-medium text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                      className="w-full py-2.5 rounded-xl bg-[#162035] hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b] border border-white/10 text-gray-200 hover:text-white font-bold text-xs transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
-                      <span>📹</span>
+                      <span>⚡</span>
                       <span>View Form Guide & Video</span>
                     </button>
                   </div>
