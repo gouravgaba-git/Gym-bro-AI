@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WorkoutForm from "../components/WorkoutForm";
 import Spinner from "../components/Spinner";
 import ResultsDashboard from "../components/ResultsDashboard";
@@ -7,13 +7,29 @@ import { API_BASE_URL } from "../config/api";
 
 const DashboardPage = ({ generateWorkoutPlanFallback }) => {
   const { user } = useAuth();
-  const [goal, setGoal] = useState("muscle_gain");
+  
+  // Persist fitness goal from user profile or localStorage
+  const savedGoal = user?.fitnessGoal || localStorage.getItem("user_fitness_goal") || "muscle_gain";
+  const [goal, setGoal] = useState(savedGoal);
   const [level, setLevel] = useState("beginner");
   const [days, setDays] = useState(null);
   const [selectedMuscles, setSelectedMuscles] = useState([]);
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [workoutPlan, setWorkoutPlan] = useState(null);
+
+  // Sync goal state when user profile updates
+  useEffect(() => {
+    if (user?.fitnessGoal) {
+      setGoal(user.fitnessGoal);
+      localStorage.setItem("user_fitness_goal", user.fitnessGoal);
+    }
+  }, [user?.fitnessGoal]);
+
+  const handleGoalChange = (newGoal) => {
+    setGoal(newGoal);
+    localStorage.setItem("user_fitness_goal", newGoal);
+  };
 
   const handleGeneratePlan = () => {
     setIsGenerating(true);
@@ -55,7 +71,7 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#bbf246]/10 border border-[#bbf246]/30">
               <span className="w-2 h-2 rounded-full bg-[#bbf246] animate-pulse" />
               <span className="text-xs font-bold text-[#bbf246] uppercase tracking-wider">
-                Fitness App Dashboard
+                Fitness Dashboard
               </span>
             </div>
 
@@ -64,7 +80,7 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-normal leading-relaxed">
-              Track your daily activity, discover custom workout routines, and optimize your hypertrophic training split.
+              Generate tailored workout routines based on your saved fitness profile & primary goal.
             </p>
           </div>
 
@@ -119,7 +135,7 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
       <main className="space-y-10">
         <WorkoutForm
           goal={goal}
-          setGoal={setGoal}
+          setGoal={handleGoalChange}
           level={level}
           setLevel={setLevel}
           days={days}

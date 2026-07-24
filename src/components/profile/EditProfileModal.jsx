@@ -75,6 +75,9 @@ const EditProfileModal = ({ isOpen, onClose }) => {
         bio: formData.bio.trim()
       };
 
+      if (formData.fitnessGoal) {
+        localStorage.setItem("user_fitness_goal", formData.fitnessGoal);
+      }
       await updateUserProfile(numericPayload);
       onClose();
     } catch (err) {

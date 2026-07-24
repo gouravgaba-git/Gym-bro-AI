@@ -36,6 +36,9 @@ const CompleteProfilePage = () => {
         targetWeight: formData.targetWeight ? Number(formData.targetWeight) : null
       };
 
+      if (formData.fitnessGoal) {
+        localStorage.setItem("user_fitness_goal", formData.fitnessGoal);
+      }
       await updateUserProfile(numericPayload);
       navigate("/dashboard");
     } catch (err) {

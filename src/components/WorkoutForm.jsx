@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LevelController from "./LevelController";
 
 const WorkoutForm = ({
@@ -13,28 +14,36 @@ const WorkoutForm = ({
   onSubmit,
   isGenerating
 }) => {
-  const goals = [
-    {
-      id: "muscle_gain",
+  const navigate = useNavigate();
+  const [showGoalSelector, setShowGoalSelector] = useState(false);
+
+  const goalDetails = {
+    muscle_gain: {
       title: "Muscle Gain",
       icon: "💪",
       badge: "Hypertrophy",
-      description: "Progressive overload focused on clean muscle growth & volume."
+      desc: "Progressive overload focused on clean muscle growth & volume."
     },
-    {
-      id: "fat_loss",
+    fat_loss: {
       title: "Fat Loss",
       icon: "🔥",
       badge: "Metabolic",
-      description: "High pace circuit sets and elevated calorie conditioning."
+      desc: "High pace circuit sets and elevated calorie conditioning."
     },
-    {
-      id: "strength",
+    strength: {
       title: "Raw Strength",
       icon: "⚡",
       badge: "Neural Drive",
-      description: "Focus on heavy compound lifts, low reps, and maximum power."
+      desc: "Focus on heavy compound lifts, low reps, and maximum power."
     }
+  };
+
+  const activeGoal = goalDetails[goal] || goalDetails.muscle_gain;
+
+  const goalsList = [
+    { id: "muscle_gain", ...goalDetails.muscle_gain },
+    { id: "fat_loss", ...goalDetails.fat_loss },
+    { id: "strength", ...goalDetails.strength }
   ];
 
   return (
@@ -49,70 +58,78 @@ const WorkoutForm = ({
         }}
         className="space-y-6"
       >
-        {/* Step 1: Choose Fitness Goal */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2.5">
-            <span className="w-7 h-7 rounded-xl bg-[#bbf246] text-[#0b1017] font-black text-xs flex items-center justify-center shadow-md shadow-[#bbf246]/20">
-              01
-            </span>
-            <div>
-              <h2 className="text-base sm:text-lg font-bold text-white">Choose Primary Goal</h2>
-              <p className="text-xs text-slate-400">Select the target adaptation for your custom workout split.</p>
+        {/* Saved Goal Banner Section */}
+        <div className="bg-[#0b1017] border border-white/10 rounded-2xl p-4 sm:p-5 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#bbf246] text-[#0b1017] flex items-center justify-center text-xl font-black shrink-0 shadow-md shadow-[#bbf246]/20">
+                {activeGoal.icon}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                    Primary Fitness Goal
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-[#bbf246]/20 text-[#bbf246] border border-[#bbf246]/30">
+                    Saved in Profile
+                  </span>
+                </div>
+                <h3 className="text-base sm:text-lg font-extrabold text-white">
+                  {activeGoal.title} <span className="text-xs font-normal text-slate-400">({activeGoal.badge})</span>
+                </h3>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => setShowGoalSelector(!showGoalSelector)}
+                className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-bold text-xs transition-all cursor-pointer"
+              >
+                {showGoalSelector ? "Hide Goal Options" : "Switch Goal"}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/profile")}
+                className="px-3 py-1.5 rounded-xl bg-[#bbf246]/10 hover:bg-[#bbf246]/20 border border-[#bbf246]/30 text-[#bbf246] font-bold text-xs transition-all cursor-pointer flex items-center gap-1"
+              >
+                <span>✏️</span> Edit in Profile
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {goals.map((g) => {
-              const isSelected = goal === g.id;
-              return (
+          {/* Quick Toggle Dropdown if user clicks Switch Goal */}
+          {showGoalSelector && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-white/10 animate-in fade-in duration-200">
+              {goalsList.map((g) => (
                 <div
                   key={g.id}
-                  onClick={() => setGoal(g.id)}
-                  className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-200 flex flex-col justify-between gap-3 border ${
-                    isSelected
-                      ? "bg-[#1c2635] border-[#bbf246] shadow-lg shadow-[#bbf246]/10 scale-[1.01]"
-                      : "bg-[#0b1017]/60 hover:bg-[#1c2635]/80 border-white/10 hover:border-white/20"
+                  onClick={() => {
+                    setGoal(g.id);
+                    setShowGoalSelector(false);
+                  }}
+                  className={`p-3 rounded-xl cursor-pointer transition-all border flex items-center gap-2.5 ${
+                    goal === g.id
+                      ? "bg-[#1c2635] border-[#bbf246]"
+                      : "bg-[#141c27]/60 hover:bg-[#1c2635] border-white/10 text-slate-400"
                   }`}
                 >
-                  {/* Selected Checkmark Indicator */}
-                  {isSelected && (
-                    <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#bbf246] text-[#0b1017] text-xs font-black flex items-center justify-center shadow-sm">
-                      ✓
-                    </span>
-                  )}
-
-                  <div className="space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <div className={`w-11 h-11 rounded-2xl flex items-center justify-center text-xl ${
-                        isSelected ? "bg-[#bbf246] text-[#0b1017] shadow-md shadow-[#bbf246]/30" : "bg-white/5 text-slate-300"
-                      }`}>
-                        {g.icon}
-                      </div>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
-                        isSelected ? "bg-[#bbf246]/20 text-[#bbf246] border border-[#bbf246]/30" : "bg-white/5 text-slate-400 border border-white/10"
-                      }`}>
-                        {g.badge}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="text-sm sm:text-base font-extrabold text-white">{g.title}</h3>
-                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{g.description}</p>
-                    </div>
+                  <span className="text-lg">{g.icon}</span>
+                  <div>
+                    <div className="text-xs font-bold text-white">{g.title}</div>
+                    <div className="text-[10px] text-slate-400">{g.badge}</div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
-
-        <div className="border-t border-white/10" />
 
         {/* Step 2: Choose Experience Level & Metrics */}
         <div className="space-y-3">
           <div className="flex items-center gap-2.5">
-            <span className="w-7 h-7 rounded-xl bg-cyan-400 text-[#0b1017] font-black text-xs flex items-center justify-center shadow-md shadow-cyan-400/20">
-              02
+            <span className="w-7 h-7 rounded-xl bg-[#bbf246] text-[#0b1017] font-black text-xs flex items-center justify-center shadow-md shadow-[#bbf246]/20">
+              01
             </span>
             <div>
               <h2 className="text-base sm:text-lg font-bold text-white">Experience Level & Frequency</h2>
