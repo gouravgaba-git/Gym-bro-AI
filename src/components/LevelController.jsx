@@ -9,16 +9,16 @@ const LevelController = ({
   setSelectedMuscles
 }) => {
   const levels = [
-    { id: "beginner", label: "Beginner 🟢", tag: "Full Body Focus" },
-    { id: "intermediate", label: "Intermediate 🟡", tag: "Split Presets" },
-    { id: "advanced", label: "Advanced 🔴", tag: "Custom Target" }
+    { id: "beginner", label: "Beginner", tag: "Full Body" },
+    { id: "intermediate", label: "Intermediate", tag: "Split Presets" },
+    { id: "advanced", label: "Advanced", tag: "Custom Target" }
   ];
 
   const intermediateDayOptions = [
-    { count: 3, label: "3 Days / Week", desc: "Full Body / PPL Hybrid" },
-    { count: 4, label: "4 Days / Week", desc: "Upper / Lower Split" },
-    { count: 5, label: "5 Days / Week", desc: "Push / Pull / Legs + Upper" },
-    { count: 6, label: "6 Days / Week", desc: "Push / Pull / Legs x2" }
+    { count: 3, label: "3 Days / Wk", desc: "Full Body / PPL" },
+    { count: 4, label: "4 Days / Wk", desc: "Upper / Lower" },
+    { count: 5, label: "5 Days / Wk", desc: "Push / Pull / Legs" },
+    { count: 6, label: "6 Days / Wk", desc: "PPL x2 Split" }
   ];
 
   const muscleGroups = [
@@ -41,9 +41,9 @@ const LevelController = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Level Segmented Selector Bar */}
-      <div className="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-[#0a0e19] border border-white/10 shadow-inner">
+      <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-slate-900 border border-white/10 shadow-inner">
         {levels.map((lvl) => {
           const isSelected = level === lvl.id;
           return (
@@ -51,15 +51,15 @@ const LevelController = ({
               key={lvl.id}
               type="button"
               onClick={() => setLevel(lvl.id)}
-              className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-300 flex flex-col items-center justify-center gap-0.5 cursor-pointer ${
+              className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 flex flex-col items-center justify-center gap-0.5 cursor-pointer ${
                 isSelected
-                  ? "bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white shadow-lg shadow-[#ff4b2b]/30 scale-[1.02]"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
             >
               <span>{lvl.label}</span>
-              <span className={`text-[9px] font-medium tracking-wider uppercase ${
-                isSelected ? "text-white/80" : "text-gray-500"
+              <span className={`text-[10px] font-normal tracking-wide ${
+                isSelected ? "text-blue-100" : "text-slate-500"
               }`}>
                 {lvl.tag}
               </span>
@@ -69,44 +69,44 @@ const LevelController = ({
       </div>
 
       {/* Dynamic Render based on Experience Level */}
-      <div className="space-y-4 pt-2">
+      <div className="space-y-4 pt-1">
         {level === "beginner" && (
-          <div className="bg-blue-500/10 border border-blue-500/30 text-blue-200 p-4 sm:p-5 rounded-2xl flex items-start gap-3.5 backdrop-blur-md shadow-md">
-            <span className="text-2xl shrink-0">💡</span>
-            <div className="space-y-1">
-              <div className="font-extrabold text-sm text-blue-400 uppercase tracking-wide">
-                Full Body Progression Preset Locked
+          <div className="bg-blue-950/30 border border-blue-500/30 text-blue-200 p-4 rounded-xl flex items-start gap-3 backdrop-blur-md">
+            <span className="text-xl shrink-0">💡</span>
+            <div className="space-y-0.5">
+              <div className="font-bold text-xs text-blue-400 uppercase tracking-wide">
+                Full Body Preset Selected
               </div>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                Beginners excel best on <strong>4-Day Full Body</strong> splits for maximum movement pattern frequency, rapid neural adaptations, and optimal muscle protein synthesis recovery windows.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Beginners get optimal progress on a <strong>4-Day Full Body</strong> split for balanced recovery and core movement adaptation.
               </p>
             </div>
           </div>
         )}
 
         {level === "intermediate" && (
-          <div className="space-y-3">
-            <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider">
-              Select Weekly Training Frequency
+          <div className="space-y-2.5">
+            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              Training Frequency
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {intermediateDayOptions.map((opt) => {
                 const isSelected = days === opt.count;
                 return (
                   <div
                     key={opt.count}
                     onClick={() => setDays(opt.count)}
-                    className={`p-4 rounded-2xl cursor-pointer transition-all duration-300 border flex flex-col justify-between gap-2 ${
+                    className={`p-3 rounded-xl cursor-pointer transition-all duration-200 border flex flex-col justify-between gap-1.5 ${
                       isSelected
-                        ? "bg-[#162035] border-[#ff4b2b] shadow-[0_0_20px_rgba(255,75,43,0.2)] scale-[1.02]"
-                        : "bg-[#121929]/70 hover:bg-[#162035] border-white/10 hover:border-white/20"
+                        ? "bg-slate-800 border-blue-500 shadow-md shadow-blue-500/15"
+                        : "bg-slate-900/50 hover:bg-slate-800/60 border-white/10 hover:border-white/20"
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-black text-sm text-white">{opt.label}</span>
-                      {isSelected && <span className="text-xs text-[#ff4b2b] font-bold">✓</span>}
+                      <span className="font-bold text-xs text-white">{opt.label}</span>
+                      {isSelected && <span className="text-xs text-blue-400 font-bold">✓</span>}
                     </div>
-                    <span className="text-[11px] text-gray-400 font-medium">{opt.desc}</span>
+                    <span className="text-[10px] text-slate-400 font-normal">{opt.desc}</span>
                   </div>
                 );
               })}
@@ -115,34 +115,34 @@ const LevelController = ({
         )}
 
         {level === "advanced" && (
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider">
-                Select Target Muscle Groups
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                Select Muscle Groups
               </label>
-              <span className="text-xs text-[#ff4b2b] font-extrabold">
+              <span className="text-xs text-red-400 font-bold">
                 {selectedMuscles.length} Selected
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {muscleGroups.map((muscle) => {
                 const isChecked = selectedMuscles.includes(muscle);
                 return (
                   <div
                     key={muscle}
                     onClick={() => toggleMuscle(muscle)}
-                    className={`p-3.5 rounded-2xl cursor-pointer transition-all duration-300 border flex items-center justify-between gap-2 select-none ${
+                    className={`p-3 rounded-xl cursor-pointer transition-all duration-200 border flex items-center justify-between gap-2 select-none ${
                       isChecked
-                        ? "bg-[#162035] border-[#ff4b2b] shadow-[0_0_15px_rgba(255,75,43,0.2)]"
-                        : "bg-[#121929]/70 hover:bg-[#162035] border-white/10 hover:border-white/20"
+                        ? "bg-slate-800 border-red-500 shadow-sm"
+                        : "bg-slate-900/50 hover:bg-slate-800/60 border-white/10 hover:border-white/20"
                     }`}
                   >
-                    <span className={`text-xs font-bold ${isChecked ? "text-white" : "text-gray-300"}`}>
+                    <span className={`text-xs font-semibold ${isChecked ? "text-white" : "text-slate-300"}`}>
                       {muscle}
                     </span>
-                    <div className={`w-5 h-5 rounded-lg border flex items-center justify-center text-xs font-black transition-all ${
-                      isChecked ? "bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] border-transparent text-white shadow-sm" : "border-white/20 text-transparent"
+                    <div className={`w-4 h-4 rounded border flex items-center justify-center text-[10px] font-bold transition-all ${
+                      isChecked ? "bg-red-500 border-transparent text-white" : "border-white/20 text-transparent"
                     }`}>
                       ✓
                     </div>

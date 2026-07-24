@@ -43,40 +43,40 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
   };
 
   return (
-    <div className="flex flex-col gap-10 sm:gap-14 pb-12">
+    <div className="flex flex-col gap-8 sm:gap-12 pb-12">
       {/* Hero Header Section */}
-      <section className="text-center space-y-4 pt-4 sm:pt-6 relative">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#ff416c]/10 via-[#ff4b2b]/15 to-[#3b82f6]/10 border border-[#ff4b2b]/30 shadow-lg shadow-[#ff4b2b]/5 backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-[#ff4b2b] animate-ping" />
-          <span className="text-xs font-black tracking-widest text-[#ff4b2b] uppercase">
-            AI HYPERTROPHY ENGINE V2.0
+      <section className="text-center space-y-3 pt-4 sm:pt-6 relative">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 backdrop-blur-md">
+          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-[11px] font-bold tracking-wider text-blue-400 uppercase">
+            Custom Training System
           </span>
         </div>
 
-        <h1 id="app-heading-title" className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.15] text-white">
-          Architect Your <span className="bg-gradient-to-r from-[#ff416c] via-[#ff4b2b] to-[#ffa07a] bg-clip-text text-transparent drop-shadow-md">Ultimate Workout Split</span>
+        <h1 id="app-heading-title" className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          Build Your Personal <span className="bg-gradient-to-r from-blue-400 via-blue-500 to-red-500 bg-clip-text text-transparent">Workout Split</span>
         </h1>
 
-        <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-medium leading-relaxed">
-          Select your training targets and experience level to generate a high-yield, scientifically structured athletic routine customized for maximum recovery & gains.
+        <p className="text-xs sm:text-sm md:text-base text-slate-400 max-w-xl mx-auto font-normal leading-relaxed px-2">
+          Select your training targets and experience level to generate a balanced athletic routine tailored to your goals.
         </p>
 
-        {/* Feature Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <span className="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 flex items-center gap-1.5">
-            <span>🎯</span> Targeted Overload
+        {/* Minimal Feature Badges */}
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+          <span className="px-3 py-1 rounded-lg bg-slate-900/60 border border-white/10 text-[11px] font-medium text-slate-300 flex items-center gap-1.5">
+            <span className="text-blue-400">🎯</span> Custom Splits
           </span>
-          <span className="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 flex items-center gap-1.5">
-            <span>🧬</span> Neural Adaptation
+          <span className="px-3 py-1 rounded-lg bg-slate-900/60 border border-white/10 text-[11px] font-medium text-slate-300 flex items-center gap-1.5">
+            <span className="text-red-400">⚡</span> Balanced Recovery
           </span>
-          <span className="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 flex items-center gap-1.5">
-            <span>⚡</span> Real-time AI Form Guide
+          <span className="px-3 py-1 rounded-lg bg-slate-900/60 border border-white/10 text-[11px] font-medium text-slate-300 flex items-center gap-1.5">
+            <span className="text-blue-400">📹</span> Form Guidance
           </span>
         </div>
       </section>
 
       {/* Main Interactive Form & Results Area */}
-      <main className="space-y-12">
+      <main className="space-y-10">
         <WorkoutForm
           goal={goal}
           setGoal={setGoal}
