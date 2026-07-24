@@ -2,12 +2,14 @@
 
 @layer base {
   :root {
-    --bg-main: #060913;
-    --bg-surface: #0f1524;
-    --bg-surface-elevated: #161f33;
-    --primary-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-    --font-heading: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
-    --font-body: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+    --bg-main: #0b1017;
+    --bg-surface: #141c27;
+    --bg-surface-elevated: #1c2635;
+    --accent-neon: #bbf246;
+    --accent-cyan: #06b6d4;
+    --accent-red: #ef4444;
+    --font-heading: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-body: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
   }
 
   * {
@@ -15,13 +17,13 @@
   }
 
   body {
-    background-color: #060913;
+    background-color: #0b1017;
     background-image: 
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 65, 108, 0.15), transparent 70%),
-      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(59, 130, 246, 0.1), transparent 60%),
-      radial-gradient(ellipse 50% 50% at 10% 90%, rgba(139, 92, 246, 0.08), transparent 50%);
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(187, 242, 70, 0.1), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(6, 182, 212, 0.08), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 10% 90%, rgba(239, 68, 68, 0.06), transparent 50%);
     background-attachment: fixed;
-    color: #f3f4f6;
+    color: #f8fafc;
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -37,61 +39,65 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #060913;
+  background: #0b1017;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #1c2635;
   border-radius: 9999px;
-  border: 2px solid #060913;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff4b2b;
+  background: #bbf246;
 }
 
-/* Custom Animations & Utilities */
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(255, 75, 43, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(255, 75, 43, 0.6);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 3s infinite ease-in-out;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-/* Glassmorphism utility shortcuts */
-.glass-card {
-  background: rgba(15, 21, 36, 0.85);
+/* Fitness UI Utility Shortcut Classes */
+.card-fitness {
+  background: rgba(20, 28, 39, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
 }
 
-.glass-card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.card-fitness-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-card-hover:hover {
-  border-color: rgba(255, 75, 43, 0.3);
+.card-fitness-hover:hover {
+  border-color: rgba(187, 242, 70, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(255, 75, 43, 0.15);
+  box-shadow: 0 12px 30px -10px rgba(187, 242, 70, 0.15);
+}
+
+.btn-neon {
+  background-color: #bbf246;
+  color: #0b1017;
+  font-weight: 800;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 20px rgba(187, 242, 70, 0.25);
+}
+
+.btn-neon:hover {
+  background-color: #d9f99d;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(187, 242, 70, 0.4);
+}
+
+@keyframes pulseGlowNeon {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(187, 242, 70, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(187, 242, 70, 0.55);
+  }
+}
+
+.animate-glow-neon {
+  animation: pulseGlowNeon 3s infinite ease-in-out;
 }

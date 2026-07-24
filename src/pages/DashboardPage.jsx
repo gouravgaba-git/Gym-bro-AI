@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import WorkoutForm from "../components/WorkoutForm";
 import Spinner from "../components/Spinner";
 import ResultsDashboard from "../components/ResultsDashboard";
+import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/api";
 
 const DashboardPage = ({ generateWorkoutPlanFallback }) => {
+  const { user } = useAuth();
   const [goal, setGoal] = useState("muscle_gain");
   const [level, setLevel] = useState("beginner");
   const [days, setDays] = useState(null);
@@ -42,41 +44,79 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
       });
   };
 
+  const athleteName = user?.name ? user.name.split(" ")[0] : "Athlete";
+
   return (
-    <div className="flex flex-col gap-10 sm:gap-14 pb-12">
-      {/* Hero Header Section */}
-      <section className="text-center space-y-4 pt-4 sm:pt-6 relative">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#ff416c]/10 via-[#ff4b2b]/15 to-[#3b82f6]/10 border border-[#ff4b2b]/30 shadow-lg shadow-[#ff4b2b]/5 backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-[#ff4b2b] animate-ping" />
-          <span className="text-xs font-black tracking-widest text-[#ff4b2b] uppercase">
-            Workout Generator
-          </span>
+    <div className="flex flex-col gap-8 sm:gap-10 pb-12">
+      {/* Top Greeting & Fitness Stats Hero Bar */}
+      <section className="bg-[#141c27] border border-white/10 rounded-3xl p-5 sm:p-8 shadow-xl backdrop-blur-xl relative overflow-hidden space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#bbf246]/10 border border-[#bbf246]/30">
+              <span className="w-2 h-2 rounded-full bg-[#bbf246] animate-pulse" />
+              <span className="text-xs font-bold text-[#bbf246] uppercase tracking-wider">
+                Fitness App Dashboard
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Hello, <span className="text-[#bbf246]">{athleteName}</span> 👋
+            </h1>
+
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-normal leading-relaxed">
+              Track your daily activity, discover custom workout routines, and optimize your hypertrophic training split.
+            </p>
+          </div>
+
+          {/* Activity Quick Stats Widgets */}
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 shrink-0">
+            <div className="bg-[#0b1017] border border-white/10 p-3 sm:p-4 rounded-2xl text-center space-y-1">
+              <div className="text-base sm:text-xl">🔥</div>
+              <div className="text-xs sm:text-sm font-extrabold text-white">
+                {user?.currentStreak || 0} Days
+              </div>
+              <div className="text-[10px] text-slate-400 uppercase font-semibold">Streak</div>
+            </div>
+
+            <div className="bg-[#0b1017] border border-white/10 p-3 sm:p-4 rounded-2xl text-center space-y-1">
+              <div className="text-base sm:text-xl">⚡</div>
+              <div className="text-xs sm:text-sm font-extrabold text-[#bbf246]">
+                450 kcal
+              </div>
+              <div className="text-[10px] text-slate-400 uppercase font-semibold">Est. Burn</div>
+            </div>
+
+            <div className="bg-[#0b1017] border border-white/10 p-3 sm:p-4 rounded-2xl text-center space-y-1">
+              <div className="text-base sm:text-xl">🎯</div>
+              <div className="text-xs sm:text-sm font-extrabold text-cyan-400">
+                {user?.workoutsCompleted || 0} Done
+              </div>
+              <div className="text-[10px] text-slate-400 uppercase font-semibold">Sessions</div>
+            </div>
+          </div>
         </div>
 
-        <h1 id="app-heading-title" className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.15] text-white">
-          Architect Your <span className="bg-gradient-to-r from-[#ff416c] via-[#ff4b2b] to-[#ffa07a] bg-clip-text text-transparent drop-shadow-md">Ultimate Workout Split</span>
-        </h1>
-
-        <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-medium leading-relaxed px-2">
-          Select your training targets and experience level to generate a high-yield, scientifically structured athletic routine customized for maximum recovery & gains.
-        </p>
-
-        {/* Feature Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <span className="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 flex items-center gap-1.5">
-            <span>🎯</span> Targeted Overload
+        {/* Quick Challenge Tags Bar */}
+        <div className="border-t border-white/10 pt-4 flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+            Quick Challenges:
           </span>
-          <span className="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 flex items-center gap-1.5">
-            <span>🧬</span> Neural Adaptation
-          </span>
-          <span className="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 flex items-center gap-1.5">
-            <span>⚡</span> Real-time AI Form Guide
-          </span>
+          <div className="flex flex-wrap gap-2">
+            <span className="px-3 py-1 rounded-xl bg-slate-900 border border-white/10 text-xs font-semibold text-slate-200 hover:border-[#bbf246] transition-colors cursor-pointer">
+              🏆 Push-Up Challenge
+            </span>
+            <span className="px-3 py-1 rounded-xl bg-slate-900 border border-white/10 text-xs font-semibold text-slate-200 hover:border-[#bbf246] transition-colors cursor-pointer">
+              ⚡ Squat Overload
+            </span>
+            <span className="px-3 py-1 rounded-xl bg-slate-900 border border-white/10 text-xs font-semibold text-slate-200 hover:border-[#bbf246] transition-colors cursor-pointer">
+              ⏱️ 60s Plank Hold
+            </span>
+          </div>
         </div>
       </section>
 
       {/* Main Interactive Form & Results Area */}
-      <main className="space-y-12">
+      <main className="space-y-10">
         <WorkoutForm
           goal={goal}
           setGoal={setGoal}

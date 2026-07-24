@@ -9,9 +9,9 @@ const ResultsDashboard = ({ plan }) => {
 
   if (!plan) return null;
 
-  const toggleDayComplete = async (dayIndex, dayName) => {
+  const toggleDayComplete = async (dayIndex, dayName, dayExercises) => {
     if (!isAuthenticated) {
-      openAuthModal("Please sign in with Google to log completed workout sessions and track your athletic streak! 🔥");
+      openAuthModal("Please sign in with Google to log completed workout sessions and track your streak! 🔥");
       return;
     }
 
@@ -20,7 +20,12 @@ const ResultsDashboard = ({ plan }) => {
     } else {
       setCompletedDays([...completedDays, dayIndex]);
       try {
-        await logWorkoutSession({ dayName, date: new Date().toISOString() });
+        await logWorkoutSession({
+          workoutName: dayName || `Day ${dayIndex + 1} Workout`,
+          durationMinutes: 45,
+          exercisesCount: dayExercises?.length || 4,
+          setsCount: (dayExercises?.length || 4) * 3
+        });
       } catch (err) {
         console.warn("Log workout session error:", err.message);
       }
@@ -29,43 +34,43 @@ const ResultsDashboard = ({ plan }) => {
 
   const getTargetBadgeColor = (target) => {
     const t = target?.toLowerCase() || "";
-    if (t.includes("chest")) return "bg-rose-500/10 text-rose-400 border-rose-500/30";
-    if (t.includes("back") || t.includes("lat")) return "bg-blue-500/10 text-blue-400 border-blue-500/30";
-    if (t.includes("leg") || t.includes("quad") || t.includes("hamstring")) return "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
+    if (t.includes("chest")) return "bg-red-500/10 text-red-400 border-red-500/30";
+    if (t.includes("back") || t.includes("lat")) return "bg-cyan-500/10 text-cyan-400 border-cyan-500/30";
+    if (t.includes("leg") || t.includes("quad") || t.includes("hamstring")) return "bg-[#bbf246]/10 text-[#bbf246] border-[#bbf246]/30";
     if (t.includes("shoulder") || t.includes("delt")) return "bg-amber-500/10 text-amber-400 border-amber-500/30";
     if (t.includes("arm") || t.includes("bicep") || t.includes("tricep")) return "bg-purple-500/10 text-purple-400 border-purple-500/30";
-    return "bg-gray-500/10 text-gray-300 border-gray-500/30";
+    return "bg-slate-800 text-slate-300 border-slate-700";
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Dashboard Top Header & Badges */}
-      <div className="bg-[#0d1322]/90 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+      <div className="bg-[#141c27] border border-white/10 rounded-3xl p-5 sm:p-8 shadow-xl backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white shadow-md shadow-[#ff4b2b]/20">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#bbf246] text-[#0b1017] shadow-md shadow-[#bbf246]/20">
               {plan.splitName || plan.splitType || "WORKOUT PLAN"}
             </span>
-            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/20 text-blue-400 border border-blue-500/30">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
               GOAL: {plan.goalLabel || plan.goal?.replace("_", " ") || "MUSCLE GAIN"}
             </span>
-            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#bbf246]/20 text-[#bbf246] border border-[#bbf246]/30">
               LEVEL: {plan.levelLabel || plan.level || "BEGINNER"}
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Your Custom Athletic Routine
+            Your Training Program
           </h2>
-          <p className="text-xs sm:text-sm text-gray-400">
-            Follow this progressive overload structure over your training cycle for optimal results.
+          <p className="text-xs sm:text-sm text-slate-400">
+            Follow this progressive routine over your 6–8 week training cycle for consistent results.
           </p>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => window.print()}
-            className="px-4 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-bold text-xs transition-all cursor-pointer flex items-center gap-2"
+            className="px-4 py-2.5 rounded-2xl bg-[#0b1017] hover:bg-[#1c2635] border border-white/10 text-slate-200 font-extrabold text-xs transition-all cursor-pointer flex items-center gap-2"
           >
             <span>🖨️</span>
             <span>Print Routine</span>
@@ -80,34 +85,34 @@ const ResultsDashboard = ({ plan }) => {
           return (
             <div
               key={dIdx}
-              className={`bg-[#0d1322]/90 border rounded-3xl overflow-hidden shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
+              className={`bg-[#141c27] border rounded-3xl overflow-hidden shadow-xl backdrop-blur-xl transition-all duration-200 ${
                 isCompleted ? "border-emerald-500/40 opacity-90" : "border-white/10 hover:border-white/20"
               }`}
             >
               {/* Day Header */}
-              <div className="bg-[#121929] border-b border-white/10 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="bg-[#0b1017] border-b border-white/10 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm ${
-                    isCompleted ? "bg-emerald-500 text-white" : "bg-gradient-to-tr from-[#ff416c] to-[#ff4b2b] text-white shadow-md shadow-[#ff4b2b]/20"
+                    isCompleted ? "bg-emerald-500 text-white" : "bg-[#bbf246] text-[#0b1017] shadow-md shadow-[#bbf246]/20"
                   }`}>
                     {isCompleted ? "✓" : dIdx + 1}
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-white flex items-center gap-2">
+                    <h3 className="text-lg font-extrabold text-white flex items-center gap-2">
                       {day.dayName}
                     </h3>
-                    <span className="text-xs font-semibold text-gray-400">
-                      Focus: {day.targetSummary || "Compound Overload"}
+                    <span className="text-xs font-semibold text-slate-400">
+                      Focus: {day.targetSummary || "Compound Training"}
                     </span>
                   </div>
                 </div>
 
                 <button
-                  onClick={() => toggleDayComplete(dIdx, day.dayName)}
+                  onClick={() => toggleDayComplete(dIdx, day.dayName, day.exercises)}
                   className={`px-4 py-2 rounded-xl text-xs font-black tracking-wide transition-all cursor-pointer shrink-0 border flex items-center gap-2 self-start sm:self-auto ${
                     isCompleted
                       ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30"
-                      : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white"
+                      : "bg-white/5 text-slate-300 border-white/10 hover:bg-[#bbf246] hover:text-[#0b1017] hover:border-transparent"
                   }`}
                 >
                   <span>{isCompleted ? "✓ Completed" : "Mark Day Complete"}</span>
@@ -118,22 +123,22 @@ const ResultsDashboard = ({ plan }) => {
               <div className="hidden sm:block overflow-x-auto w-full">
                 <table className="w-full text-left border-collapse min-w-[650px]">
                   <thead>
-                    <tr className="border-b border-white/10 bg-white/[0.02]">
-                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase">
+                    <tr className="border-b border-white/10 bg-[#0b1017]/40">
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-slate-400 uppercase">
                         EXERCISE MOVEMENT
                       </th>
-                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase">
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-slate-400 uppercase">
                         TARGET MUSCLE
                       </th>
-                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase">
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-slate-400 uppercase">
                         SETS & REPS
                       </th>
-                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-gray-400 uppercase text-right">
+                      <th className="px-6 py-4 text-[11px] font-black tracking-widest text-slate-400 uppercase text-right">
                         FORM GUIDE & COACH
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5 text-sm font-medium text-gray-200">
+                  <tbody className="divide-y divide-white/5 text-sm font-medium text-slate-200">
                     {day.exercises?.map((ex, eIdx) => (
                       <tr key={eIdx} className="hover:bg-white/[0.02] transition-colors">
                         <td className="px-6 py-4">
@@ -147,17 +152,17 @@ const ResultsDashboard = ({ plan }) => {
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="font-extrabold text-[#ff4b2b] text-sm">
+                          <span className="font-black text-[#bbf246] text-sm">
                             {ex.setsReps ? ex.setsReps : `${ex.sets || 3} sets × ${ex.reps || 10}`}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => setSelectedExercise(ex)}
-                            className="px-3.5 py-1.5 rounded-xl bg-[#162035] hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b] border border-white/10 hover:border-transparent text-gray-200 hover:text-white font-bold text-xs transition-all duration-300 cursor-pointer shadow-sm inline-flex items-center gap-1.5"
+                            className="px-4 py-2 rounded-xl bg-[#0b1017] hover:bg-[#bbf246] hover:text-[#0b1017] border border-white/10 hover:border-transparent text-slate-200 font-extrabold text-xs transition-all duration-200 cursor-pointer shadow-sm inline-flex items-center gap-2"
                           >
                             <span>⚡</span>
-                            <span>Guide & AI Coach</span>
+                            <span>LET'S WORKOUT</span>
                           </button>
                         </td>
                       </tr>
@@ -166,7 +171,7 @@ const ResultsDashboard = ({ plan }) => {
                 </table>
               </div>
 
-              {/* Mobile Stacked Card View */}
+              {/* Mobile Stacked Card View (100% Mobile Responsive) */}
               <div className="sm:hidden divide-y divide-white/5">
                 {day.exercises?.map((ex, eIdx) => (
                   <div key={eIdx} className="p-4 space-y-3">
@@ -179,17 +184,17 @@ const ResultsDashboard = ({ plan }) => {
                           {ex.target}
                         </span>
                       </div>
-                      <span className="font-black text-[#ff4b2b] text-xs bg-[#ff4b2b]/10 px-2.5 py-1 rounded-xl border border-[#ff4b2b]/20">
+                      <span className="font-black text-[#bbf246] text-xs bg-[#bbf246]/10 px-2.5 py-1 rounded-xl border border-[#bbf246]/20">
                         {ex.setsReps ? ex.setsReps : `${ex.sets || 3} sets × ${ex.reps || 10}`}
                       </span>
                     </div>
 
                     <button
                       onClick={() => setSelectedExercise(ex)}
-                      className="w-full py-2.5 rounded-xl bg-[#162035] hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b] border border-white/10 text-gray-200 hover:text-white font-bold text-xs transition-all cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-xl bg-[#0b1017] hover:bg-[#bbf246] hover:text-[#0b1017] border border-white/10 text-slate-200 font-extrabold text-xs transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
                       <span>⚡</span>
-                      <span>View Form Guide & Video</span>
+                      <span>LET'S WORKOUT & VIEW GUIDE</span>
                     </button>
                   </div>
                 ))}

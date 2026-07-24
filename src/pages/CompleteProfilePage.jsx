@@ -47,27 +47,27 @@ const CompleteProfilePage = () => {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="bg-[#0f1524]/90 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#ff416c] via-[#ff4b2b] to-[#ffa07a]" />
+      <div className="bg-[#141c27] border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8 relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#bbf246] via-cyan-400 to-purple-500" />
 
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff4b2b]/10 border border-[#ff4b2b]/25 shadow-inner">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#bbf246]/10 border border-[#bbf246]/30">
             <span className="text-xl">💪</span>
-            <span className="font-extrabold text-sm tracking-wider bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] bg-clip-text text-transparent uppercase">The Gym Bro</span>
+            <span className="font-extrabold text-xs tracking-wider text-[#bbf246] uppercase">GYMBRO ATHLETE PROFILE</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Complete Your Athletic Profile
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            Configure Fitness Metrics
           </h2>
-          <p className="text-xs sm:text-sm text-gray-400 max-w-md mx-auto">
-            Welcome, <strong className="text-white">{user?.name}</strong>! Configure your metrics so our AI can customize high-yield workout splits for you.
+          <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
+            Welcome, <strong className="text-white">{user?.name}</strong>! Set up your metrics to receive personalized workout splits.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="text-sm font-bold text-[#ff4b2b] uppercase tracking-wider border-b border-white/10 pb-2">Step 1: Physical Metrics</div>
+          <div className="text-xs font-black text-[#bbf246] uppercase tracking-wider border-b border-white/10 pb-2">Step 1: Physical Metrics</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">Age (years)</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1.5">Age (years)</label>
               <input
                 type="number"
                 name="age"
@@ -75,13 +75,13 @@ const CompleteProfilePage = () => {
                 onChange={handleChange}
                 placeholder="e.g. 25"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">Gender</label>
-              <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all" required>
+              <label className="block text-xs font-bold text-slate-300 mb-1.5">Gender</label>
+              <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all" required>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Non-Binary">Non-Binary</option>
@@ -90,7 +90,7 @@ const CompleteProfilePage = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">Height (cm)</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1.5">Height (cm)</label>
               <input
                 type="number"
                 name="height"
@@ -98,12 +98,12 @@ const CompleteProfilePage = () => {
                 onChange={handleChange}
                 placeholder="e.g. 180"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">Current Weight (kg)</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1.5">Current Weight (kg)</label>
               <input
                 type="number"
                 name="weight"
@@ -111,16 +111,16 @@ const CompleteProfilePage = () => {
                 onChange={handleChange}
                 placeholder="e.g. 78"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all"
               />
             </div>
           </div>
 
-          <div className="text-sm font-bold text-[#ff4b2b] uppercase tracking-wider border-b border-white/10 pb-2">Step 2: Training & Goal Selection</div>
+          <div className="text-xs font-black text-cyan-400 uppercase tracking-wider border-b border-white/10 pb-2">Step 2: Training & Goal Selection</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">Primary Fitness Goal</label>
-              <select name="fitnessGoal" value={formData.fitnessGoal} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all">
+              <label className="block text-xs font-bold text-slate-300 mb-1.5">Primary Fitness Goal</label>
+              <select name="fitnessGoal" value={formData.fitnessGoal} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all">
                 <option value="muscle_gain">Muscle Gain</option>
                 <option value="fat_loss">Fat Loss</option>
                 <option value="strength">Raw Strength</option>
@@ -128,8 +128,8 @@ const CompleteProfilePage = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-300 mb-1.5">Workout Experience</label>
-              <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#161f33] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-[#ff4b2b] focus:ring-1 focus:ring-[#ff4b2b] transition-all">
+              <label className="block text-xs font-bold text-slate-300 mb-1.5">Workout Experience</label>
+              <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all">
                 <option value="beginner">Beginner</option>
                 <option value="intermediate">Intermediate</option>
                 <option value="advanced">Advanced</option>
@@ -138,8 +138,8 @@ const CompleteProfilePage = () => {
           </div>
 
           <div className="pt-4">
-            <button type="submit" className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] hover:from-[#ff4b2b] hover:to-[#ff416c] text-white font-extrabold text-base shadow-lg shadow-[#ff4b2b]/30 active:scale-95 transition-all cursor-pointer disabled:opacity-50" disabled={loading}>
-              {loading ? "Saving Profile..." : "Save & Continue to Dashboard 🚀"}
+            <button type="submit" className="w-full py-4 px-6 rounded-2xl bg-[#bbf246] hover:bg-[#d9f99d] text-[#0b1017] font-black text-sm sm:text-base tracking-wider uppercase shadow-lg shadow-[#bbf246]/20 active:scale-95 transition-all cursor-pointer disabled:opacity-50" disabled={loading}>
+              {loading ? "Saving Profile..." : "Save Profile & Continue 🚀"}
             </button>
           </div>
         </form>
