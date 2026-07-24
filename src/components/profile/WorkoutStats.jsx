@@ -15,32 +15,46 @@ const WorkoutStats = ({ user }) => {
       icon: "🏅",
       accent: "#8b5cf6",
       description: "Personal best streak"
+    },
+    {
+      title: "Total Workouts",
+      value: user?.workoutsCompleted || 0,
+      icon: "🏋️",
+      accent: "#3b82f6",
+      description: "Completed sessions"
+    },
+    {
+      title: "Target Fitness Goal",
+      value: (user?.fitnessGoal || "muscle_gain").replace("_", " "),
+      icon: "🎯",
+      accent: "#10b981",
+      description: "Saved target program"
     }
   ];
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-xl font-extrabold text-white flex items-center gap-2">
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
+        <h3 className="section-title">
           <span>📊</span> Workout Statistics
         </h3>
-        <span className="text-xs font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full" title="Automatically calculated from MongoDB session logs">
-          ⚡ Real-time MongoDB Calculated
+        <span className="auto-calc-badge" title="Automatically calculated from MongoDB session logs">
+          ⚡ Real-time MongoDB Synchronized
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="stats-grid">
         {stats.map((stat, idx) => (
-          <div key={idx} className="bg-[#0f1524]/90 border border-white/10 rounded-2xl p-5 shadow-xl backdrop-blur-xl flex flex-col gap-3 transition-all hover:border-white/20">
-            <div className="flex items-center justify-between">
-              <span className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: `${stat.accent}15`, color: stat.accent }}>
+          <div key={idx} className="card stat-card">
+            <div className="stat-card-top">
+              <span className="stat-icon" style={{ background: `${stat.accent}15`, color: stat.accent }}>
                 {stat.icon}
               </span>
-              <span className="text-2xl font-black text-white">{stat.value}</span>
+              <span className="stat-value" style={{ textTransform: "capitalize" }}>{stat.value}</span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-sm text-gray-200">{stat.title}</span>
-              <span className="text-xs text-gray-400">{stat.description}</span>
+            <div className="stat-card-bottom">
+              <span className="stat-title">{stat.title}</span>
+              <span className="stat-desc">{stat.description}</span>
             </div>
           </div>
         ))}

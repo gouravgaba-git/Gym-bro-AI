@@ -432,11 +432,8 @@ export default function PoseDetection({ exerciseName }) {
             `}} />
 
             <button
-                className={`px-4 py-2 text-xs font-black rounded-xl transition-all cursor-pointer border flex items-center gap-2 ${
-                    isCameraOn
-                        ? "bg-red-500/10 text-red-400 border-red-500/30 hover:bg-red-500/20"
-                        : "bg-[#bbf246] text-[#0b1017] border-transparent hover:bg-[#d9f99d] shadow-md shadow-[#bbf246]/20"
-                }`}
+                className={isCameraOn ? "btn-danger" : "btn-primary"}
+                style={{ fontSize: "13px", padding: "10px 20px", height: "40px", display: "inline-flex", alignItems: "center", gap: "6px" }}
                 onClick={isCameraOn ? stopCamera : startCamera}
             >
                 📹 {isCameraOn ? "Stop AI Camera Coach" : "AI Camera Coach"}

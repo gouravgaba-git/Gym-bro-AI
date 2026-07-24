@@ -22,8 +22,10 @@ function InfoTemplate({ exercise, onClose }) {
     useEffect(() => {
         if (!exercise) return;
 
+        // Disable background scrolling when modal is open
         document.body.style.overflow = "hidden";
 
+        // Fetch instructions and tips dynamically from backend API
         fetch(`${API_BASE_URL}/api/exercises/details/${encodeURIComponent(name)}`)
             .then((res) => {
                 if (!res.ok) throw new Error("Network response was not ok");
@@ -48,6 +50,7 @@ function InfoTemplate({ exercise, onClose }) {
             });
 
         return () => {
+            // Restore scrolling when modal closes
             document.body.style.overflow = "auto";
         };
     }, [exercise, name, target]);
@@ -55,56 +58,50 @@ function InfoTemplate({ exercise, onClose }) {
     if (!exercise) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6 overflow-y-auto" onClick={onClose}>
+        <div className="overlay" onClick={onClose}>
             <div
-                className="w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] bg-[#141c27] border border-white/10 rounded-3xl p-5 sm:p-8 shadow-2xl overflow-y-auto flex flex-col gap-5 relative"
+                className="modal info-modal-custom"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header Section */}
-                <div className="flex items-start justify-between border-b border-white/10 pb-4">
-                    <div className="space-y-2">
-                        <h2 className="text-xl sm:text-3xl font-black text-white">{name}</h2>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-black uppercase bg-[#bbf246]/10 border border-[#bbf246]/30 text-[#bbf246]">
-                                🎯 {target} Target
-                            </span>
+                <div className="modal-header-section">
+                    <div className="modal-title-area">
+                        <h2 className="modal-exercise-title">{name}</h2>
+                        <div className="modal-badges-group">
+                            <span className="modal-badge-target">🎯 {target} Target</span>
                             {setsReps && (
-                                <span className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-black uppercase bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-                                    📋 {setsReps}
-                                </span>
+                                <span className="modal-badge-sets">📋 {setsReps}</span>
                             )}
                         </div>
                     </div>
-                    <button
-                        className="w-9 h-9 rounded-xl bg-[#0b1017] hover:bg-red-600 hover:text-white border border-white/10 flex items-center justify-center text-xs text-slate-400 transition-all cursor-pointer shrink-0"
-                        onClick={onClose}
-                        aria-label="Close modal"
-                    >
+                    <button className="close-modal-btn" onClick={onClose} aria-label="Close modal">
                         ✕
                     </button>
                 </div>
 
                 {isLoading || !details ? (
-                    <div className="flex flex-col items-center justify-center py-16 gap-3">
-                        <div className="w-10 h-10 border-3 border-white/10 border-t-[#bbf246] rounded-full animate-spin"></div>
-                        <p className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Loading exercise guide...</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 0', gap: '16px' }}>
+                        <div className="spinner"></div>
+                        <p style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                            Loading Movement Guide...
+                        </p>
                     </div>
                 ) : (
                     <>
                         {/* Main Content Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Left Side: Media Player */}
-                            <div className="bg-[#0b1017] border border-white/10 rounded-2xl overflow-hidden aspect-video flex items-center justify-center relative shadow-inner">
+                        <div className="modal-grid-layout">
+                            {/* Left Side: Media Player Wrapper */}
+                            <div className="modal-media-wrapper">
                                 {details.mediaType === "video" ? (
                                     details.mediaUrl && details.mediaUrl.trim().startsWith("<iframe") ? (
                                         <div 
-                                            className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:border-0 [&_iframe]:block"
+                                            className="exercise-media-element iframe-container"
                                             dangerouslySetInnerHTML={{ __html: details.mediaUrl }}
                                         />
                                     ) : (
                                         <video
                                             src={details.mediaUrl}
-                                            className="w-full h-full object-cover"
+                                            className="exercise-media-element"
                                             controls
                                             autoPlay
                                             muted
@@ -112,48 +109,45 @@ function InfoTemplate({ exercise, onClose }) {
                                         />
                                     )
                                 ) : (
-                                    <div className="w-full h-full relative">
+                                    <div className="image-container-relative" style={{ width: '100%', height: '100%', position: 'relative' }}>
                                         <img
                                             src={details.mediaUrl || "/exercise_placeholder.png"}
                                             alt={`${name} demonstration`}
-                                            className="w-full h-full object-cover"
+                                            className="exercise-media-element"
                                         />
+                                        <div className="media-overlay-glow"></div>
                                     </div>
                                 )}
                             </div>
 
                             {/* Right Side: Step-by-Step Form Guide */}
-                            <div className="space-y-3">
-                                <h3 className="font-extrabold text-xs text-white uppercase tracking-wider border-b border-white/10 pb-2">
+                            <div className="modal-steps-wrapper">
+                                <h3 className="section-subtitle" style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px', marginBottom: '12px' }}>
                                     How To Perform
                                 </h3>
-                                <div className="space-y-2.5 max-h-[250px] overflow-y-auto pr-1">
+                                <ol className="modern-steps-list">
                                     {details.steps.map((step, index) => (
-                                        <div key={index} className="bg-[#0b1017] border border-white/10 p-3 rounded-2xl flex items-start gap-3">
-                                            <span className="w-6 h-6 rounded-xl bg-[#bbf246] text-[#0b1017] flex items-center justify-center text-xs font-black shrink-0 shadow-md">
-                                                {index + 1}
-                                            </span>
-                                            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-                                                {step}
-                                            </p>
-                                        </div>
+                                        <li key={index} className="modern-step-item">
+                                            <span className="step-number-bubble">{index + 1}</span>
+                                            <span className="step-text-content">{step}</span>
+                                        </li>
                                     ))}
-                                </div>
+                                </ol>
                             </div>
                         </div>
 
-                        {/* Pro Tips Section */}
+                        {/* Bottom Section: Pro Tips & Coaching Cues */}
                         {details.tips && details.tips.length > 0 && (
-                            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 sm:p-5 space-y-2">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-lg">💡</span>
-                                    <h4 className="font-extrabold text-xs text-amber-400 uppercase tracking-wider">Form Tips & Coaching Cues</h4>
+                            <div className="modal-tips-section">
+                                <div className="tips-header-row">
+                                    <span className="tips-icon">💡</span>
+                                    <h4 className="tips-title">Coaching Cues & Pro Tips</h4>
                                 </div>
-                                <ul className="space-y-1.5">
+                                <ul className="tips-list-custom">
                                     {details.tips.map((tip, index) => (
-                                        <li key={index} className="flex items-start gap-2 text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-                                            <span className="text-amber-400 font-bold">•</span>
-                                            <p>{tip}</p>
+                                        <li key={index} className="tip-list-item">
+                                            <span className="tip-bullet">•</span>
+                                            <p className="tip-text-body">{tip}</p>
                                         </li>
                                     ))}
                                 </ul>
@@ -162,15 +156,12 @@ function InfoTemplate({ exercise, onClose }) {
                     </>
                 )}
 
-                {/* Bottom Action Footer Bar */}
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10">
-                    <button
-                        className="px-4 py-2.5 rounded-xl bg-[#0b1017] hover:bg-white/10 border border-white/10 text-slate-300 font-bold text-xs transition-all cursor-pointer"
-                        onClick={onClose}
-                    >
+                {/* Secondary Bottom Close Button & Camera/Pose Actions */}
+                <div className="modal-footer-close">
+                    <button className="footer-close-btn" onClick={onClose}>
                         Close Guide
                     </button>
-                    <div className="flex flex-wrap items-center gap-2.5">
+                    <div className="modal-footer-actions">
                         <Camerahandle />
                         <PoseDetection exerciseName={name} />
                     </div>

@@ -22,23 +22,23 @@ const SettingsCard = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* Account Actions Card */}
-      <div className="bg-[#0f1524]/90 border border-white/10 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-xl space-y-4">
-        <div className="border-b border-white/10 pb-4">
-          <h3 className="text-lg font-extrabold text-white flex items-center gap-2">
-            <span>⚙️</span> Account Settings
+      <div className="card info-card">
+        <div className="info-card-header">
+          <h3 className="section-title">
+            <span>⚙️</span> Session & Account Management
           </h3>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-2">
+        <div className="settings-list">
+          <div className="settings-item">
             <div>
-              <div className="font-bold text-sm text-white">Session Management</div>
-              <div className="text-xs text-gray-400">Log out of your current session on this device.</div>
+              <div className="settings-item-title">Session Logout</div>
+              <div className="settings-item-desc">Log out of your current session on this device.</div>
             </div>
             <button
-              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 font-bold text-xs transition-all cursor-pointer shrink-0"
+              className="btn-secondary"
               onClick={() => {
                 logout();
                 navigate("/login");
@@ -48,16 +48,16 @@ const SettingsCard = () => {
             </button>
           </div>
 
-          <div className="border-t border-white/10" />
+          <div className="settings-divider" />
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-2">
+          <div className="settings-item">
             <div>
-              <div className="font-bold text-sm text-rose-400">Delete Account</div>
-              <div className="text-xs text-gray-400">
+              <div className="settings-item-title text-danger">Delete Account</div>
+              <div className="settings-item-desc">
                 Permanently delete your profile, workout history, and stored metrics from the database.
               </div>
             </div>
-            <button className="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-bold text-xs transition-all cursor-pointer shrink-0" onClick={() => setShowConfirmDelete(true)}>
+            <button className="btn-danger" onClick={() => setShowConfirmDelete(true)}>
               🗑️ Delete Account
             </button>
           </div>
@@ -65,18 +65,18 @@ const SettingsCard = () => {
       </div>
 
       {/* Notification Preferences Card */}
-      <div className="bg-[#0f1524]/90 border border-white/10 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-xl space-y-4">
-        <div className="border-b border-white/10 pb-4">
-          <h3 className="text-lg font-extrabold text-white flex items-center gap-2">
+      <div className="card info-card">
+        <div className="info-card-header">
+          <h3 className="section-title">
             <span>🔔</span> Notification Preferences
           </h3>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center justify-between gap-4 py-2">
+        <div className="settings-list">
+          <div className="settings-toggle-item">
             <div>
-              <div className="font-bold text-sm text-white">Workout Reminders</div>
-              <div className="text-xs text-gray-400">Receive notifications to log your daily athletic session.</div>
+              <div className="settings-item-title">Workout Reminders</div>
+              <div className="settings-item-desc">Receive notifications to log your daily athletic session.</div>
             </div>
             <input
               type="checkbox"
@@ -84,20 +84,20 @@ const SettingsCard = () => {
               onChange={(e) =>
                 setNotifications({ ...notifications, workoutReminders: e.target.checked })
               }
-              className="w-5 h-5 accent-[#ff4b2b] rounded cursor-pointer"
+              className="toggle-checkbox"
             />
           </div>
 
-          <div className="flex items-center justify-between gap-4 py-2">
+          <div className="settings-toggle-item">
             <div>
-              <div className="font-bold text-sm text-white">Streak Protection Alerts</div>
-              <div className="text-xs text-gray-400">Alert when your active streak is at risk.</div>
+              <div className="settings-item-title">Streak Protection Alerts</div>
+              <div className="settings-item-desc">Alert when your active streak is at risk.</div>
             </div>
             <input
               type="checkbox"
               checked={notifications.streakAlerts}
               onChange={(e) => setNotifications({ ...notifications, streakAlerts: e.target.checked })}
-              className="w-5 h-5 accent-[#ff4b2b] rounded cursor-pointer"
+              className="toggle-checkbox"
             />
           </div>
         </div>
@@ -105,20 +105,25 @@ const SettingsCard = () => {
 
       {/* Confirm Delete Account Modal */}
       {showConfirmDelete && (
-        <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#0f1524] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold text-rose-400">
-              ⚠️ Confirm Permanent Account Deletion
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+        <div className="overlay">
+          <div className="modal card" style={{ maxWidth: "500px" }}>
+            <div className="modal-header">
+              <h3 className="modal-title text-danger" style={{ fontSize: "18px" }}>
+                ⚠️ Confirm Permanent Account Deletion
+              </h3>
+              <button className="modal-close-btn" onClick={() => setShowConfirmDelete(false)}>
+                ✕
+              </button>
+            </div>
+            <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: "1.6", marginBottom: "20px" }}>
               Are you sure you want to delete your Gym Bro account? This action is permanent and will wipe all your workout statistics, streaks, and saved preferences from MongoDB.
             </p>
 
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-              <button className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-bold text-xs transition-all cursor-pointer" onClick={() => setShowConfirmDelete(false)}>
+            <div className="modal-actions">
+              <button className="btn-secondary" onClick={() => setShowConfirmDelete(false)}>
                 Cancel
               </button>
-              <button className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs shadow-md shadow-rose-500/30 transition-all cursor-pointer" onClick={handleDeleteAccount}>
+              <button className="btn-danger" onClick={handleDeleteAccount}>
                 Yes, Delete My Account
               </button>
             </div>

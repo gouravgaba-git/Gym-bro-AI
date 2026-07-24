@@ -17,7 +17,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       {/* Profile Header */}
       <ProfileHeader user={user} />
 
@@ -25,7 +25,7 @@ const ProfilePage = () => {
       <WorkoutStats user={user} />
 
       {/* Personal & Fitness Information Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
         <PersonalInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
         <FitnessInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
       </div>

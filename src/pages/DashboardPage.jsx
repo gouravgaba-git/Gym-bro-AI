@@ -60,79 +60,59 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
       });
   };
 
-  const athleteName = user?.name ? user.name.split(" ")[0] : "Athlete";
-
   return (
-    <div className="flex flex-col gap-8 sm:gap-10 pb-12">
-      {/* Top Greeting & Fitness Stats Hero Bar */}
-      <section className="bg-[#141c27] border border-white/10 rounded-3xl p-5 sm:p-8 shadow-xl backdrop-blur-xl relative overflow-hidden space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#bbf246]/10 border border-[#bbf246]/30">
-              <span className="w-2 h-2 rounded-full bg-[#bbf246] animate-pulse" />
-              <span className="text-xs font-bold text-[#bbf246] uppercase tracking-wider">
-                Fitness Dashboard
-              </span>
-            </div>
+    <div className="page-fade-in" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      {/* Sleek Hero Header */}
+      <header className="compact-hero-header" style={{ marginBottom: "4px" }}>
+        <h1 className="compact-hero-title" style={{ fontSize: "32px" }}>
+          Train Smarter
+        </h1>
+        <p className="compact-hero-subtitle" style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+          Choose your primary fitness goal.
+        </p>
+      </header>
 
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Hello, <span className="text-[#bbf246]">{athleteName}</span> 👋
-            </h1>
-
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-normal leading-relaxed">
-              Generate tailored workout routines based on your saved fitness profile & primary goal.
-            </p>
-          </div>
-
-          {/* Activity Quick Stats Widgets */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 shrink-0">
-            <div className="bg-[#0b1017] border border-white/10 p-3 sm:p-4 rounded-2xl text-center space-y-1">
-              <div className="text-base sm:text-xl">🔥</div>
-              <div className="text-xs sm:text-sm font-extrabold text-white">
-                {user?.currentStreak || 0} Days
+      {/* User Quick Streak Stats Badge */}
+      {user && (
+        <div className="card" style={{ padding: "12px 16px", borderRadius: "18px", background: "rgba(15, 21, 36, 0.5)" }}>
+          <div className="stats-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+            <div className="stat-card" style={{ padding: "6px 10px" }}>
+              <div className="stat-card-top" style={{ gap: "6px" }}>
+                <span className="stat-icon" style={{ width: "24px", height: "24px", fontSize: "11px", background: "rgba(255, 75, 43, 0.15)", color: "#ff4b2b" }}>🔥</span>
+                <span className="stat-value" style={{ fontSize: "13px" }}>{user?.currentStreak || 0}d</span>
               </div>
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Streak</div>
-            </div>
-
-            <div className="bg-[#0b1017] border border-white/10 p-3 sm:p-4 rounded-2xl text-center space-y-1">
-              <div className="text-base sm:text-xl">⚡</div>
-              <div className="text-xs sm:text-sm font-extrabold text-[#bbf246]">
-                450 kcal
+              <div className="stat-card-bottom" style={{ marginTop: "2px" }}>
+                <span className="stat-title" style={{ fontSize: "10px" }}>Streak</span>
               </div>
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Est. Burn</div>
             </div>
 
-            <div className="bg-[#0b1017] border border-white/10 p-3 sm:p-4 rounded-2xl text-center space-y-1">
-              <div className="text-base sm:text-xl">🎯</div>
-              <div className="text-xs sm:text-sm font-extrabold text-cyan-400">
-                {user?.workoutsCompleted || 0} Done
+            <div className="stat-card" style={{ padding: "6px 10px" }}>
+              <div className="stat-card-top" style={{ gap: "6px" }}>
+                <span className="stat-icon" style={{ width: "24px", height: "24px", fontSize: "11px", background: "rgba(59, 130, 246, 0.15)", color: "#3b82f6" }}>🏋️</span>
+                <span className="stat-value" style={{ fontSize: "13px" }}>{user?.workoutsCompleted || 0}</span>
               </div>
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Sessions</div>
+              <div className="stat-card-bottom" style={{ marginTop: "2px" }}>
+                <span className="stat-title" style={{ fontSize: "10px" }}>Workouts</span>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Quick Challenge Tags Bar */}
-        <div className="border-t border-white/10 pt-4 flex flex-wrap items-center justify-between gap-3">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-            Quick Challenges:
-          </span>
-          <div className="flex flex-wrap gap-2">
-            <span className="px-3 py-1 rounded-xl bg-slate-900 border border-white/10 text-xs font-semibold text-slate-200 hover:border-[#bbf246] transition-colors cursor-pointer">
-              🏆 Push-Up Challenge
-            </span>
-            <span className="px-3 py-1 rounded-xl bg-slate-900 border border-white/10 text-xs font-semibold text-slate-200 hover:border-[#bbf246] transition-colors cursor-pointer">
-              ⚡ Squat Overload
-            </span>
-            <span className="px-3 py-1 rounded-xl bg-slate-900 border border-white/10 text-xs font-semibold text-slate-200 hover:border-[#bbf246] transition-colors cursor-pointer">
-              ⏱️ 60s Plank Hold
-            </span>
+            <div className="stat-card" style={{ padding: "6px 10px" }}>
+              <div className="stat-card-top" style={{ gap: "6px" }}>
+                <span className="stat-icon" style={{ width: "24px", height: "24px", fontSize: "11px", background: "rgba(16, 185, 129, 0.15)", color: "#10b981" }}>🎯</span>
+                <span className="stat-value" style={{ fontSize: "12px", textTransform: "capitalize" }}>
+                  {(goal || "muscle_gain").replace("_", " ")}
+                </span>
+              </div>
+              <div className="stat-card-bottom" style={{ marginTop: "2px" }}>
+                <span className="stat-title" style={{ fontSize: "10px" }}>Target</span>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Main Interactive Form & Results Area */}
-      <main className="space-y-10">
+      {/* Interactive Goal Form & Results */}
+      <main style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         <WorkoutForm
           goal={goal}
           setGoal={handleGoalChange}
