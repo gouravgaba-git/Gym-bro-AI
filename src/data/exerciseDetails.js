@@ -54,6 +54,23 @@ export const exerciseDetailsDb = {
     mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ptpmRrzRtWQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
+  "Bench Press": {
+    steps: [
+      "Lie flat on the bench. Set your eyes directly under the bar. Pull your shoulder blades together and down.",
+      "Grip the bar slightly wider than shoulder-width. Plant your feet flat on the floor to build leg drive.",
+      "Unrack the barbell and hold it directly over your shoulder joints with locked elbows.",
+      "Lower the bar under control to your mid-chest, tucking your elbows at a 45-degree angle.",
+      "Push the bar back up in a slight diagonal arc towards your face, driving your feet into the floor.",
+      "Lock out your elbows at the top while keeping your shoulder blades retracted."
+    ],
+    tips: [
+      "Keep your wrists stacked straight over your elbows; bent wrists cause joint stress.",
+      "Do not bounce the bar off your chest. Touch lightly, pause for a split second, and press.",
+      "Maintain a natural arch in your lower back, but keep your glutes planted on the bench."
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ptpmRrzRtWQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  },
   "Lat Pulldown (Wide Grip)": {
     steps: [
       "Adjust the thigh pads so your legs are locked securely. Grip the bar wider than shoulder-width with an overhand grip.",

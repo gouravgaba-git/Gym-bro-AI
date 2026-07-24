@@ -30,6 +30,9 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build Web Application
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || vars.VITE_API_BASE_URL || 'https://gym-bro-ai.onrender.com' }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID || vars.VITE_GOOGLE_CLIENT_ID || '152119405524-aulquemb82p02gpqdnj1ggpcmp9jgctv.apps.googleusercontent.com' }}
         run: npm run build
 
       - name: Sync Capacitor Web Assets

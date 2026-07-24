@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import Camerahandle from "./cameraupload.jsx";
 import PoseDetection from "./posedet.jsx";
+import { API_BASE_URL } from "../config/api";
 
 function InfoTemplate({ exercise, onClose }) {
     const [details, setDetails] = useState(null);
@@ -23,7 +24,7 @@ function InfoTemplate({ exercise, onClose }) {
 
         document.body.style.overflow = "hidden";
 
-        fetch(`http://localhost:5000/api/exercises/details/${encodeURIComponent(name)}`)
+        fetch(`${API_BASE_URL}/api/exercises/details/${encodeURIComponent(name)}`)
             .then((res) => {
                 if (!res.ok) throw new Error("Network response was not ok");
                 return res.json();
@@ -97,7 +98,7 @@ function InfoTemplate({ exercise, onClose }) {
                                 {details.mediaType === "video" ? (
                                     details.mediaUrl && details.mediaUrl.trim().startsWith("<iframe") ? (
                                         <div 
-                                            className="w-full h-full"
+                                            className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:border-0 [&_iframe]:block"
                                             dangerouslySetInnerHTML={{ __html: details.mediaUrl }}
                                         />
                                     ) : (

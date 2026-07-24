@@ -27,7 +27,7 @@ const exercises = [
       "Keep your shoulder blades retracted and pressed into the bench to protect your shoulders.",
       "Do not lock your elbows fully at the top to maintain tension on the upper chest."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/sVLVLcsfWSo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/IP4oeKh1Sd4?si=0ApVvt2iryzpb-gO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video",
   },
   {
@@ -64,7 +64,9 @@ const exercises = [
     tips: [
       "Keep the bend in your elbows constant throughout the movement; do not turn this into a press.",
       "Focus on bringing your biceps together to maximize chest contraction."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/V5mlG3N-weQ?si=el2IXPDUHTf8Sm1_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Bench Press",
@@ -80,7 +82,9 @@ const exercises = [
     tips: [
       "Maintain a high tempo but stay in control to keep your heart rate up.",
       "Plant your feet firmly to maintain total body stability."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/IP4oeKh1Sd4?si=0W1J9BfIFrvdOWGD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Push-ups (to Failure)",
@@ -111,7 +115,9 @@ const exercises = [
     ],
     tips: [
       "Maintain constant cable tension by not letting the weight stack touch at the bottom."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/bGi0E9QbBTo?si=runsWmINDuK8JMXx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Pec Dec",
@@ -127,7 +133,9 @@ const exercises = [
     tips: [
       "Keep your shoulders pressed down and back to isolate the chest.",
       "Do not let the weight stack touch between reps to maintain tension."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/K2VJ4HeXb4s?si=lHra8kMVk9k8p-FM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Barbell Bench Press",
@@ -141,7 +149,9 @@ const exercises = [
     tips: [
       "Build maximum tension in your legs and upper back before unracking.",
       "Rest 3-5 minutes between these heavy strength sets."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/lWFknlOTbyM?si=tti-ARDRf9qC5g3C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Incline Barbell Bench Press",
@@ -154,7 +164,9 @@ const exercises = [
     ],
     tips: [
       "Keep your wrists straight and drive the bar in a straight line up."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/SrqOu55lrYU?si=WcdTDNul0fZyFSLg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Weighted Chest Dips",
@@ -168,7 +180,9 @@ const exercises = [
     ],
     tips: [
       "Leaning forward targets the lower pecs; staying upright targets the triceps."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/h_qLxCGaeU8?si=T3PAqElMqXosDMyQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Pec Dec",
@@ -185,7 +199,7 @@ const exercises = [
       "Keep your shoulders pressed down and back to isolate the chest.",
       "Do not let the weight stack touch between reps to maintain tension."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/h_qLxCGaeU8?si=T3PAqElMqXosDMyQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/K2VJ4HeXb4s?si=lHra8kMVk9k8p-FM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video",
   },
 
@@ -220,7 +234,9 @@ const exercises = [
     ],
     tips: [
       "Keep your chest glued to the pad to eliminate momentum and isolate the mid-back."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/9zkP4Cd_cz0?si=WZTqfupsB2x_ZbRJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Single-Arm Dumbbell Row",
@@ -233,7 +249,9 @@ const exercises = [
     ],
     tips: [
       "Do not let your shoulder drop or rotate at the bottom; maintain a stable torso."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/dFzUjzfih7k?si=rOWoL18K5TpwV6b_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Lat Pulldown",
@@ -245,7 +263,9 @@ const exercises = [
     ],
     tips: [
       "Minimize rest times to keep your heart rate elevated."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/43hWj8mfYGY?si=Telpv1JL6liwn_RF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Assisted Pull-ups",
@@ -257,7 +277,9 @@ const exercises = [
     ],
     tips: [
       "Control the lowering phase to maximize time under tension."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/gnElpp3Fm50?si=FnJZjGDwRDUP7kWT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Kettlebell Gorilla Rows",
@@ -270,7 +292,9 @@ const exercises = [
     ],
     tips: [
       "Keep your hips low and core locked; do not twist your torso."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/bLM3nLvoRdc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Conventional Deadlift",
@@ -297,7 +321,9 @@ const exercises = [
     ],
     tips: [
       "Engage your lats at the bottom before pulling to avoid shoulder impingement."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/fnJ0F1Xsu7Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Barbell Pendlay Row",
@@ -310,7 +336,9 @@ const exercises = [
     ],
     tips: [
       "Every rep must start from a dead stop on the floor to build explosive pulling strength."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/h4nkoayPFWw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
 
   // === SHOULDERS ===
@@ -343,7 +371,9 @@ const exercises = [
     ],
     tips: [
       "Lead with your elbows and tilt the dumbbells slightly forward (like pouring water) at the top."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ssAo_xwFt5c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Rear Delt Fly",
@@ -355,7 +385,9 @@ const exercises = [
     ],
     tips: [
       "Keep your elbows flared out wide and avoid using your traps to pull the weight."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/LsT-bR_zxLo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Arnold Press",
@@ -367,7 +399,9 @@ const exercises = [
     ],
     tips: [
       "Maintain a smooth, continuous motion to keep muscle tension high."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/TEzehbTzBD0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Cable Lateral Raise",
@@ -379,7 +413,9 @@ const exercises = [
     ],
     tips: [
       "Cables provide constant tension which is perfect for high-rep metabolic stress."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/zpbm-xRHB6k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Face Pulls",
@@ -391,7 +427,9 @@ const exercises = [
     ],
     tips: [
       "Hold the peak contraction for 1 second to build upper back posture and shoulder health."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/eQaSpG7aMYQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Standing Military Press",
@@ -403,7 +441,9 @@ const exercises = [
     ],
     tips: [
       "Squeeze your glutes and core as hard as possible to create a solid base and protect your spine."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Ftb3rlCE-zo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Push Press",
@@ -415,7 +455,9 @@ const exercises = [
     ],
     tips: [
       "Use leg drive to push past the sticking point, but control the eccentric lowering phase."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/a8HQo8z20Uo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Heavy Dumbbell Lateral Raise",
@@ -427,7 +469,9 @@ const exercises = [
     ],
     tips: [
       "Control the eccentric phase as much as possible; do not just drop the weight."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ssAo_xwFt5c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
 
   // === LEGS ===
@@ -449,7 +493,7 @@ const exercises = [
       "Actively screw your feet into the floor to activate the glutes and prevent knee cave-in.",
       "If ankle mobility is a bottleneck, try elevating your heels slightly or using weightlifting shoes."
     ],
-    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/mTaiQemkEpU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/aOzrA4FgnM0?si=5AfmjivHaK_loDd2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     mediaType: "video"
   },
   {
@@ -463,7 +507,9 @@ const exercises = [
     ],
     tips: [
       "Keep the weight close to your legs; do not let the dumbbells drift forward."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/aa57T45iFSE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Leg Press",
@@ -489,7 +535,9 @@ const exercises = [
     ],
     tips: [
       "Focus on full range of motion and cardiorespiratory pacing."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/zsN2WvklwDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Walking Lunges",
@@ -501,7 +549,9 @@ const exercises = [
     ],
     tips: [
       "Keep your torso upright and core engaged to balance."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/I34ysEkPK7w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Leg Curls",
@@ -513,7 +563,9 @@ const exercises = [
     ],
     tips: [
       "Squeeze hard at the peak and resist the weight on the way back."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/3gZm9wGTsEo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Low-Bar Back Squat",
@@ -525,7 +577,9 @@ const exercises = [
     ],
     tips: [
       "Low bar positioning allows you to lift heavier loads by utilizing more posterior chain leverage."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Po9CDtfcLJI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Front Squat",
@@ -537,7 +591,9 @@ const exercises = [
     ],
     tips: [
       "Keeping elbows up is critical to preventing your chest from collapsing forward."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/6PLvU0rjw18" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Barbell Romanian Deadlift",
@@ -549,7 +605,9 @@ const exercises = [
     ],
     tips: [
       "Focus on pushing your hips back in space rather than bending forward."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/xgusDooVfKU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
 
   // === ARMS ===
@@ -582,7 +640,9 @@ const exercises = [
     ],
     tips: [
       "Keep your elbows pointed forward rather than flaring out to focus tension on the triceps long head."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/O7e8j8K3cJo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Barbell Bicep Preacher Curl",
@@ -594,7 +654,9 @@ const exercises = [
     ],
     tips: [
       "Avoid raising your hips off the seat; keep your arms flat against the pad."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/jilTTmyEoYY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Alternate Bicep Curl",
@@ -606,7 +668,9 @@ const exercises = [
     ],
     tips: [
       "Maintain a smooth rhythm with minimal rest between curls."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/ia7_90Ew-qs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Tricep Bench Dips",
@@ -618,7 +682,9 @@ const exercises = [
     ],
     tips: [
       "Keep your back close to the bench to avoid shoulder strain."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/WVeZDBhZwLA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Hammer Curls",
@@ -644,7 +710,9 @@ const exercises = [
     ],
     tips: [
       "Gripping too close places excessive strain on the wrists; shoulder-width is ideal."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/DzA2xZhDGeo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Barbell Bicep Curl (Cheat Curls)",
@@ -656,7 +724,9 @@ const exercises = [
     ],
     tips: [
       "Only use momentum on the concentric phase; make sure to fight the weight during the lowering phase."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/CadCvP44Az0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Tricep Weighted Dips",
@@ -668,7 +738,9 @@ const exercises = [
     ],
     tips: [
       "Lock out your elbows at the top and squeeze your triceps."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/JannOlicL4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
 
   // === CORE ===
@@ -687,7 +759,9 @@ const exercises = [
     tips: [
       "Avoid swinging or using momentum. If you swing, reset and focus on core activation.",
       "If straight legs are too difficult, bend your knees and perform Hanging Knee Raises instead."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/vwl68EF9M2Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Ab-Wheel Rollout",
@@ -700,7 +774,9 @@ const exercises = [
     ],
     tips: [
       "Keep your lower back slightly rounded (hollow body hold) throughout to protect your spine."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/NbudTqiwguk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Plank",
@@ -715,7 +791,9 @@ const exercises = [
     tips: [
       "Keep your neck neutral and look down at the floor.",
       "Do not let your hips sag or hike upwards."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/mwlp75MS6Rg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Hanging Knee Raise",
@@ -727,7 +805,9 @@ const exercises = [
     ],
     tips: [
       "Keep your legs under control; do not swing."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/l7OroezzX9k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Weighted Plank",
@@ -739,7 +819,9 @@ const exercises = [
     ],
     tips: [
       "Keep your glutes and abs squeezed tight; do not let your hips sag."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/mwlp75MS6Rg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Bicycle Crunches",
@@ -753,7 +835,9 @@ const exercises = [
     tips: [
       "Focus on the contraction of your obliques on each twist.",
       "Keep the movement slow and controlled rather than rushing through."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/kDPxFoCmb-w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Heavy Standing Cable Crunch",
@@ -765,7 +849,9 @@ const exercises = [
     ],
     tips: [
       "Focus on flexing your spine and crunching your abs, not pulling with your arms."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/wBzU6_YJPEU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Pallof Press (Cable)",
@@ -777,7 +863,9 @@ const exercises = [
     ],
     tips: [
       "This is an anti-rotation movement; keep your torso perfectly locked forward."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/xeFp4MXad98" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Cable Woodchopper",
@@ -791,7 +879,9 @@ const exercises = [
     tips: [
       "Pivot your back foot slightly as you rotate your torso to protect your knees.",
       "Keep your arms relatively straight to engage the obliques."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Gwcf4TOj1hc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   // === TRICEPS ===
   {
@@ -807,7 +897,9 @@ const exercises = [
     tips: [
       "Keep your elbows pointed forward and do not let them flare out wide.",
       "Ensure your core is braced and avoid arching your lower back."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/O7e8j8K3cJo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Cable Tricep Pushdown (Straight Bar)",
@@ -822,7 +914,9 @@ const exercises = [
     tips: [
       "Keep your body stable and avoid leaning forward too much to push with chest weight.",
       "Ensure your wrists remain neutral throughout."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/8JBHlaS7Dkk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Cable Overhead Rope Extension",
@@ -837,7 +931,9 @@ const exercises = [
     tips: [
       "Maintain a strong, stable torso; do not let the cable pull you out of position.",
       "Focus on the stretch at the bottom of the movement."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/grtDyGNMjQ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Bench Dips",
@@ -852,7 +948,9 @@ const exercises = [
     tips: [
       "Keep your back close to the bench to avoid shoulder strain.",
       "Maintain a controlled, steady pace."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/WVeZDBhZwLA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Tricep Kickback",
@@ -868,7 +966,9 @@ const exercises = [
     tips: [
       "Only your forearm should move; keep your upper arm completely still.",
       "Keep your head and neck aligned with your back."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/m9me06UBPKc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Single-Arm Cable Pushdown",
@@ -883,7 +983,9 @@ const exercises = [
     tips: [
       "Keep the tempo steady and avoid using body momentum.",
       "Squeeze your tricep hard at the bottom."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/P4eb7V9Rxd8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Close-Grip Barbell Bench Press",
@@ -898,7 +1000,9 @@ const exercises = [
     tips: [
       "Do not place your hands too close together (less than shoulder-width) as this can strain the wrists.",
       "Ensure the bar path remains vertical."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/DzA2xZhDGeo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Weighted Chest Dips",
@@ -914,7 +1018,9 @@ const exercises = [
     tips: [
       "Keep your shoulders depressed and avoid shrugging at the top.",
       "Only go as deep as is comfortable for your shoulder joints."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/h_qLxCGaeU8?si=T3PAqElMqXosDMyQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Skull Crushers (EZ-Bar)",
@@ -929,7 +1035,9 @@ const exercises = [
     tips: [
       "Keep your elbows tucked and avoid letting them flare outward.",
       "Lower the bar under strict control to prevent head injury."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/GaK2da6B2zM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   // === FOREARMS ===
   {
@@ -945,7 +1053,9 @@ const exercises = [
     tips: [
       "Resting your forearms on your thighs ensures the movement is isolated to the wrists.",
       "Do not use body momentum to raise the bar."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/weNYVPk3g1Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Reverse EZ-Bar Curl",
@@ -960,7 +1070,9 @@ const exercises = [
     tips: [
       "Keep your wrists straight and firm; do not let them bend backward.",
       "Focus on squeezing the forearm muscles at the top."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/BwSE-3zKBjY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Hammer Curl",
@@ -975,7 +1087,9 @@ const exercises = [
     tips: [
       "Keep your elbows locked to your sides; do not let them drift forward.",
       "Squeeze your forearms and biceps at the peak of the curl."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/8XLxfXROrTo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Wrist Curls (Palms Down)",
@@ -989,7 +1103,9 @@ const exercises = [
     tips: [
       "Use a lighter weight to ensure strict form and high volume.",
       "Keep the tempo steady."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/krZ6pWGZ8xo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Plate Pinches",
@@ -1003,7 +1119,9 @@ const exercises = [
     tips: [
       "Engage your core to maintain a straight, upright posture.",
       "Keep your shoulders relaxed."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/LARw21BBiDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Dumbbell Farmer's Walk",
@@ -1017,7 +1135,9 @@ const exercises = [
     tips: [
       "Do not look down; look straight ahead to maintain spinal alignment.",
       "Keep your grip firm and do not let the weights swing."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/62v48abT5-Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Heavy Farmer's Carry",
@@ -1031,7 +1151,9 @@ const exercises = [
     tips: [
       "Squeeze your grip as hard as possible to maximize muscle recruitment.",
       "Do not lean forward; maintain an upright torso."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Fkzk_RqlYig" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Barbell Static Hold",
@@ -1045,7 +1167,9 @@ const exercises = [
     tips: [
       "Use a double overhand grip (no hook grip or mixed grip) to maximize forearm loading.",
       "Brace your core and squeeze your glutes for stability."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/IyUnIuQ8t1I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   {
     name: "Behind-the-Back Wrist Curl",
@@ -1060,7 +1184,350 @@ const exercises = [
     tips: [
       "Keep your shoulders pulled back throughout the movement.",
       "Squeeze the forearms at the top of the curl."
-    ]
+    ],
+    mediaUrl: '<iframe width="560" height="315" src="https://www.youtube.com/embed/sVLVLcsfWSo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  }
+,
+  {
+    name: "Dumbbell Farmer's Walk",
+    target: "Forearms",
+    goal: "strength",
+    setsReps: "3 sets x 30-60 sec",
+    steps: [
+      "Set up safely for Dumbbell Farmer's Walk by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/62v48abT5-Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Dumbbell Farmer's Carry",
+    target: "Full Body",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10 reps",
+    steps: [
+      "Set up safely for Dumbbell Farmer's Carry by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/62v48abT5-Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Heavy Farmer's Carry",
+    target: "Forearms",
+    goal: "strength",
+    setsReps: "3 sets x 30-60 sec",
+    steps: [
+      "Set up safely for Heavy Farmer's Carry by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Fkzk_RqlYig\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Heavy Farmer's Walk",
+    target: "Full Body",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10 reps",
+    steps: [
+      "Set up safely for Heavy Farmer's Walk by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Fkzk_RqlYig\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Bench Press",
+    target: "Chest",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Set up safely for Bench Press by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ptpmRrzRtWQ\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Squat",
+    target: "Legs",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Set up safely for Squat by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/aOzrA4FgnM0?si=5AfmjivHaK_loDd2\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Deadlift",
+    target: "Back",
+    goal: "strength",
+    setsReps: "3 sets x 5 reps",
+    steps: [
+      "Set up safely for Deadlift by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/VL5Ab0T07e4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Pull-ups",
+    target: "Back",
+    goal: "muscle_gain",
+    setsReps: "3 sets x max reps",
+    steps: [
+      "Set up safely for Pull-ups by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/fnJ0F1Xsu7Y\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Push-ups",
+    target: "Chest",
+    goal: "fat_loss",
+    setsReps: "3 sets x max reps",
+    steps: [
+      "Set up safely for Push-ups by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/b6ouj88iBZs\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Lateral Raise",
+    target: "Shoulders",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 12-15 reps",
+    steps: [
+      "Set up safely for Lateral Raise by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ssAo_xwFt5c\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Shoulder Press",
+    target: "Shoulders",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Set up safely for Shoulder Press by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/21lYP86dHW4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Bicep Curl",
+    target: "Arms",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10-12 reps",
+    steps: [
+      "Set up safely for Bicep Curl by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/ia7_90Ew-qs\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Tricep Extension",
+    target: "Arms",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10-12 reps",
+    steps: [
+      "Set up safely for Tricep Extension by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/O7e8j8K3cJo\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Incline Bench Press",
+    target: "Chest",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Set up safely for Incline Bench Press by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/IP4oeKh1Sd4?si=0ApVvt2iryzpb-gO\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Chest Fly",
+    target: "Chest",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 12-15 reps",
+    steps: [
+      "Set up safely for Chest Fly by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/V5mlG3N-weQ?si=el2IXPDUHTf8Sm1_\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Leg Curl",
+    target: "Legs",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10-12 reps",
+    steps: [
+      "Set up safely for Leg Curl by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/3gZm9wGTsEo\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Arnold Press",
+    target: "Shoulders",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Set up safely for Arnold Press by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/TEzehbTzBD0\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Romanian Deadlift",
+    target: "Legs",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 8-10 reps",
+    steps: [
+      "Set up safely for Romanian Deadlift by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/xgusDooVfKU\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Military Press",
+    target: "Shoulders",
+    goal: "strength",
+    setsReps: "3 sets x 5 reps",
+    steps: [
+      "Set up safely for Military Press by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/Ftb3rlCE-zo\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
+  },
+  {
+    name: "Preacher Curl",
+    target: "Arms",
+    goal: "muscle_gain",
+    setsReps: "3 sets x 10-12 reps",
+    steps: [
+      "Set up safely for Preacher Curl by checking your equipment and posture.",
+      "Perform the exercise through a full range of motion under control.",
+      "Focus on proper muscle contraction and controlled movement."
+],
+    tips: [
+      "Keep your core engaged throughout the movement.",
+      "Focus on technique and control rather than heavy weight."
+],
+    mediaUrl: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/jilTTmyEoYY\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    mediaType: "video"
   }
 ];
 

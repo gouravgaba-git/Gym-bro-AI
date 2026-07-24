@@ -59,7 +59,7 @@ function formatMediaUrl(url) {
   }
 
   if (embedUrl.startsWith("http")) {
-    return `<iframe width="560" height="315" src="${embedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    return `<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="${embedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
   }
   return embedUrl;
 }
@@ -69,16 +69,30 @@ function getLiveExerciseLink(exerciseName) {
     const linksPath = path.join(__dirname, "../exercises_links.txt");
     if (fs.existsSync(linksPath)) {
       const content = fs.readFileSync(linksPath, "utf-8");
+      const query = (exerciseName || "").trim().toLowerCase();
+      if (!query) return null;
+
+      let exactMatch = null;
+      let partialMatch = null;
+
       for (const line of content.split("\n")) {
         const parts = line.split(" - ");
         if (parts.length >= 2) {
           const name = parts[0].trim();
           const link = parts.slice(1).join(" - ").trim();
-          if (name && exerciseName && name.toLowerCase() === exerciseName.trim().toLowerCase() && link && (link.startsWith("http") || link.startsWith("<iframe"))) {
-            return formatMediaUrl(link);
+          const nameLower = name.toLowerCase();
+          if (name && link && (link.startsWith("http") || link.startsWith("<iframe"))) {
+            if (nameLower === query) {
+              exactMatch = formatMediaUrl(link);
+              break;
+            }
+            if (!partialMatch && (nameLower.includes(query) || query.includes(nameLower))) {
+              partialMatch = formatMediaUrl(link);
+            }
           }
         }
       }
+      return exactMatch || partialMatch;
     }
   } catch (e) {}
   return null;

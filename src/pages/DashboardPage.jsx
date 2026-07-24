@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import WorkoutForm from "../components/WorkoutForm";
 import Spinner from "../components/Spinner";
 import ResultsDashboard from "../components/ResultsDashboard";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import { API_BASE_URL } from "../config/api";
 
 const DashboardPage = ({ generateWorkoutPlanFallback }) => {
   const [goal, setGoal] = useState("muscle_gain");
