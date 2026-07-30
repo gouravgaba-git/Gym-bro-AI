@@ -66,17 +66,29 @@ export const AuthProvider = ({ children }) => {
     fetchCurrentUser();
   }, [token]);
 
-  // Login with Google GIS Credential token
-  const loginWithGoogle = async (credential) => {
+  // Login with Google GIS Credential token, CredentialResponse object, or Profile object
+  const loginWithGoogle = async (credentialOrProfile) => {
     try {
       setLoading(true);
+      let payload = {};
+      if (typeof credentialOrProfile === "string") {
+        payload = { credential: credentialOrProfile };
+      } else if (credentialOrProfile?.credential) {
+        payload = { credential: credentialOrProfile.credential };
+      } else if (credentialOrProfile?.profile) {
+        payload = { profile: credentialOrProfile.profile };
+      } else {
+        payload = { profile: credentialOrProfile };
+      }
+
       const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ credential })
+        body: JSON.stringify(payload)
       });
+
 
       const data = await res.json();
 

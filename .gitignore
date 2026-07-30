@@ -23,8 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environments
+# Environments & secrets
 .env
 .env.local
 .env.*
 server/.env
+client_secret*.json

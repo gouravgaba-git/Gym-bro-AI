@@ -3,15 +3,17 @@ import SettingsCard from "../components/profile/SettingsCard";
 
 const SettingsPage = () => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      <header style={{ margin: 0 }}>
-        <h1 id="app-heading-title" style={{ fontSize: "36px", marginBottom: "8px" }}>App Settings</h1>
-        <p className="hero-subtitle">
-          Manage your active session, notification alerts, and account privacy options.
+    <div className="page-fade-in" style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}>
+      <header className="compact-hero-header" style={{ marginBottom: "0" }}>
+        <h1 className="compact-hero-title" style={{ fontSize: "36px" }}>
+          Settings
+        </h1>
+        <p className="compact-hero-subtitle" style={{ fontSize: "14px" }}>
+          Manage your account details, preferences, and privacy.
         </p>
       </header>
 
-      <main>
+      <main style={{ width: "100%" }}>
         <SettingsCard />
       </main>
     </div>

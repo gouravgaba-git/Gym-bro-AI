@@ -2,31 +2,25 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import Camerahandle from "./cameraupload.jsx";
 import PoseDetection from "./posedet.jsx";
-import { API_BASE_URL } from "../config/api";
 
 function InfoTemplate({ exercise, onClose }) {
     const [details, setDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const name = exercise && typeof exercise === "object" ? exercise.name : (exercise || "");
-    const target = exercise && typeof exercise === "object" ? exercise.target : "Full Body";
-    const setsReps = exercise && typeof exercise === "object" ? exercise.setsReps : null;
+    if (!exercise) return null;
 
-    const [prevName, setPrevName] = useState(null);
-    if (name !== prevName) {
-        setPrevName(name);
-        setIsLoading(true);
-        setDetails(null);
-    }
+    // Destructure exercise object with fallback handling
+    const name = typeof exercise === "object" ? exercise.name : exercise;
+    const target = typeof exercise === "object" ? exercise.target : "Full Body";
+    const setsReps = typeof exercise === "object" ? exercise.setsReps : null;
 
     useEffect(() => {
-        if (!exercise) return;
-
         // Disable background scrolling when modal is open
         document.body.style.overflow = "hidden";
 
-        // Fetch instructions and tips dynamically from backend API
-        fetch(`${API_BASE_URL}/api/exercises/details/${encodeURIComponent(name)}`)
+        // Fetch instructions and tips dynamically from the backend API
+        setIsLoading(true);
+        fetch(`http://localhost:5000/api/exercises/details/${encodeURIComponent(name)}`)
             .then((res) => {
                 if (!res.ok) throw new Error("Network response was not ok");
                 return res.json();
@@ -37,6 +31,7 @@ function InfoTemplate({ exercise, onClose }) {
             })
             .catch((err) => {
                 console.warn("Backend API unreachable for details. Loading local static fallback. Error:", err.message);
+                // Graceful fallback to client-side data module via dynamic import
                 import("../data/exerciseDetails.js")
                     .then((module) => {
                         const localData = module.getExerciseDetails(name, target);
@@ -53,9 +48,7 @@ function InfoTemplate({ exercise, onClose }) {
             // Restore scrolling when modal closes
             document.body.style.overflow = "auto";
         };
-    }, [exercise, name, target]);
-
-    if (!exercise) return null;
+    }, [name, target]);
 
     return createPortal(
         <div className="overlay" onClick={onClose}>
@@ -75,41 +68,35 @@ function InfoTemplate({ exercise, onClose }) {
                         </div>
                     </div>
                     <button className="close-modal-btn" onClick={onClose} aria-label="Close modal">
-                        ✕
+                        ✖
                     </button>
                 </div>
 
                 {isLoading || !details ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 0', gap: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0' }}>
                         <div className="spinner"></div>
-                        <p style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                            Loading Movement Guide...
-                        </p>
                     </div>
                 ) : (
                     <>
                         {/* Main Content Grid */}
                         <div className="modal-grid-layout">
-                            {/* Left Side: Media Player Wrapper */}
+                            {/* Left Side: Media Container (Future-Proofed for Video) */}
                             <div className="modal-media-wrapper">
                                 {details.mediaType === "video" ? (
-                                    details.mediaUrl && details.mediaUrl.trim().startsWith("<iframe") ? (
-                                        <div 
-                                            className="exercise-media-element iframe-container"
-                                            dangerouslySetInnerHTML={{ __html: details.mediaUrl }}
-                                        />
-                                    ) : (
-                                        <video
-                                            src={details.mediaUrl}
-                                            className="exercise-media-element"
-                                            controls
-                                            autoPlay
-                                            muted
-                                            loop
-                                        />
-                                    )
+                                    /* 
+                                       Future Video Player Block:
+                                       To use video in the future, set mediaType to 'video' and mediaUrl to your file/embed link.
+                                    */
+                                    <video
+                                        src={details.mediaUrl}
+                                        className="exercise-media-element"
+                                        controls
+                                        autoPlay
+                                        muted
+                                        loop
+                                    />
                                 ) : (
-                                    <div className="image-container-relative" style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                    <div className="image-container-relative">
                                         <img
                                             src={details.mediaUrl || "/exercise_placeholder.png"}
                                             alt={`${name} demonstration`}
@@ -122,9 +109,7 @@ function InfoTemplate({ exercise, onClose }) {
 
                             {/* Right Side: Step-by-Step Form Guide */}
                             <div className="modal-steps-wrapper">
-                                <h3 className="section-subtitle" style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px', marginBottom: '12px' }}>
-                                    How To Perform
-                                </h3>
+                                <h3 className="section-subtitle">How To Perform</h3>
                                 <ol className="modern-steps-list">
                                     {details.steps.map((step, index) => (
                                         <li key={index} className="modern-step-item">
@@ -136,7 +121,7 @@ function InfoTemplate({ exercise, onClose }) {
                             </div>
                         </div>
 
-                        {/* Bottom Section: Pro Tips & Coaching Cues */}
+                        {/* Bottom Section: Pro Tips & Safety Advice */}
                         {details.tips && details.tips.length > 0 && (
                             <div className="modal-tips-section">
                                 <div className="tips-header-row">
@@ -156,14 +141,14 @@ function InfoTemplate({ exercise, onClose }) {
                     </>
                 )}
 
-                {/* Secondary Bottom Close Button & Camera/Pose Actions */}
+                {/* Secondary Bottom Close Button */}
                 <div className="modal-footer-close">
                     <button className="footer-close-btn" onClick={onClose}>
                         Close Guide
                     </button>
                     <div className="modal-footer-actions">
                         <Camerahandle />
-                        <PoseDetection exerciseName={name} />
+                        <PoseDetection />
                     </div>
                 </div>
             </div>

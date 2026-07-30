@@ -4,4 +4,5 @@
     <string name="title_activity_main">Gymz AI</string>
     <string name="package_name">com.gymzai.app</string>
     <string name="custom_url_scheme">com.gymzai.app</string>
+    <string name="server_client_id">152119405524-aulquemb82p02gpqdnj1ggpcmp9jgctv.apps.googleusercontent.com</string>
 </resources>

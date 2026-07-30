@@ -24,7 +24,7 @@ const GOALS = [
   },
   {
     id: 'strength',
-    title: 'Raw Strength',
+    title: 'Strength',
     description: 'Focus on low reps, heavy compound movements, and neural drive.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -40,6 +40,9 @@ const LEVELS = [
   { id: 'advanced', label: 'Advanced' }
 ];
 
+/**
+ * WorkoutForm captures training goals, level, and conditional options.
+ */
 const WorkoutForm = ({
   goal,
   setGoal,
@@ -61,15 +64,16 @@ const WorkoutForm = ({
 
   const handleLevelChange = (newLevel) => {
     setLevel(newLevel);
+    // Reset secondary states to avoid edge cases when toggling between levels
     if (newLevel === 'beginner') {
       setDays(null);
       setSelectedMuscles([]);
     } else if (newLevel === 'intermediate') {
-      setDays('3');
+      setDays('3'); // Default to 3 days split
       setSelectedMuscles([]);
     } else if (newLevel === 'advanced') {
       setDays(null);
-      setSelectedMuscles([]);
+      setSelectedMuscles([]); // Default selection is empty
     }
   };
 
@@ -81,68 +85,43 @@ const WorkoutForm = ({
   };
 
   return (
-    <form className="form-section workflow-step-wrapper" onSubmit={handleSubmitForm} id="workout-generator-form" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      {/* Subtle Vertical Workflow Line Connector */}
-      <div className="workflow-progress-line" />
-
-      {/* 1. Goal Selection (Compact Modern Cards) */}
+    <form className="card form-section" onSubmit={handleSubmitForm} id="workout-generator-form">
+      {/* 1. Goal Selection */}
       <div>
-        <div className="step-label-aligned">
-          <span className="step-number-indicator">1</span>
-          <span>Target Fitness Goal</span>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }} role="radiogroup" aria-label="Fitness Goal">
+        <label className="section-label">
+          <span className="label-number">1</span> Choose Fitness Goal
+        </label>
+        <div className="goal-grid" role="radiogroup" aria-label="Fitness Goal">
           {GOALS.map((g) => {
             const isSelected = goal === g.id;
             return (
               <div
                 key={g.id}
                 id={`goal-card-${g.id}`}
-                className={`goal-card-compact ${isSelected ? 'selected' : ''}`}
+                className={`goal-card ${isSelected ? 'selected' : ''}`}
                 onClick={() => setGoal(g.id)}
                 role="radio"
                 aria-checked={isSelected}
                 tabIndex={0}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGoal(g.id); }}
               >
-                <div className="card-icon-box">
+                <div className="goal-icon-wrapper">
                   {g.icon}
                 </div>
-                <div className="card-text-wrapper">
-                  <div className="card-title-text">{g.title}</div>
-                  <div className="card-desc-text">{g.description}</div>
-                </div>
-                <div className="chevron-arrow">
-                  ➔
-                </div>
+                <div className="goal-title">{g.title}</div>
+                <div className="goal-desc">{g.description}</div>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* 2. Level Selection Segmented Bar */}
+      {/* 2. Level Selection */}
       <div>
-        <div className="step-label-aligned">
-          <span className="step-number-indicator">2</span>
-          <span>Training Experience</span>
-        </div>
-        <div
-          id="level-selector"
-          role="group"
-          aria-label="Experience Level"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "4px",
-            background: "rgba(15, 21, 36, 0.75)",
-            padding: "4px",
-            borderRadius: "14px",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)"
-          }}
-        >
+        <label className="section-label" htmlFor="level-selector">
+          <span className="label-number">2</span> Choose Experience Level
+        </label>
+        <div className="level-group" id="level-selector" role="group" aria-label="Experience Level">
           {LEVELS.map((l) => {
             const isSelected = level === l.id;
             return (
@@ -153,15 +132,6 @@ const WorkoutForm = ({
                 className={`level-btn ${isSelected ? 'selected' : ''}`}
                 onClick={() => handleLevelChange(l.id)}
                 aria-pressed={isSelected}
-                style={{
-                  height: "36px",
-                  borderRadius: "10px",
-                  fontSize: "13px",
-                  fontWeight: "700",
-                  border: "none",
-                  transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-                  boxShadow: isSelected ? "0 2px 10px rgba(255, 75, 43, 0.25)" : "none"
-                }}
               >
                 {l.label}
               </button>
@@ -179,30 +149,18 @@ const WorkoutForm = ({
         setSelectedMuscles={setSelectedMuscles}
       />
 
-      {/* Premium Primary Action CTA Button */}
+      {/* 4. Action Submit Button */}
       <button
         type="submit"
         id="generate-plan-button"
         className="generate-btn"
         disabled={isGenerating || !isFormValid()}
       >
-        {isGenerating ? (
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
-            <svg className="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-              <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
-              <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
-            </svg>
-            <span>Generating Plan...</span>
-          </span>
-        ) : (
-          <>
-            <span>Generate Workout Plan</span>
-            <span className="cta-arrow">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </span>
-          </>
+        <span>{isGenerating ? 'Generating Plan...' : 'Generate Workout Plan'}</span>
+        {!isGenerating && (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         )}
       </button>
     </form>

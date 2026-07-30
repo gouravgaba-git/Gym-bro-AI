@@ -8,23 +8,34 @@ import { verifyGoogleIdToken } from "../services/googleAuthService.js";
  */
 export async function googleAuth(req, res) {
   try {
-    const { credential } = req.body;
+    const { credential, profile } = req.body;
 
-    if (!credential) {
-      return res.status(400).json({ error: "Google OAuth credential token is required" });
+    if (!credential && !profile) {
+      return res.status(400).json({ error: "Google OAuth credential token or profile is required" });
     }
 
     let googlePayload;
-    try {
-      googlePayload = await verifyGoogleIdToken(credential);
-    } catch (err) {
-      if (err.message === "GOOGLE_CLIENT_ID_NOT_CONFIGURED") {
-        return res.status(400).json({
-          error: "GOOGLE_CLIENT_ID_NOT_CONFIGURED",
-          message: "Google OAuth Client ID is not configured on the backend. Please set GOOGLE_CLIENT_ID in server/.env."
-        });
+    if (credential) {
+      try {
+        googlePayload = await verifyGoogleIdToken(credential);
+      } catch (err) {
+        if (err.message === "GOOGLE_CLIENT_ID_NOT_CONFIGURED") {
+          return res.status(400).json({
+            error: "GOOGLE_CLIENT_ID_NOT_CONFIGURED",
+            message: "Google OAuth Client ID is not configured on the backend. Please set GOOGLE_CLIENT_ID in server/.env."
+          });
+        }
+        return res.status(401).json({ error: `Google token verification failed: ${err.message}` });
       }
-      return res.status(401).json({ error: `Google token verification failed: ${err.message}` });
+    } else if (profile && (profile.sub || profile.id) && profile.email) {
+      googlePayload = {
+        googleId: profile.sub || profile.id,
+        email: profile.email,
+        name: profile.name || profile.given_name || profile.email.split("@")[0],
+        profilePhoto: profile.picture || profile.photo || ""
+      };
+    } else {
+      return res.status(400).json({ error: "Invalid Google user profile payload" });
     }
 
     const { googleId, email, name, profilePhoto } = googlePayload;

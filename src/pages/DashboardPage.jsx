@@ -4,8 +4,9 @@ import Spinner from "../components/Spinner";
 import ResultsDashboard from "../components/ResultsDashboard";
 import { useAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/api";
+import { generateWorkoutPlan as defaultFallback } from "../utils/workoutGenerator";
 
-const DashboardPage = ({ generateWorkoutPlanFallback }) => {
+const DashboardPage = ({ generateWorkoutPlanFallback = defaultFallback }) => {
   const { user } = useAuth();
   
   // Persist fitness goal from user profile or localStorage
@@ -61,58 +62,19 @@ const DashboardPage = ({ generateWorkoutPlanFallback }) => {
   };
 
   return (
-    <div className="page-fade-in" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+    <div className="page-fade-in" style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
       {/* Sleek Hero Header */}
-      <header className="compact-hero-header" style={{ marginBottom: "4px" }}>
-        <h1 className="compact-hero-title" style={{ fontSize: "32px" }}>
+      <header className="compact-hero-header" style={{ marginBottom: "8px" }}>
+        <h1 className="compact-hero-title">
           Train Smarter
         </h1>
-        <p className="compact-hero-subtitle" style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+        <p className="compact-hero-subtitle">
           Choose your primary fitness goal.
         </p>
       </header>
 
-      {/* User Quick Streak Stats Badge */}
-      {user && (
-        <div className="card" style={{ padding: "12px 16px", borderRadius: "18px", background: "rgba(15, 21, 36, 0.5)" }}>
-          <div className="stats-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-            <div className="stat-card" style={{ padding: "6px 10px" }}>
-              <div className="stat-card-top" style={{ gap: "6px" }}>
-                <span className="stat-icon" style={{ width: "24px", height: "24px", fontSize: "11px", background: "rgba(255, 75, 43, 0.15)", color: "#ff4b2b" }}>🔥</span>
-                <span className="stat-value" style={{ fontSize: "13px" }}>{user?.currentStreak || 0}d</span>
-              </div>
-              <div className="stat-card-bottom" style={{ marginTop: "2px" }}>
-                <span className="stat-title" style={{ fontSize: "10px" }}>Streak</span>
-              </div>
-            </div>
-
-            <div className="stat-card" style={{ padding: "6px 10px" }}>
-              <div className="stat-card-top" style={{ gap: "6px" }}>
-                <span className="stat-icon" style={{ width: "24px", height: "24px", fontSize: "11px", background: "rgba(59, 130, 246, 0.15)", color: "#3b82f6" }}>🏋️</span>
-                <span className="stat-value" style={{ fontSize: "13px" }}>{user?.workoutsCompleted || 0}</span>
-              </div>
-              <div className="stat-card-bottom" style={{ marginTop: "2px" }}>
-                <span className="stat-title" style={{ fontSize: "10px" }}>Workouts</span>
-              </div>
-            </div>
-
-            <div className="stat-card" style={{ padding: "6px 10px" }}>
-              <div className="stat-card-top" style={{ gap: "6px" }}>
-                <span className="stat-icon" style={{ width: "24px", height: "24px", fontSize: "11px", background: "rgba(16, 185, 129, 0.15)", color: "#10b981" }}>🎯</span>
-                <span className="stat-value" style={{ fontSize: "12px", textTransform: "capitalize" }}>
-                  {(goal || "muscle_gain").replace("_", " ")}
-                </span>
-              </div>
-              <div className="stat-card-bottom" style={{ marginTop: "2px" }}>
-                <span className="stat-title" style={{ fontSize: "10px" }}>Target</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Interactive Goal Form & Results */}
-      <main style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <main style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
         <WorkoutForm
           goal={goal}
           setGoal={handleGoalChange}

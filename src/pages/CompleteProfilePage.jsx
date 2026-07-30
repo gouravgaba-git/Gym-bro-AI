@@ -49,102 +49,131 @@ const CompleteProfilePage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="bg-[#141c27] border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#bbf246] via-cyan-400 to-purple-500" />
-
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#bbf246]/10 border border-[#bbf246]/30">
-            <span className="text-xl">💪</span>
-            <span className="font-extrabold text-xs tracking-wider text-[#bbf246] uppercase">GYMBRO ATHLETE PROFILE</span>
+    <div className="profile-setup-wrapper">
+      <div className="profile-setup-card">
+        {/* Header */}
+        <div className="profile-setup-header">
+          <div className="logo-container">
+            <span className="logo-icon" role="img" aria-label="Gym Bro Logo">💪</span>
+            <span className="logo-text">The Gym Bro</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Configure Fitness Metrics
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
-            Welcome, <strong className="text-white">{user?.name}</strong>! Set up your metrics to receive personalized workout splits.
+          <h1 className="profile-setup-title">Complete Your Profile</h1>
+          <p className="profile-setup-subtitle">
+            Help us personalize your AI workout plans, {user?.name || "Athlete"}.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="text-xs font-black text-[#bbf246] uppercase tracking-wider border-b border-white/10 pb-2">Step 1: Physical Metrics</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Age (years)</label>
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                placeholder="e.g. 25"
-                required
-                className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all"
-              />
-            </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="profile-setup-form">
+          {/* Step 1: Physical Metrics */}
+          <div>
+            <div className="profile-section-heading">Step 1: Physical Metrics</div>
+            <div className="profile-grid-two-col">
+              <div className="input-field-group">
+                <label className="input-field-label" htmlFor="age">Age (years)</label>
+                <input
+                  id="age"
+                  type="number"
+                  name="age"
+                  value={formData.age}
+                  onChange={handleChange}
+                  placeholder="e.g. 25"
+                  required
+                  className="profile-setup-input"
+                />
+              </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Gender</label>
-              <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Non-Binary">Non-Binary</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-              </select>
-            </div>
+              <div className="input-field-group">
+                <label className="input-field-label" htmlFor="gender">Gender</label>
+                <select
+                  id="gender"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="profile-setup-select"
+                  required
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Non-Binary">Non-Binary</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+              </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Height (cm)</label>
-              <input
-                type="number"
-                name="height"
-                value={formData.height}
-                onChange={handleChange}
-                placeholder="e.g. 180"
-                required
-                className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all"
-              />
-            </div>
+              <div className="input-field-group">
+                <label className="input-field-label" htmlFor="height">Height (cm)</label>
+                <input
+                  id="height"
+                  type="number"
+                  name="height"
+                  value={formData.height}
+                  onChange={handleChange}
+                  placeholder="e.g. 180"
+                  required
+                  className="profile-setup-input"
+                />
+              </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Current Weight (kg)</label>
-              <input
-                type="number"
-                name="weight"
-                value={formData.weight}
-                onChange={handleChange}
-                placeholder="e.g. 78"
-                required
-                className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all"
-              />
-            </div>
-          </div>
-
-          <div className="text-xs font-black text-cyan-400 uppercase tracking-wider border-b border-white/10 pb-2">Step 2: Training & Goal Selection</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Primary Fitness Goal</label>
-              <select name="fitnessGoal" value={formData.fitnessGoal} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all">
-                <option value="muscle_gain">Muscle Gain</option>
-                <option value="fat_loss">Fat Loss</option>
-                <option value="strength">Raw Strength</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Workout Experience</label>
-              <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="w-full px-4 py-3 rounded-xl bg-[#0b1017] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-[#bbf246] focus:ring-1 focus:ring-[#bbf246] transition-all">
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-              </select>
+              <div className="input-field-group">
+                <label className="input-field-label" htmlFor="weight">Current Weight (kg)</label>
+                <input
+                  id="weight"
+                  type="number"
+                  name="weight"
+                  value={formData.weight}
+                  onChange={handleChange}
+                  placeholder="e.g. 78"
+                  required
+                  className="profile-setup-input"
+                />
+              </div>
             </div>
           </div>
 
-          <div className="pt-4">
-            <button type="submit" className="w-full py-4 px-6 rounded-2xl bg-[#bbf246] hover:bg-[#d9f99d] text-[#0b1017] font-black text-sm sm:text-base tracking-wider uppercase shadow-lg shadow-[#bbf246]/20 active:scale-95 transition-all cursor-pointer disabled:opacity-50" disabled={loading}>
-              {loading ? "Saving Profile..." : "Save Profile & Continue 🚀"}
-            </button>
+          {/* Step 2: Training & Goal Selection */}
+          <div>
+            <div className="profile-section-heading">Step 2: Training & Goal Selection</div>
+            <div className="profile-grid-two-col">
+              <div className="input-field-group">
+                <label className="input-field-label" htmlFor="fitnessGoal">Primary Fitness Goal</label>
+                <select
+                  id="fitnessGoal"
+                  name="fitnessGoal"
+                  value={formData.fitnessGoal}
+                  onChange={handleChange}
+                  className="profile-setup-select"
+                >
+                  <option value="muscle_gain">Muscle Gain</option>
+                  <option value="fat_loss">Fat Loss</option>
+                  <option value="strength">Raw Strength</option>
+                </select>
+              </div>
+
+              <div className="input-field-group">
+                <label className="input-field-label" htmlFor="experienceLevel">Workout Experience</label>
+                <select
+                  id="experienceLevel"
+                  name="experienceLevel"
+                  value={formData.experienceLevel}
+                  onChange={handleChange}
+                  className="profile-setup-select"
+                >
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
+              </div>
+            </div>
           </div>
+
+          {/* Save Button */}
+          <button
+            type="submit"
+            className="profile-submit-btn"
+            disabled={loading}
+          >
+            <span>{loading ? "Saving Profile..." : "Save & Continue →"}</span>
+          </button>
         </form>
       </div>
     </div>

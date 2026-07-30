@@ -1,7 +1,10 @@
 import React from 'react';
 
-const ADVANCED_MUSCLES = ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms', 'Core', 'Triceps', 'Forearms'];
+const ADVANCED_MUSCLES = ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms', 'Core'];
 
+/**
+ * LevelController renders different selection elements conditionally based on the user's selected level.
+ */
 const LevelController = ({
   level,
   days,
@@ -9,79 +12,49 @@ const LevelController = ({
   selectedMuscles,
   setSelectedMuscles
 }) => {
-  // Beginner view: Soft contextual recommendation card
+  // Beginner view: Lock to Full Body, display tips badge
   if (level === 'beginner') {
     return (
-      <div className="conditional-container" id="beginner-settings" style={{ margin: 0 }}>
-        <div className="recommendation-card-context">
-          <span className="recommendation-icon" role="img" aria-label="Recommendation Icon">💡</span>
+      <div className="conditional-container" id="beginner-settings">
+        <div className="tip-badge">
+          <span className="tip-badge-icon" role="img" aria-label="Tip Icon">💡</span>
           <div>
-            <div className="recommendation-title">Smart Training Recommendation</div>
-            <div className="recommendation-body">
-              For beginner athletes, a 4-Day Full Body routine yields the fastest strength gains and neural recovery.
-            </div>
+            <strong>Full Body Locked:</strong> Beginners excel best on 4-Day Full Body splits for maximum recovery, neural adaptations, and consistent progress.
           </div>
         </div>
       </div>
     );
   }
 
-  // Intermediate view: Select 3, 4, 5, or 6 Day Split
+  // Intermediate view: Select 3 Day or 4 Day Split
   if (level === 'intermediate') {
     return (
-      <div className="conditional-container" id="intermediate-settings" style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div className="step-label-aligned" style={{ marginBottom: "2px" }}>
-          <span className="step-number-indicator">3</span>
-          <span>Choose Weekly Frequency</span>
-        </div>
-        <div className="days-grid" id="day-selection" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "10px" }}>
+      <div className="conditional-container" id="intermediate-settings">
+        <label className="section-label" htmlFor="day-selection">
+          <span className="label-number">3</span> Choose Weekly Frequency
+        </label>
+        <div className="days-grid" id="day-selection">
           <div
             id="day-split-3"
-            className={`day-option ${days === '3' || days === 3 ? 'selected' : ''}`}
+            className={`day-option ${days === '3' ? 'selected' : ''}`}
             onClick={() => setDays('3')}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('3'); }}
-            style={{ borderRadius: "16px", padding: "12px 16px", cursor: "pointer" }}
           >
-            <div className="day-option-title" style={{ fontSize: "14px", fontWeight: "800" }}>3 Day Split</div>
-            <div className="day-option-desc" style={{ fontSize: "12px" }}>Ideal for Push / Pull / Legs (PPL) routines</div>
+            <div className="day-option-title">3 Day Split</div>
+            <div className="day-option-desc">Ideal for Push / Pull / Legs (PPL) routines</div>
           </div>
           <div
             id="day-split-4"
-            className={`day-option ${days === '4' || days === 4 ? 'selected' : ''}`}
+            className={`day-option ${days === '4' ? 'selected' : ''}`}
             onClick={() => setDays('4')}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('4'); }}
-            style={{ borderRadius: "16px", padding: "12px 16px", cursor: "pointer" }}
           >
-            <div className="day-option-title" style={{ fontSize: "14px", fontWeight: "800" }}>4 Day Split</div>
-            <div className="day-option-desc" style={{ fontSize: "12px" }}>Ideal for Upper / Lower or Torso / Limbs splits</div>
-          </div>
-          <div
-            id="day-split-5"
-            className={`day-option ${days === '5' || days === 5 ? 'selected' : ''}`}
-            onClick={() => setDays('5')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('5'); }}
-            style={{ borderRadius: "16px", padding: "12px 16px", cursor: "pointer" }}
-          >
-            <div className="day-option-title" style={{ fontSize: "14px", fontWeight: "800" }}>5 Day Split</div>
-            <div className="day-option-desc" style={{ fontSize: "12px" }}>Ideal for Push / Pull / Legs + Upper routines</div>
-          </div>
-          <div
-            id="day-split-6"
-            className={`day-option ${days === '6' || days === 6 ? 'selected' : ''}`}
-            onClick={() => setDays('6')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('6'); }}
-            style={{ borderRadius: "16px", padding: "12px 16px", cursor: "pointer" }}
-          >
-            <div className="day-option-title" style={{ fontSize: "14px", fontWeight: "800" }}>6 Day Split</div>
-            <div className="day-option-desc" style={{ fontSize: "12px" }}>High volume PPL x2 routines</div>
+            <div className="day-option-title">4 Day Split</div>
+            <div className="day-option-desc">Ideal for Upper / Lower or Torso / Limbs splits</div>
           </div>
         </div>
       </div>
@@ -100,15 +73,14 @@ const LevelController = ({
     };
 
     return (
-      <div className="conditional-container" id="advanced-settings" style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <div className="step-label-aligned" style={{ marginBottom: "2px" }}>
-          <span className="step-number-indicator">3</span>
-          <span>Select Target Muscle Groups</span>
-        </div>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '12px', marginBottom: '6px', marginLeft: "4px" }}>
-          Select target muscle groups to custom-tailor your hypertrophic splits.
+      <div className="conditional-container" id="advanced-settings">
+        <label className="section-label">
+          <span className="label-number">3</span> Select Target Muscle Groups
+        </label>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>
+          Select at least one muscle group to custom-tailor your hypertrophic splits.
         </p>
-        <div className="muscle-grid" role="group" aria-label="Select target muscle groups" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: "8px" }}>
+        <div className="muscle-grid" role="group" aria-label="Select target muscle groups">
           {ADVANCED_MUSCLES.map((muscle) => {
             const isSelected = (selectedMuscles || []).includes(muscle);
             return (
@@ -121,12 +93,11 @@ const LevelController = ({
                 aria-checked={isSelected}
                 tabIndex={0}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleToggleMuscle(muscle); }}
-                style={{ borderRadius: "14px", padding: "10px 14px", cursor: "pointer" }}
               >
-                <div className="custom-checkbox" aria-hidden="true" style={{ width: "18px", height: "18px", borderRadius: "6px" }}>
+                <div className="custom-checkbox" aria-hidden="true">
                   {isSelected && '✓'}
                 </div>
-                <span className="muscle-name" style={{ fontSize: "13px", fontWeight: "700" }}>{muscle}</span>
+                <span className="muscle-name">{muscle}</span>
               </div>
             );
           })}

@@ -6,14 +6,15 @@ const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const navRef = useRef(null);
   const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (navRef.current && !navRef.current.contains(e.target)) {
         setDropdownOpen(false);
+        setMobileMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -21,44 +22,17 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav
-      className="navbar-container"
-    >
+    <nav className="navbar-container" ref={navRef}>
       {/* Left: Brand Logo */}
       <div
         className="navbar-brand"
-        onClick={() => navigate("/dashboard")}
-        style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}
+        onClick={() => {
+          setMobileMenuOpen(false);
+          navigate("/dashboard");
+        }}
       >
-        <div
-          style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "10px",
-            background: "var(--primary-gradient)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "16px",
-            boxShadow: "0 3px 12px rgba(255, 75, 43, 0.3)"
-          }}
-        >
-          💪
-        </div>
-        <span
-          style={{
-            fontFamily: "var(--font-heading)",
-            fontWeight: "900",
-            fontSize: "15px",
-            letterSpacing: "1.2px",
-            textTransform: "uppercase",
-            background: "var(--primary-gradient)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent"
-          }}
-        >
-          The Gym Bro
-        </span>
+        <div className="brand-logo-icon">💪</div>
+        <span className="brand-logo-text">The Gym Bro</span>
       </div>
 
       {/* Center: Desktop Navigation Links */}
@@ -84,21 +58,15 @@ const Navbar = () => {
       </div>
 
       {/* Right: Auth Action / Avatar Menu & Mobile Hamburger */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <div className="navbar-actions" ref={dropdownRef}>
+      <div className="navbar-right-group">
+        <div className="navbar-actions">
           {!isAuthenticated ? (
             <button
+              type="button"
               className="google-nav-btn"
               onClick={() => navigate("/login")}
-              style={{
-                height: "34px",
-                padding: "0 14px",
-                borderRadius: "100px",
-                fontSize: "12px",
-                fontWeight: "700"
-              }}
             >
-              <svg className="google-icon" width="14" height="14" viewBox="0 0 24 24">
+              <svg className="google-icon" width="16" height="16" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -119,22 +87,20 @@ const Navbar = () => {
               <span>Login</span>
             </button>
           ) : (
-            <div className="avatar-dropdown-wrapper" style={{ position: "relative" }}>
+            <div className="avatar-dropdown-wrapper">
               <div
                 className="avatar-btn"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                style={{ height: "34px", padding: "3px 10px 3px 5px", borderRadius: "100px" }}
               >
                 <img
                   src={user?.profilePhoto || "https://lh3.googleusercontent.com/a/default-user"}
                   alt={user?.name || "User Avatar"}
                   className="avatar-img"
-                  style={{ width: "26px", height: "26px" }}
                   onError={(e) => {
                     e.target.src = "https://lh3.googleusercontent.com/a/default-user";
                   }}
                 />
-                <span className="avatar-name" style={{ fontSize: "12px" }}>
+                <span className="avatar-name">
                   {user?.name?.split(" ")[0] || "Athlete"}
                 </span>
                 <span className="dropdown-arrow">▾</span>
@@ -155,15 +121,6 @@ const Navbar = () => {
                     }}
                   >
                     👤 My Profile
-                  </button>
-                  <button
-                    className="dropdown-item"
-                    onClick={() => {
-                      setDropdownOpen(false);
-                      navigate("/dashboard");
-                    }}
-                  >
-                    ⚡ Dashboard
                   </button>
                   <button
                     className="dropdown-item"
@@ -193,10 +150,10 @@ const Navbar = () => {
 
         {/* Mobile Hamburger Button */}
         <button
+          type="button"
           className="mobile-hamburger-btn"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Navigation Menu"
-          style={{ width: "34px", height: "34px", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           {mobileMenuOpen ? "✕" : "☰"}
         </button>
@@ -208,28 +165,27 @@ const Navbar = () => {
           <NavLink
             to="/dashboard"
             onClick={() => setMobileMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            className={({ isActive }) => (isActive ? "drawer-item active" : "drawer-item")}
           >
             ⚡ Dashboard
           </NavLink>
           <NavLink
             to="/profile"
             onClick={() => setMobileMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            className={({ isActive }) => (isActive ? "drawer-item active" : "drawer-item")}
           >
             👤 My Profile
           </NavLink>
           <NavLink
             to="/settings"
             onClick={() => setMobileMenuOpen(false)}
-            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+            className={({ isActive }) => (isActive ? "drawer-item active" : "drawer-item")}
           >
             ⚙️ Settings
           </NavLink>
           {isAuthenticated ? (
             <button
-              className="dropdown-item logout"
-              style={{ textAlign: "left", width: "100%", marginTop: "8px" }}
+              className="drawer-item logout"
               onClick={() => {
                 setMobileMenuOpen(false);
                 logout();
@@ -240,8 +196,7 @@ const Navbar = () => {
             </button>
           ) : (
             <button
-              className="google-nav-btn"
-              style={{ width: "100%", marginTop: "8px", justifyContent: "center" }}
+              className="google-nav-btn drawer-google-btn"
               onClick={() => {
                 setMobileMenuOpen(false);
                 navigate("/login");

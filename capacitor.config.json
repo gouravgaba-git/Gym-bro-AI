@@ -1,5 +1,12 @@
 {
   "appId": "com.gymzai.app",
   "appName": "Gymz AI",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "152119405524-aulquemb82p02gpqdnj1ggpcmp9jgctv.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  }
 }
