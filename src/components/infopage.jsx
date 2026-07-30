@@ -56,31 +56,10 @@ function InfoTemplate({ exercise, onClose }) {
   };
 
   return createPortal(
-    <div
-      className="overlay"
-      onClick={handleClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.75)",
-        backdropFilter: "blur(10px)",
-        zIndex: 9999,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "16px"
-      }}
-    >
+    <div className="overlay" onClick={handleClose}>
       <div
         className="modal info-modal-custom"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          maxHeight: "90vh",
-          overflowY: "auto",
-          WebkitOverflowScrolling: "touch",
-          width: "100%",
-          maxWidth: "800px"
-        }}
       >
         {/* Header Section */}
         <div className="modal-header-section">
@@ -94,13 +73,14 @@ function InfoTemplate({ exercise, onClose }) {
             </div>
           </div>
           <button className="close-modal-btn" onClick={handleClose} aria-label="Close modal">
-            ✖
+            ✕
           </button>
         </div>
 
         {isLoading || !details ? (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0' }}>
+          <div className="modal-loading-state">
             <div className="spinner"></div>
+            <p className="loading-text">Loading Movement Guide...</p>
           </div>
         ) : (
           <>
@@ -109,14 +89,21 @@ function InfoTemplate({ exercise, onClose }) {
               {/* Left Side: Media Container */}
               <div className="modal-media-wrapper">
                 {details.mediaType === "video" ? (
-                  <video
-                    src={details.mediaUrl}
-                    className="exercise-media-element"
-                    controls
-                    autoPlay
-                    muted
-                    loop
-                  />
+                  details.mediaUrl && details.mediaUrl.trim().startsWith("<iframe") ? (
+                    <div 
+                      className="exercise-media-element iframe-container"
+                      dangerouslySetInnerHTML={{ __html: details.mediaUrl }}
+                    />
+                  ) : (
+                    <video
+                      src={details.mediaUrl}
+                      className="exercise-media-element"
+                      controls
+                      autoPlay
+                      muted
+                      loop
+                    />
+                  )
                 ) : (
                   <div className="image-container-relative">
                     <img
@@ -163,17 +150,21 @@ function InfoTemplate({ exercise, onClose }) {
                 </ul>
               </div>
             )}
+
+            {/* Live AI Coaching & Pose Detection Section */}
+            <div className="modal-ai-coach-section" style={{ width: "100%", marginTop: "12px" }}>
+              <PoseDetection exerciseName={name} />
+            </div>
           </>
         )}
 
-        {/* Secondary Bottom Close Button */}
+        {/* Bottom Footer Actions */}
         <div className="modal-footer-close">
           <button className="footer-close-btn" onClick={handleClose}>
             Close Guide
           </button>
           <div className="modal-footer-actions">
             <Camerahandle />
-            <PoseDetection />
           </div>
         </div>
       </div>

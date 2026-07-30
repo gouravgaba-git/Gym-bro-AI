@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import WorkoutStats from "../components/profile/WorkoutStats";
 import PersonalInformation from "../components/profile/PersonalInformation";
-import FitnessInformation from "../components/profile/FitnessInformation";
+import ExercisePreferences from "../components/profile/ExercisePreferences";
 import Achievements from "../components/profile/Achievements";
 import EditProfileModal from "../components/profile/EditProfileModal";
 import { ProfileSkeleton } from "../components/SkeletonLoader";
@@ -17,23 +17,23 @@ const ProfilePage = () => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      {/* Profile Header */}
-      <ProfileHeader user={user} />
+    <div className="profile-page-container">
+      {/* 1. Hero Profile Header Section */}
+      <ProfileHeader user={user} onEdit={() => setIsEditModalOpen(true)} />
 
-      {/* Workout Statistics Grid */}
+      {/* 2. Workout Statistics Grid */}
       <WorkoutStats user={user} />
 
-      {/* Personal & Fitness Information Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
+      {/* 3. Personal Metrics & Exercise Preferences 2-Column Grid */}
+      <div className="profile-2col-grid">
         <PersonalInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
-        <FitnessInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
+        <ExercisePreferences user={user} onEdit={() => setIsEditModalOpen(true)} />
       </div>
 
-      {/* Achievements & Badges */}
+      {/* 4. Achievements & Milestones */}
       <Achievements user={user} />
 
-      {/* Edit Profile Modal */}
+      {/* 5. Edit Profile Modal */}
       <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
     </div>
   );

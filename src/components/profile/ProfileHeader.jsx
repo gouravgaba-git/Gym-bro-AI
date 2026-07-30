@@ -1,53 +1,93 @@
 import React from "react";
+import { User, Mail, Calendar, ShieldCheck, Edit3, Flame, Dumbbell, Target } from "lucide-react";
 
-const ProfileHeader = ({ user }) => {
+const ProfileHeader = ({ user, onEdit }) => {
   const formattedJoinedDate = user?.joinedAt
     ? new Date(user.joinedAt).toLocaleDateString("en-US", {
-        month: "long",
+        month: "short",
         year: "numeric"
       })
-    : "Recently Joined";
+    : "Member";
+
+  const goalText = (user?.fitnessGoal || "muscle_gain").replace("_", " ");
 
   return (
-    <div className="card profile-header-card">
-      <div className="profile-header-main">
-        {/* Profile Picture from Google */}
-        <div className="profile-photo-wrapper">
+    <div className="card profile-hero-card">
+      {/* Left side: Avatar + Identity */}
+      <div className="hero-identity-section">
+        <div className="hero-avatar-wrapper">
           <img
             src={user?.profilePhoto || "https://lh3.googleusercontent.com/a/default-user"}
             alt={user?.name || "User Avatar"}
-            className="profile-photo"
+            className="hero-avatar-img"
             onError={(e) => {
               e.target.src = "https://lh3.googleusercontent.com/a/default-user";
             }}
           />
-          <span className="google-verified-badge" title="Verified via Google OAuth">
-            ✓
+          <span className="hero-verified-badge" title="Verified Google Account">
+            <ShieldCheck size={14} />
           </span>
         </div>
 
-        {/* User Details */}
-        <div className="profile-header-details">
-          <div className="profile-name-row">
-            <h2 className="profile-name">{user?.name}</h2>
-            <span className="account-tier-badge">PRO ATHLETE</span>
+        <div className="hero-user-info">
+          <div className="hero-name-row">
+            <h1 className="hero-user-name">{user?.name || "Athlete Bro"}</h1>
+            <span className="hero-tier-pill">PRO ATHLETE</span>
           </div>
 
-          <div className="profile-meta-row">
-            <div className="meta-item read-only-email">
-              <span className="meta-icon">✉️</span>
-              <span className="meta-value">{user?.email}</span>
-              <span className="google-lock-tag" title="Email managed by Google">Google</span>
+          <div className="hero-meta-list">
+            <div className="hero-meta-item">
+              <Mail size={14} className="meta-icon-muted" />
+              <span className="hero-email-text">{user?.email}</span>
             </div>
-
-            <div className="meta-item">
-              <span className="meta-icon">📅</span>
-              <span className="meta-label">Member Since:</span>
-              <span className="meta-value">{formattedJoinedDate}</span>
+            <div className="hero-meta-divider">•</div>
+            <div className="hero-meta-item">
+              <Calendar size={14} className="meta-icon-muted" />
+              <span>Joined {formattedJoinedDate}</span>
             </div>
           </div>
 
-          {user?.bio && <p className="profile-bio">"{user.bio}"</p>}
+          {user?.bio && <p className="hero-bio-quote">"{user.bio}"</p>}
+
+          {onEdit && (
+            <button className="hero-edit-btn" onClick={onEdit}>
+              <Edit3 size={15} />
+              <span>Edit Profile</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Right side: Compact Quick Stats Snapshot */}
+      <div className="hero-quick-stats">
+        <div className="quick-stat-box">
+          <div className="qs-icon-wrapper text-orange">
+            <Flame size={18} />
+          </div>
+          <div className="qs-content">
+            <span className="qs-val">{user?.currentStreak || 0} Days</span>
+            <span className="qs-lbl">Streak</span>
+          </div>
+        </div>
+
+        <div className="quick-stat-box">
+          <div className="qs-icon-wrapper text-blue">
+            <Dumbbell size={18} />
+          </div>
+          <div className="qs-content">
+            <span className="qs-val">{user?.workoutsCompleted || 0}</span>
+            <span className="qs-lbl">Workouts</span>
+          </div>
+        </div>
+
+        <div className="quick-stat-box">
+          <div className="qs-icon-wrapper text-emerald">
+            <Target size={18} />
+          </div>
+          <div className="qs-content">
+            <span className="qs-val capitalize">{goalText}</span>
+            <span className="qs-lbl">Current Goal</span>
+          </div>
         </div>
       </div>
     </div>
