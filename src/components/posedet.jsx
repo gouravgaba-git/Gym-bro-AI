@@ -1,9 +1,11 @@
 import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { getExerciseRule } from "../exerciseRules/index";
 import { evaluatePosePosture } from "../pose/postureEvaluator";
 import { updateRepCounter } from "../pose/repCounter";
 import { generateFeedback } from "../pose/feedbackEngine";
+import { Maximize2, Minimize2 } from "lucide-react";
 
 const SKELETON_CONNECTIONS = [
   [11, 12], // Shoulders
@@ -18,11 +20,15 @@ const SKELETON_CONNECTIONS = [
 ];
 
 /**
- * Calculates exact canvas coordinates for landmarks accounting for object-fit: cover crop & scale
+ * Calculates exact canvas coordinates for landmarks accounting for object-fit: cover crop & scale.
+ * Note: Mirrors X coordinate (1 - lm.x) to match video feed transform: scaleX(-1).
  */
 function getLandmarkCoords(lm, videoWidth, videoHeight, containerWidth, containerHeight) {
   const videoRatio = videoWidth / videoHeight;
   const containerRatio = containerWidth / containerHeight;
+
+  // Mirror X coordinate so canvas landmarks align 1:1 with scaleX(-1) video feed
+  const normX = 1 - lm.x;
 
   let x, y;
 
@@ -31,14 +37,14 @@ function getLandmarkCoords(lm, videoWidth, videoHeight, containerWidth, containe
     const renderedHeight = videoHeight * scale;
     const offsetY = (renderedHeight - containerHeight) / 2;
 
-    x = lm.x * containerWidth;
+    x = normX * containerWidth;
     y = (lm.y * renderedHeight) - offsetY;
   } else {
     const scale = containerHeight / videoHeight;
     const renderedWidth = videoWidth * scale;
     const offsetX = (renderedWidth - containerWidth) / 2;
 
-    x = (lm.x * renderedWidth) - offsetX;
+    x = (normX * renderedWidth) - offsetX;
     y = lm.y * containerHeight;
   }
 
@@ -48,13 +54,13 @@ function getLandmarkCoords(lm, videoWidth, videoHeight, containerWidth, containe
 export default function PoseDetection({ exerciseName }) {
   const videoRef = useRef(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const streamRef = useRef(null);
   const poseLandmarkerRef = useRef(null);
   const canvasRef = useRef(null);
   const animationFrameRef = useRef(null);
 
-  // Keep active exercise rule and rep counter state in refs
-  // to avoid React re-renders on every animation frame.
+  // Active exercise rule and rep counter state
   const ruleRef = useRef(null);
   const repStateRef = useRef({
     phase: "",
@@ -66,11 +72,10 @@ export default function PoseDetection({ exerciseName }) {
     maxExtension: 0
   });
 
-  // Resolve the active exercise rule whenever the exerciseName prop changes
+  // Resolve active exercise rule whenever exerciseName prop changes
   useEffect(() => {
     ruleRef.current = getExerciseRule(exerciseName);
     
-    // Reset rep counter state when exercise changes
     repStateRef.current = {
       phase: "",
       repCount: 0,
@@ -81,6 +86,25 @@ export default function PoseDetection({ exerciseName }) {
       maxExtension: 0
     };
   }, [exerciseName]);
+
+  // Re-attach video stream to videoRef element when toggling fullscreen
+  useEffect(() => {
+    if (isCameraOn && streamRef.current && videoRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(e => console.warn("Video play error:", e));
+    }
+  }, [isFullScreen, isCameraOn]);
+
+  // Handle ESC key to exit full screen mode
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isFullScreen) {
+        setIsFullScreen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isFullScreen]);
 
   async function CreatePoseLandmarker() {
     if (poseLandmarkerRef.current) return;
@@ -100,7 +124,7 @@ export default function PoseDetection({ exerciseName }) {
         }
       );
     } catch (err) {
-      console.error("Failed to initialize MediaPipe Pose Landmarker:", err);
+      console.error("Failed to load PoseLandmarker:", err);
     }
   }
 
@@ -126,7 +150,16 @@ export default function PoseDetection({ exerciseName }) {
     const videoWidth = video.videoWidth || 1280;
     const videoHeight = video.videoHeight || 720;
 
-    // 1. Draw Glowing Skeleton Connections
+    // Helper: validate if landmark is confident & inside frame
+    const isValidLM = (lm) => {
+      if (!lm) return false;
+      const vis = lm.visibility ?? 1;
+      if (vis < 0.45) return false;
+      if (lm.x < 0.02 || lm.x > 0.98 || lm.y < 0.02 || lm.y > 0.98) return false;
+      return true;
+    };
+
+    // 1. Draw Glowing Skeleton Connections with Clean Boundary Guard
     ctx.strokeStyle = "rgba(0, 255, 128, 0.85)";
     ctx.lineWidth = Math.max(3, Math.round(containerWidth / 200));
     ctx.lineCap = "round";
@@ -135,7 +168,7 @@ export default function PoseDetection({ exerciseName }) {
     for (const [i, j] of SKELETON_CONNECTIONS) {
       const lm1 = landmarks[i];
       const lm2 = landmarks[j];
-      if (lm1 && lm2 && (lm1.visibility ?? 1) > 0.35 && (lm2.visibility ?? 1) > 0.35) {
+      if (isValidLM(lm1) && isValidLM(lm2)) {
         const p1 = getLandmarkCoords(lm1, videoWidth, videoHeight, containerWidth, containerHeight);
         const p2 = getLandmarkCoords(lm2, videoWidth, videoHeight, containerWidth, containerHeight);
 
@@ -152,9 +185,8 @@ export default function PoseDetection({ exerciseName }) {
       if (!majorJoints.includes(i)) continue;
       
       const lm = landmarks[i];
-      if (lm.visibility !== undefined && lm.visibility < 0.35) {
-        continue;
-      }
+      if (!isValidLM(lm)) continue;
+
       const p = getLandmarkCoords(lm, videoWidth, videoHeight, containerWidth, containerHeight);
 
       ctx.beginPath();
@@ -184,7 +216,7 @@ export default function PoseDetection({ exerciseName }) {
         const landmarks = results.landmarks[0];
         const currentRule = ruleRef.current;
 
-        // 1. Draw Skeleton overlays aligned with video frame
+        // 1. Draw Skeleton overlays
         drawpose(landmarks);
 
         if (currentRule) {
@@ -333,7 +365,91 @@ export default function PoseDetection({ exerciseName }) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     setIsCameraOn(false);
+    setIsFullScreen(false);
   }
+
+  // Camera video player element content
+  const cameraContent = (
+    <div className={`pose-video-wrapper ${isCameraOn ? "visible" : ""} ${isFullScreen ? "fullscreen-mode" : ""}`}>
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        className="pose-video-feed"
+      />
+      <canvas
+        ref={canvasRef}
+        className="pose-canvas" 
+      />
+
+      {/* Fullscreen Toggle Button */}
+      {isCameraOn && (
+        <button
+          type="button"
+          className="fullscreen-toggle-btn"
+          onClick={() => setIsFullScreen(!isFullScreen)}
+          title={isFullScreen ? "Exit Full Screen (Esc)" : "Full Screen AI Coach"}
+        >
+          {isFullScreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+        </button>
+      )}
+      
+      {/* HUD Display Overlay */}
+      {isCameraOn && (
+        <div className="pose-hud-overlay">
+          {/* Top Bar */}
+          <div className="hud-top-bar">
+            <div className="hud-panel exercise-panel">
+              <div className="hud-label">EXERCISE</div>
+              <div className="hud-exercise-title-row">
+                <div className="hud-value" id="hud-exercise-name">{exerciseName || "Active Tracking"}</div>
+              </div>
+              <div className="hud-phase-badge" id="hud-phase">START</div>
+            </div>
+            
+            <div className="hud-panel score-panel">
+              <div className="hud-label">FORM SCORE</div>
+              <div className="hud-score-container">
+                <span className="hud-value" id="hud-score">100</span>
+                <span className="hud-score-max">/100</span>
+              </div>
+              <div className="hud-score-bar-bg">
+                <div className="hud-score-bar-fill" id="hud-score-bar"></div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Middle Bar for joint angles */}
+          <div className="hud-middle-bar">
+            <div className="hud-panel angles-panel" id="hud-angles-list">
+              {/* Populate programmatically */}
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="hud-bottom-bar">
+            <div className="hud-panel feedback-panel">
+              <div className="hud-label">AI COACH FEEDBACK</div>
+              <div className="hud-feedback-text" id="hud-feedback">Adjusting position...</div>
+            </div>
+            
+            <div className="hud-panel reps-panel">
+              <div className="hud-label">REPS</div>
+              <div className="hud-reps-value" id="hud-reps">0</div>
+            </div>
+          </div>
+          
+          {/* Warnings overlay */}
+          <div className="hud-warnings-container" id="hud-warnings">
+            {/* Populate programmatically */}
+          </div>
+        </div>
+      )}
+      
+      <div className="pose-video-overlay-glow"></div>
+    </div>
+  );
 
   return (
     <div className="pose-detection-container">
@@ -360,87 +476,127 @@ export default function PoseDetection({ exerciseName }) {
           display: block;
         }
 
+        .pose-video-wrapper.fullscreen-mode {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          max-width: 100vw !important;
+          max-height: 100vh !important;
+          z-index: 999999 !important;
+          margin: 0 !important;
+          border-radius: 0 !important;
+          border: none !important;
+        }
+
+        .fullscreen-camera-portal-overlay {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          background: #090c15 !important;
+          z-index: 999999 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+
         .pose-video-feed {
-          position: absolute;
-          top: 0;
-          left: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
           transform: scaleX(-1);
-          z-index: 1;
+          display: block;
         }
 
         .pose-canvas {
           position: absolute;
-          top: 0;
-          left: 0;
+          inset: 0;
           width: 100%;
           height: 100%;
-          transform: scaleX(-1);
           pointer-events: none;
           z-index: 5;
         }
 
-        .pose-video-overlay-glow {
+        .fullscreen-toggle-btn {
           position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at center, transparent 45%, rgba(9, 12, 21, 0.5) 100%);
-          pointer-events: none;
-          z-index: 6;
+          top: 14px;
+          right: 14px;
+          z-index: 25;
+          background: rgba(15, 21, 36, 0.85);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+          width: 38px;
+          height: 38px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        /* Non-intrusive, sleek HUD overlay */
+        .fullscreen-toggle-btn:hover {
+          background: rgba(255, 75, 43, 0.35);
+          border-color: rgba(255, 75, 43, 0.6);
+          transform: scale(1.05);
+        }
+
         .pose-hud-overlay {
           position: absolute;
           inset: 0;
-          pointer-events: none;
           z-index: 10;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          padding: 14px 18px;
-          box-sizing: border-box;
-          color: #ffffff;
-          font-family: var(--font-heading), system-ui, sans-serif;
+          padding: 16px;
+          pointer-events: none;
+        }
+
+        .hud-panel {
+          background: rgba(15, 21, 36, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          padding: 10px 14px;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+          pointer-events: auto;
         }
 
         .hud-top-bar {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          width: 100%;
           gap: 12px;
-        }
-
-        .hud-panel {
-          background: rgba(9, 12, 21, 0.75);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: 12px;
-          padding: 8px 12px;
-          display: flex;
-          flex-direction: column;
-          pointer-events: auto;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+          padding-right: 48px;
         }
 
         .exercise-panel {
-          max-width: 55%;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          max-width: 220px;
+        }
+
+        .hud-exercise-title-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
 
         .hud-label {
-          font-size: 8.5px;
+          font-size: 9px;
           font-weight: 800;
-          letter-spacing: 1px;
-          color: #8892b0;
-          margin-bottom: 2px;
-          text-transform: uppercase;
+          color: var(--text-muted, #8892b0);
+          letter-spacing: 0.8px;
         }
 
         .hud-value {
-          font-size: 13px;
+          font-family: var(--font-heading);
+          font-size: 14px;
           font-weight: 800;
           color: #ffffff;
           white-space: nowrap;
@@ -449,62 +605,61 @@ export default function PoseDetection({ exerciseName }) {
         }
 
         .hud-phase-badge {
-          display: inline-block;
-          margin-top: 3px;
-          border: 1px solid rgb(0, 180, 255);
-          color: rgb(0, 180, 255);
-          background: rgba(0, 180, 255, 0.15);
-          padding: 1px 6px;
-          border-radius: 4px;
-          font-size: 8.5px;
+          font-size: 10px;
           font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+          padding: 2px 8px;
+          border-radius: 100px;
+          border: 1px solid rgba(0, 180, 255, 0.4);
+          color: #00b4ff;
+          background: rgba(0, 180, 255, 0.15);
+          width: fit-content;
         }
 
         .score-panel {
-          align-items: flex-end;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          min-width: 100px;
         }
 
         .hud-score-container {
           display: flex;
           align-items: baseline;
+          gap: 2px;
         }
 
         .hud-score-max {
-          font-size: 9px;
-          color: #8892b0;
-          margin-left: 1px;
+          font-size: 11px;
+          color: var(--text-muted);
         }
 
         .hud-score-bar-bg {
-          width: 70px;
-          height: 3px;
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 2px;
-          margin-top: 4px;
+          width: 100%;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 100px;
           overflow: hidden;
+          margin-top: 2px;
         }
 
         .hud-score-bar-fill {
           height: 100%;
-          background: #00ff80;
           width: 100%;
-          transition: width 0.2s ease;
+          background: #00ff80;
+          transition: width 0.3s ease, background-color 0.3s ease;
         }
 
         .hud-middle-bar {
           display: flex;
           justify-content: flex-end;
-          width: 100%;
         }
 
         .angles-panel {
-          background: rgba(9, 12, 21, 0.65);
-          padding: 6px 10px;
-          font-size: 10px;
-          gap: 3px;
-          min-width: 120px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          padding: 8px 12px;
+          font-size: 11px;
         }
 
         .angle-row {
@@ -514,43 +669,44 @@ export default function PoseDetection({ exerciseName }) {
         }
 
         .angle-label {
-          color: #8892b0;
-          font-weight: 600;
+          color: var(--text-secondary);
         }
 
         .angle-val {
-          color: #00ff80;
-          font-weight: 800;
+          font-weight: 700;
+          color: #ff4b2b;
         }
 
         .hud-bottom-bar {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
-          width: 100%;
           gap: 12px;
         }
 
         .feedback-panel {
-          max-width: 70%;
+          flex-grow: 1;
+          max-width: 360px;
         }
 
         .hud-feedback-text {
-          font-size: 12px;
+          font-family: var(--font-heading);
+          font-size: 13px;
           font-weight: 700;
           color: #ffffff;
-          line-height: 1.25;
+          line-height: 1.3;
         }
 
         .reps-panel {
+          display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          min-width: 60px;
-          padding: 6px 12px;
+          min-width: 70px;
         }
 
         .hud-reps-value {
-          font-size: 22px;
+          font-family: var(--font-heading);
+          font-size: 26px;
           font-weight: 900;
           color: #ff4b2b;
           line-height: 1;
@@ -558,27 +714,91 @@ export default function PoseDetection({ exerciseName }) {
 
         .hud-warnings-container {
           position: absolute;
-          bottom: 60px;
-          left: 18px;
+          top: 70px;
+          left: 50%;
+          transform: translateX(-50%);
           display: flex;
           flex-direction: column;
-          gap: 4px;
-          max-width: 65%;
+          gap: 6px;
+          align-items: center;
           pointer-events: none;
+          z-index: 15;
+          width: 90%;
+          max-width: 380px;
         }
 
         .hud-warning-pill {
-          background: rgba(239, 68, 68, 0.3);
+          background: rgba(239, 68, 68, 0.85);
+          backdrop-filter: blur(12px);
           border: 1px solid #ef4444;
           color: #ffffff;
-          border-radius: 12px;
-          padding: 3px 10px;
-          font-size: 10px;
+          border-radius: 100px;
+          padding: 6px 14px;
+          font-size: 11px;
           font-weight: 800;
           display: inline-flex;
           align-items: center;
-          gap: 4px;
-          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+          gap: 6px;
+          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+          text-align: center;
+        }
+
+        /* Responsive Mobile HUD Layout (< 768px) */
+        @media (max-width: 768px) {
+          .pose-video-wrapper:not(.fullscreen-mode) {
+            aspect-ratio: 4 / 3;
+            min-height: 360px;
+          }
+
+          .hud-top-bar {
+            padding-right: 40px;
+            gap: 8px;
+          }
+
+          .exercise-panel {
+            max-width: 140px;
+            padding: 8px 10px;
+          }
+
+          .hud-value {
+            font-size: 12px;
+          }
+
+          .score-panel {
+            min-width: 75px;
+            padding: 8px 10px;
+          }
+
+          .reps-panel {
+            min-width: 60px;
+            padding: 8px 10px;
+          }
+
+          .hud-reps-value {
+            font-size: 20px;
+          }
+
+          .hud-middle-bar {
+            display: none;
+          }
+
+          .feedback-panel {
+            padding: 8px 12px;
+          }
+
+          .hud-feedback-text {
+            font-size: 11.5px;
+          }
+
+          .hud-warnings-container {
+            top: 60px;
+            max-width: 85%;
+          }
+
+          .hud-warning-pill {
+            padding: 4px 10px;
+            font-size: 10px;
+          }
         }
       `}} />
 
@@ -589,71 +809,17 @@ export default function PoseDetection({ exerciseName }) {
         📹 {isCameraOn ? "Stop AI Gym Coach" : "Start AI Gym Coach"}
       </button>
 
-      <div className={`pose-video-wrapper ${isCameraOn ? "visible" : ""}`}>
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="pose-video-feed"
-        />
-        <canvas
-          ref={canvasRef}
-          className="pose-canvas" 
-        />
-        
-        {/* HUD Display Overlay */}
-        {isCameraOn && (
-          <div className="pose-hud-overlay">
-            {/* Top Bar */}
-            <div className="hud-top-bar">
-              <div className="hud-panel exercise-panel">
-                <div className="hud-label">EXERCISE</div>
-                <div className="hud-value" id="hud-exercise-name">{exerciseName || "Active Tracking"}</div>
-                <div className="hud-phase-badge" id="hud-phase">START</div>
-              </div>
-              
-              <div className="hud-panel score-panel">
-                <div className="hud-label">FORM SCORE</div>
-                <div className="hud-score-container">
-                  <span className="hud-value" id="hud-score">100</span>
-                  <span className="hud-score-max">/100</span>
-                </div>
-                <div className="hud-score-bar-bg">
-                  <div className="hud-score-bar-fill" id="hud-score-bar"></div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Middle Bar for joint angles */}
-            <div className="hud-middle-bar">
-              <div className="hud-panel angles-panel" id="hud-angles-list">
-                {/* Populate programmatically */}
-              </div>
-            </div>
-
-            {/* Bottom Bar */}
-            <div className="hud-bottom-bar">
-              <div className="hud-panel feedback-panel">
-                <div className="hud-label">AI COACH FEEDBACK</div>
-                <div className="hud-feedback-text" id="hud-feedback">Adjusting position...</div>
-              </div>
-              
-              <div className="hud-panel reps-panel">
-                <div className="hud-label">REPS</div>
-                <div className="hud-reps-value" id="hud-reps">0</div>
-              </div>
-            </div>
-            
-            {/* Warnings overlay */}
-            <div className="hud-warnings-container" id="hud-warnings">
-              {/* Populate programmatically */}
-            </div>
-          </div>
-        )}
-        
-        <div className="pose-video-overlay-glow"></div>
-      </div>
+      {/* Normal View vs FullScreen Portal View */}
+      {isFullScreen && isCameraOn ? (
+        createPortal(
+          <div className="fullscreen-camera-portal-overlay">
+            {cameraContent}
+          </div>,
+          document.body
+        )
+      ) : (
+        cameraContent
+      )}
     </div>
   );
 }
