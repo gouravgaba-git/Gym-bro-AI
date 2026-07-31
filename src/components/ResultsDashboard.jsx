@@ -3,10 +3,12 @@ import InfoTemplate from "./infopage.jsx";
 
 /**
  * ResultsDashboard displays the generated workout plan with detail cards and exercises.
+ * Supports desktop 4-column table and mobile stacked card layout.
  */
 const ResultsDashboard = ({ plan }) => {
   const containerRef = useRef(null);
   const [selectedexercise, setselectedexercise] = useState(null);
+
   // Scroll to results when plan is loaded
   useEffect(() => {
     if (plan && containerRef.current) {
@@ -23,6 +25,7 @@ const ResultsDashboard = ({ plan }) => {
       {selectedexercise && (
         <InfoTemplate exercise={selectedexercise} onClose={() => setselectedexercise(null)} />
       )}
+
       {/* Dashboard Top Header */}
       <div className="results-header">
         <div className="results-title-group">
@@ -48,8 +51,8 @@ const ResultsDashboard = ({ plan }) => {
               <span className="day-target-summary">{day.focus}</span>
             </div>
 
-            {/* Exercise Details Table */}
-            <div className="exercise-table-wrapper">
+            {/* Desktop / Tablet Exercise Table (>=768px) */}
+            <div className="exercise-table-wrapper desktop-table-only">
               <table className="exercise-table">
                 <thead>
                   <tr>
@@ -73,9 +76,7 @@ const ResultsDashboard = ({ plan }) => {
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         <button
-                          href={ex.videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          type="button"
                           className="watch-btn"
                           aria-label={`Watch tutorial video for ${ex.name}`}
                           onClick={() => setselectedexercise(ex)}
@@ -90,6 +91,35 @@ const ResultsDashboard = ({ plan }) => {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Stacked Exercise Cards (<768px) */}
+            <div className="exercise-mobile-cards mobile-cards-only">
+              {day.exercises.map((ex, exIdx) => (
+                <div key={exIdx} className="exercise-mobile-card">
+                  <div className="exercise-mobile-header">
+                    <h4 className="exercise-mobile-title">{ex.name}</h4>
+                    <span className="target-badge">{ex.target}</span>
+                  </div>
+
+                  <div className="exercise-mobile-stat-row">
+                    <span className="stat-label">Sets × Reps</span>
+                    <span className="sets-reps-highlight">{ex.setsReps}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="watch-btn watch-btn-full"
+                    aria-label={`Watch tutorial video for ${ex.name}`}
+                    onClick={() => setselectedexercise(ex)}
+                  >
+                    <svg className="watch-btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <span>Get Info</span>
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         ))}

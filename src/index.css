@@ -1439,9 +1439,58 @@ body {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .goal-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    background: var(--bg-surface-elevated);
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .goal-card {
+    padding: 14px 20px !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  .goal-card:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+    transform: none !important;
+  }
+
+  .goal-card.selected {
+    background: var(--primary-gradient) !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 15px rgba(255, 75, 43, 0.35) !important;
+  }
+
+  .goal-card .goal-icon-wrapper,
+  .goal-card .goal-desc {
+    display: none !important;
+  }
+
+  .goal-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .goal-card.selected .goal-title {
+    color: #ffffff !important;
   }
 
   .level-group {
@@ -2697,5 +2746,127 @@ body {
 
   .hero-edit-btn {
     align-self: center;
+  }
+}
+
+/* ==========================================================================
+   Responsive Exercise Table (<768px Stacked Cards vs >=768px Desktop Table)
+   ========================================================================== */
+
+.desktop-table-only {
+  display: block;
+}
+
+.mobile-cards-only {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop-table-only {
+    display: none !important;
+  }
+
+  .mobile-cards-only {
+    display: flex !important;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  .exercise-mobile-card {
+    background: rgba(15, 21, 36, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .exercise-mobile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .exercise-mobile-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+
+  .exercise-mobile-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .sets-reps-highlight {
+    font-family: var(--font-heading);
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    padding: 3px 12px;
+    border-radius: 100px;
+  }
+
+  .watch-btn-full {
+    width: 100%;
+    justify-content: center;
+    height: 42px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border-radius: 100px;
+  }
+}
+
+/* ==========================================================================
+   Exercise Video Modal Padding & Screen Edge Protection
+   ========================================================================== */
+
+.overlay {
+  padding: 20px 18px !important;
+}
+
+.info-modal-custom {
+  max-width: min(920px, calc(100vw - 36px)) !important;
+  margin: 0 auto !important;
+}
+
+@media (max-width: 768px) {
+  .info-modal-custom {
+    padding: 20px 16px !important;
+    max-width: calc(100vw - 32px) !important;
+    border-radius: 20px !important;
+  }
+
+  .modal-media-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .iframe-container iframe {
+    border-radius: 16px;
   }
 }
