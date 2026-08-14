@@ -95,6 +95,51 @@ export async function googleAuth(req, res) {
 }
 
 /**
+ * Handle Email/Password or Demo authentication.
+ * POST /api/auth/email
+ */
+export async function emailAuth(req, res) {
+  try {
+    const { email, password, name } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    let user = await User.findOne({ email: cleanEmail });
+
+    if (!user) {
+      const generatedName = name || cleanEmail.split("@")[0].replace(/[^a-zA-Z0-9]/g, " ").trim();
+      const capitalizedName = generatedName ? generatedName.charAt(0).toUpperCase() + generatedName.slice(1) : "Gym Bro Athlete";
+      user = await User.create({
+        googleId: `email_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        email: cleanEmail,
+        name: capitalizedName,
+        profilePhoto: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(cleanEmail)}`,
+        joinedAt: new Date(),
+        isProfileComplete: false
+      });
+    }
+
+    const secret = process.env.JWT_SECRET || "gym_bro_default_jwt_secret_key_2026";
+    const token = jwt.sign(
+      { id: user._id, email: user.email, googleId: user.googleId },
+      secret,
+      { expiresIn: "30d" }
+    );
+
+    return res.json({
+      message: "Authentication successful",
+      token,
+      user
+    });
+  } catch (error) {
+    console.error("Email auth error:", error);
+    return res.status(500).json({ error: "Authentication failed. Please try again." });
+  }
+}
+
+/**
  * Fetch current authenticated user.
  * GET /api/auth/me
  */

@@ -2870,3 +2870,432 @@ body {
     border-radius: 16px;
   }
 }
+
+/* ==========================================================================
+   Global Auth Modal Overlay
+   ========================================================================== */
+
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 16px;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   The Gym Bro - Standalone Login Recreated Styles
+   ========================================================================== */
+
+.gymbro-login-container {
+  background-color: #121212;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 75, 43, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(58, 123, 213, 0.04) 0%, transparent 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  padding: 32px 16px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.gymbro-auth-card {
+  width: 100%;
+  max-width: 440px;
+  background-color: #1e1e1e;
+  border-radius: 40px;
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  box-sizing: border-box;
+  margin: auto;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@media (max-width: 480px) {
+  .gymbro-login-container {
+    padding: 24px 16px;
+  }
+
+  .gymbro-auth-card {
+    padding: 32px 20px;
+    border-radius: 28px;
+  }
+}
+
+.gymbro-logo-badge {
+  width: 64px;
+  height: 64px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.gymbro-title {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 36px;
+  text-align: center;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@media (max-width: 480px) {
+  .gymbro-title {
+    font-size: 28px;
+    margin-bottom: 28px;
+  }
+
+  .gymbro-logo-badge {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+  }
+}
+
+.gymbro-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.gymbro-input-group {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gymbro-input {
+  width: 100%;
+  background-color: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px 22px;
+  min-height: 54px;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.gymbro-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 16px;
+}
+
+.gymbro-input:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+  background-color: #303030;
+}
+
+.gymbro-google-btn {
+  width: 100%;
+  background-color: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px 22px;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+.gymbro-google-btn:hover {
+  background-color: #333333;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.gymbro-google-btn:active {
+  transform: translateY(0);
+}
+
+.gymbro-google-text {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.gymbro-email-submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+  border: none;
+  border-radius: 16px;
+  padding: 15px 22px;
+  min-height: 52px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(255, 87, 34, 0.35);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  touch-action: manipulation;
+}
+
+.gymbro-email-submit-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.gymbro-email-submit-btn:active {
+  transform: translateY(0);
+}
+
+.gymbro-footer-text {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  margin-top: 36px;
+  text-align: center;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .gymbro-footer-text {
+    font-size: 13px;
+    margin-top: 28px;
+  }
+}
+
+.gymbro-modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.gymbro-modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Workout Plan Page & Day Tabs Navigation Styles
+   ========================================================================== */
+
+.workout-plan-page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 4px;
+}
+
+.modify-plan-btn {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.modify-plan-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 75, 43, 0.4);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.day-tabs-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.day-tabs-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 4px 10px 4px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 75, 43, 0.3) transparent;
+}
+
+.day-tabs-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.day-tabs-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.day-tabs-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 75, 43, 0.3);
+  border-radius: 4px;
+}
+
+.day-tab-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-width: 130px;
+  flex-shrink: 0;
+  position: relative;
+  text-align: left;
+}
+
+.day-tab-btn:hover {
+  background: var(--bg-surface-elevated);
+  border-color: rgba(255, 75, 43, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.day-tab-btn.active {
+  background: linear-gradient(135deg, rgba(255, 75, 43, 0.16) 0%, rgba(255, 65, 108, 0.08) 100%);
+  border-color: #ff4b2b;
+  box-shadow: 0 6px 20px rgba(255, 75, 43, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.day-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: var(--primary-gradient);
+  border-radius: 3px 3px 0 0;
+}
+
+.day-tab-indicator {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.3px;
+}
+
+.day-tab-btn.active .day-tab-indicator {
+  color: #ff4b2b;
+}
+
+.day-tab-focus-text {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.day-tab-btn.active .day-tab-focus-text {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.active-day-panel {
+  animation: dayFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dayFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.day-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.day-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .day-tab-btn {
+    min-width: 115px;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+  
+  .day-tab-indicator {
+    font-size: 14px;
+  }
+
+  .day-tab-focus-text {
+    font-size: 11px;
+    max-width: 120px;
+  }
+}

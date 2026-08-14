@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import WorkoutForm from "../components/WorkoutForm";
 import Spinner from "../components/Spinner";
-import ResultsDashboard from "../components/ResultsDashboard";
 import { useAuth } from "../context/AuthContext";
-import { API_BASE_URL } from "../config/api";
-import { generateWorkoutPlan as defaultFallback } from "../utils/workoutGenerator";
+import { useWorkout } from "../context/WorkoutContext";
 
-const DashboardPage = ({ generateWorkoutPlanFallback = defaultFallback }) => {
+const DashboardPage = () => {
   const { user } = useAuth();
+  const { generatePlan, isGenerating } = useWorkout();
+  const navigate = useNavigate();
   
   // Persist fitness goal from user profile or localStorage
   const savedGoal = user?.fitnessGoal || localStorage.getItem("user_fitness_goal") || "muscle_gain";
@@ -15,9 +16,6 @@ const DashboardPage = ({ generateWorkoutPlanFallback = defaultFallback }) => {
   const [level, setLevel] = useState("beginner");
   const [days, setDays] = useState(null);
   const [selectedMuscles, setSelectedMuscles] = useState([]);
-
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [workoutPlan, setWorkoutPlan] = useState(null);
 
   // Sync goal state when user profile updates
   useEffect(() => {
@@ -32,33 +30,14 @@ const DashboardPage = ({ generateWorkoutPlanFallback = defaultFallback }) => {
     localStorage.setItem("user_fitness_goal", newGoal);
   };
 
-  const handleGeneratePlan = () => {
-    setIsGenerating(true);
-    setWorkoutPlan(null);
-
-    fetch(`${API_BASE_URL}/api/workout-plan`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ goal, level, days, selectedMuscles })
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Server response error");
-        return res.json();
-      })
-      .then((data) => {
-        setWorkoutPlan(data);
-        setIsGenerating(false);
-      })
-      .catch((err) => {
-        console.warn("Backend API fallback triggered. Error:", err.message);
-        if (generateWorkoutPlanFallback) {
-          const plan = generateWorkoutPlanFallback(goal, level, days, selectedMuscles);
-          setWorkoutPlan(plan);
-        }
-        setIsGenerating(false);
-      });
+  const handleGeneratePlan = async () => {
+    try {
+      await generatePlan({ goal, level, days, selectedMuscles });
+      navigate("/workout-plan");
+    } catch (err) {
+      console.error("Plan generation error:", err);
+      // In case of error, if fallback succeeded in generatePlan it will still resolve and navigate
+    }
   };
 
   return (
@@ -73,7 +52,7 @@ const DashboardPage = ({ generateWorkoutPlanFallback = defaultFallback }) => {
         </p>
       </header>
 
-      {/* Interactive Goal Form & Results */}
+      {/* Interactive Goal Form */}
       <main style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
         <WorkoutForm
           goal={goal}
@@ -89,8 +68,6 @@ const DashboardPage = ({ generateWorkoutPlanFallback = defaultFallback }) => {
         />
 
         {isGenerating && <Spinner />}
-
-        {!isGenerating && workoutPlan && <ResultsDashboard plan={workoutPlan} />}
       </main>
     </div>
   );

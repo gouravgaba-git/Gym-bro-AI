@@ -18,8 +18,8 @@ const LoginPage = () => {
   }, [isAuthenticated, user, navigate]);
 
   return (
-    <div className="login-page-wrapper">
-      <AuthModal />
+    <div className="gymbro-login-container">
+      <AuthModal isPage={true} />
     </div>
   );
 };
