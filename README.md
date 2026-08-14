@@ -576,4 +576,4 @@ Your privacy is paramount. **The Gym Bro AI** operates using a **100% Client-Sid
 
 Contributions, feature requests, and feedback are always welcome! Feel free to open an issue or submit a Pull Request.
 
-Built with ❤️ by [Gourav Gaba](https://github.com/gouravgaba-git) for athletes and fitness enthusiasts worldwide.
+Built with ❤️ by [Gourav Gaba and Aditya Prasad Gupta](https://github.com/gouravgaba-git) for athletes and fitness enthusiasts worldwide.
