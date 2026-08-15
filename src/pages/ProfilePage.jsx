@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import PageHeader from "../components/common/PageHeader";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import WorkoutStats from "../components/profile/WorkoutStats";
 import PersonalInformation from "../components/profile/PersonalInformation";
@@ -17,24 +18,32 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="profile-page-container">
-      {/* 1. Hero Profile Header Section */}
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 md:px-8 md:py-8 animate-in fade-in duration-200">
+      <PageHeader
+        title="My Profile"
+        description="Your athlete details and training history."
+      />
+
+      {/* Hero Profile Card */}
       <ProfileHeader user={user} onEdit={() => setIsEditModalOpen(true)} />
 
-      {/* 2. Workout Statistics Grid */}
+      {/* 4 Bento KPI Stats Grid */}
       <WorkoutStats user={user} />
 
-      {/* 3. Personal Metrics & Exercise Preferences 2-Column Grid */}
-      <div className="profile-2col-grid">
+      {/* Biometrics & Training Preferences */}
+      <div className="grid gap-6 md:grid-cols-2">
         <PersonalInformation user={user} onEdit={() => setIsEditModalOpen(true)} />
         <ExercisePreferences user={user} onEdit={() => setIsEditModalOpen(true)} />
       </div>
 
-      {/* 4. Achievements & Milestones */}
+      {/* Achievements & Milestones */}
       <Achievements user={user} />
 
-      {/* 5. Edit Profile Modal */}
-      <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
+      {/* Edit Profile Modal Dialog */}
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      />
     </div>
   );
 };

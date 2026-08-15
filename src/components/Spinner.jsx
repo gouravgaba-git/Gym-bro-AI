@@ -1,13 +1,15 @@
-import React from 'react';
+import React from "react";
+import { Loader2 } from "lucide-react";
 
-/**
- * Spinner component that provides visual feedback during plan generation.
- */
 const Spinner = ({ message = "Analyzing biometrics & generating plan..." }) => {
   return (
-    <div className="spinner-container" role="status" aria-live="polite">
-      <div className="spinner" id="spinner-loader"></div>
-      <p className="spinner-text">{message}</p>
+    <div
+      className="flex flex-col items-center justify-center gap-3 p-8 rounded-xl border border-border bg-card shadow-xs animate-in fade-in duration-200"
+      role="status"
+      aria-live="polite"
+    >
+      <Loader2 className="size-8 animate-spin text-foreground" />
+      <p className="text-sm font-medium text-muted-foreground m-0">{message}</p>
     </div>
   );
 };

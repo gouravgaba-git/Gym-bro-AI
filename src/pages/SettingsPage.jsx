@@ -1,21 +1,16 @@
 import React from "react";
+import PageHeader from "../components/common/PageHeader";
 import SettingsCard from "../components/profile/SettingsCard";
 
 const SettingsPage = () => {
   return (
-    <div className="page-fade-in" style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}>
-      <header className="compact-hero-header" style={{ marginBottom: "0" }}>
-        <h1 className="compact-hero-title" style={{ fontSize: "36px" }}>
-          Settings
-        </h1>
-        <p className="compact-hero-subtitle" style={{ fontSize: "14px" }}>
-          Manage your account details, preferences, and privacy.
-        </p>
-      </header>
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 md:px-8 md:py-8 animate-in fade-in duration-200">
+      <PageHeader
+        title="Settings"
+        description="Manage your appearance, measurement units, and notification preferences."
+      />
 
-      <main style={{ width: "100%" }}>
-        <SettingsCard />
-      </main>
+      <SettingsCard />
     </div>
   );
 };

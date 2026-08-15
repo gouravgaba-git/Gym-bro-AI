@@ -3,10 +3,12 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { Capacitor } from "@capacitor/core";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { useNavigate } from "react-router-dom";
+import { Dumbbell, X, Loader2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
-const AuthModal = ({ onClose, reason, isPage = false }) => {
-  const { loginWithGoogle, loginWithEmail, showToast, authModalReason, closeAuthModal } = useAuth();
+export const AuthModal = ({ onClose, reason, isPage = false }) => {
+  const { loginWithGoogle, loginWithEmail, showToast, authModalReason, closeAuthModal } =
+    useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -21,14 +23,14 @@ const AuthModal = ({ onClose, reason, isPage = false }) => {
   const displaySubtitle = reason || authModalReason;
   const isNative = Capacitor.isNativePlatform();
 
-  // Initialize Native GoogleAuth on Component Mount if on Native Platform
+  // Initialize Native GoogleAuth on Mount if on Native Platform
   useEffect(() => {
     if (isNative && isClientIdConfigured) {
       try {
         GoogleAuth.initialize({
           clientId: googleClientId,
           scopes: ["profile", "email"],
-          grantOfflineAccess: true
+          grantOfflineAccess: true,
         });
       } catch (err) {
         console.error("GoogleAuth.initialize error:", err);
@@ -48,11 +50,14 @@ const AuthModal = ({ onClose, reason, isPage = false }) => {
       onSuccess: async (tokenResponse) => {
         try {
           setLoading(true);
-          const userInfoRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-            headers: {
-              Authorization: `Bearer ${tokenResponse.access_token}`
+          const userInfoRes = await fetch(
+            "https://www.googleapis.com/oauth2/v3/userinfo",
+            {
+              headers: {
+                Authorization: `Bearer ${tokenResponse.access_token}`,
+              },
             }
-          });
+          );
 
           if (!userInfoRes.ok) {
             throw new Error("Could not fetch user profile from Google");
@@ -76,7 +81,7 @@ const AuthModal = ({ onClose, reason, isPage = false }) => {
       onError: (err) => {
         console.error("Google GIS Login Error:", err);
         showToast("Google Sign-In was cancelled or failed.", "error");
-      }
+      },
     });
   } catch (hookError) {
     console.warn("useGoogleLogin initialization:", hookError);
@@ -114,11 +119,11 @@ const AuthModal = ({ onClose, reason, isPage = false }) => {
         showToast("Unable to start Google sign in. Please try again.", "error");
       }
     } else {
-      // Demo / Quick Sign-In fallback when Client ID isn't configured
+      // Quick Sign-In fallback for development/demo
       try {
         setLoading(true);
         const demoUser = await loginWithEmail(
-          email.trim() || "athlete@gymbro.ai",
+          email.trim() || "athlete@gymbro.app",
           password || "demo123"
         );
         if (demoUser && !demoUser.isProfileComplete) {
@@ -158,102 +163,98 @@ const AuthModal = ({ onClose, reason, isPage = false }) => {
   };
 
   return (
-    <div className="gymbro-auth-card">
+    <div className="relative flex w-full max-w-md flex-col items-center rounded-2xl border border-border bg-card p-6 md:p-8 shadow-2xl text-foreground text-center">
       {/* Modal Close Button */}
       {onClose && (
         <button
           type="button"
           onClick={handleClose}
-          className="gymbro-modal-close-btn"
+          className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer border-0 bg-transparent"
           aria-label="Close"
         >
-          ✕
+          <X className="size-4.5" />
         </button>
       )}
 
-      {/* Logo */}
-      <div className="gymbro-logo-badge">
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="text-white"
-        >
-          <path
-            d="M6.5 6.5L3 10M17.5 17.5L21 14M11 4.5L13 2.5M13 21.5L11 19.5M4.5 11L2.5 13M19.5 13L21.5 11M8.5 4.5L4.5 8.5M19.5 15.5L15.5 19.5M15.5 4.5L19.5 8.5M4.5 15.5L8.5 19.5"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M7 7L17 17"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
+      {/* Brand Icon */}
+      <div className="flex size-12 items-center justify-center rounded-xl bg-foreground text-background shadow-sm mb-4">
+        <Dumbbell className="size-6" />
       </div>
 
-      <h1 className="gymbro-title">The Gym Bro</h1>
+      <h1 className="text-xl font-bold tracking-tight text-foreground uppercase">
+        The Gym Bro
+      </h1>
+      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mt-1 mb-6">
+        Athlete Portal & AI Coach
+      </p>
 
       {displaySubtitle && (
-        <p className="text-white/60 text-xs sm:text-sm text-center -mt-6 mb-8 px-2 leading-relaxed">
+        <div className="w-full rounded-lg border border-border bg-secondary/40 px-3 py-2 text-xs text-muted-foreground mb-5 leading-relaxed">
           {displaySubtitle}
-        </p>
+        </div>
       )}
 
       {/* Form */}
-      <form onSubmit={handleEmailSubmit} className="gymbro-form">
-        <div className="gymbro-input-group">
+      <form onSubmit={handleEmailSubmit} className="flex flex-col gap-3.5 w-full">
+        <div className="flex flex-col gap-1 text-left">
+          <label className="text-xs font-semibold text-muted-foreground">Email</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="athlete@gymbro.app"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
-            className="gymbro-input"
+            className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
           />
         </div>
 
-        <div className="gymbro-input-group">
+        <div className="flex flex-col gap-1 text-left">
+          <label className="text-xs font-semibold text-muted-foreground">Password</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
-            className="gymbro-input"
+            className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
           />
         </div>
 
-        {/* Optional quick email sign-in button if email is entered */}
+        {/* Email Submit Button */}
         {email.trim().length > 0 && (
           <button
             type="submit"
             disabled={loading}
-            className="gymbro-email-submit-btn"
+            className="mt-1 flex items-center justify-center gap-2 rounded-lg bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90 cursor-pointer border-0 shadow-sm disabled:opacity-50"
           >
-            {loading ? "Signing in..." : "Sign In with Email"}
+            {loading ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>Signing in...</span>
+              </>
+            ) : (
+              <span>Sign In with Email</span>
+            )}
           </button>
         )}
 
-        {/* Google Button */}
+        <div className="relative my-2 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-border"></div>
+          </div>
+          <span className="relative bg-card px-2 text-[11px] font-semibold text-muted-foreground uppercase">
+            or
+          </span>
+        </div>
+
+        {/* Google GIS Button */}
         <button
           type="button"
           onClick={handleGoogleClick}
           disabled={loading}
-          className="gymbro-google-btn"
+          className="flex items-center justify-center gap-3 rounded-lg border border-border bg-background hover:bg-secondary/60 px-4 py-2.5 text-sm font-semibold text-foreground transition-colors cursor-pointer disabled:opacity-50"
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ flexShrink: 0 }}
-          >
+          <svg width="18" height="18" viewBox="0 0 24 24" className="shrink-0">
             <path
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
               fill="#4285F4"
@@ -271,14 +272,12 @@ const AuthModal = ({ onClose, reason, isPage = false }) => {
               fill="#EA4335"
             />
           </svg>
-          <span className="gymbro-google-text">
-            {loading ? "Authenticating..." : "Continue with Google"}
-          </span>
+          <span>{loading ? "Authenticating..." : "Continue with Google"}</span>
         </button>
       </form>
 
-      <p className="gymbro-footer-text">
-        Secure authentication powered by Google
+      <p className="text-[11px] text-muted-foreground mt-5 m-0">
+        Secure athlete authentication powered by Google
       </p>
     </div>
   );

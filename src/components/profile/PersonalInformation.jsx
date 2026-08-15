@@ -1,67 +1,44 @@
 import React from "react";
-import { User, Calendar, UserCheck, Ruler, Weight, FileText, Edit3 } from "lucide-react";
+import { Edit3 } from "lucide-react";
 
-const PersonalInformation = ({ user, onEdit }) => {
-  const items = [
-    {
-      label: "Age",
-      value: user?.age ? `${user.age} Years` : "Not specified",
-      icon: <Calendar className="kv-icon text-orange" size={18} />
-    },
-    {
-      label: "Gender",
-      value: user?.gender || "Not specified",
-      icon: <UserCheck className="kv-icon text-blue" size={18} />
-    },
-    {
-      label: "Height",
-      value: user?.height ? `${user.height} cm` : "Not specified",
-      icon: <Ruler className="kv-icon text-emerald" size={18} />
-    },
-    {
-      label: "Weight",
-      value: user?.weight ? `${user.weight} kg` : "Not specified",
-      icon: <Weight className="kv-icon text-purple" size={18} />
-    }
+export const PersonalInformation = ({ user, onEdit }) => {
+  const details = [
+    { label: "Age", value: user?.age ? `${user.age} Years` : "Not specified" },
+    { label: "Gender", value: user?.gender || "Not specified" },
+    { label: "Height", value: user?.height ? `${user.height} cm` : "Not specified" },
+    { label: "Weight", value: user?.weight ? `${user.weight} kg` : "Not specified" },
+    { label: "Target Weight", value: user?.targetWeight ? `${user.targetWeight} kg` : "Not specified" },
   ];
 
   return (
-    <div className="card profile-info-card">
-      <div className="card-header-row">
-        <div className="card-title-group">
-          <User className="section-title-icon text-orange" size={20} />
-          <h3 className="card-heading-title">Personal Metrics</h3>
-        </div>
+    <section className="rounded-xl border border-border bg-card shadow-xs">
+      <div className="flex items-center justify-between border-b border-border px-5 py-4 md:px-6">
+        <h2 className="font-medium tracking-tight text-foreground">Physical Biometrics</h2>
         {onEdit && (
-          <button className="edit-icon-btn" onClick={onEdit} title="Edit metrics">
-            <Edit3 size={15} />
+          <button
+            type="button"
+            onClick={onEdit}
+            className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground cursor-pointer bg-transparent border-0"
+          >
+            <Edit3 className="size-3.5" />
             <span>Edit</span>
           </button>
         )}
       </div>
-
-      <div className="key-value-list">
-        {items.map((item, idx) => (
-          <div key={idx} className="kv-row">
-            <div className="kv-label-group">
-              {item.icon}
-              <span className="kv-label-text">{item.label}</span>
-            </div>
-            <span className="kv-value-text">{item.value}</span>
+      <dl className="divide-y divide-border m-0 p-0">
+        {details.map((d) => (
+          <div
+            key={d.label}
+            className="flex items-center justify-between gap-4 px-5 py-3.5 md:px-6"
+          >
+            <dt className="text-sm text-muted-foreground">{d.label}</dt>
+            <dd className="text-sm font-medium tracking-tight text-foreground m-0">
+              {d.value}
+            </dd>
           </div>
         ))}
-
-        <div className="kv-row bio-row">
-          <div className="kv-label-group">
-            <FileText className="kv-icon text-muted" size={18} />
-            <span className="kv-label-text">Bio</span>
-          </div>
-          <span className="kv-value-text bio-text">
-            {user?.bio || "No bio added yet."}
-          </span>
-        </div>
-      </div>
-    </div>
+      </dl>
+    </section>
   );
 };
 

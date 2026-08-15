@@ -18,7 +18,7 @@ const LoginPage = () => {
   }, [isAuthenticated, user, navigate]);
 
   return (
-    <div className="gymbro-login-container">
+    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 animate-in fade-in duration-200">
       <AuthModal isPage={true} />
     </div>
   );

@@ -1,77 +1,58 @@
 import React from "react";
-import { Flame, Trophy, Dumbbell, Target, BarChart2 } from "lucide-react";
+import { Dumbbell, Flame, Trophy, Target } from "lucide-react";
 
-const WorkoutStats = ({ user }) => {
+export const WorkoutStats = ({ user }) => {
+  const goalText = (user?.fitnessGoal || "muscle_gain").replace("_", " ");
+
   const stats = [
     {
-      title: "Current Streak",
-      value: `${user?.currentStreak || 0} ${user?.currentStreak === 1 ? "Day" : "Days"}`,
-      icon: <Flame size={22} />,
-      accentColor: "#ff4b2b",
-      bgColor: "rgba(255, 75, 43, 0.12)",
-      description: "Consecutive active days"
+      label: "Workouts logged",
+      value: String(user?.workoutsCompleted || 0),
+      icon: Dumbbell,
     },
     {
-      title: "Longest Streak",
-      value: `${user?.longestStreak || user?.currentStreak || 0} ${user?.longestStreak === 1 ? "Day" : "Days"}`,
-      icon: <Trophy size={22} />,
-      accentColor: "#8b5cf6",
-      bgColor: "rgba(139, 92, 246, 0.12)",
-      description: "Personal best record"
+      label: "Current streak",
+      value: `${user?.currentStreak || 0} ${user?.currentStreak === 1 ? "day" : "days"}`,
+      icon: Flame,
     },
     {
-      title: "Workouts Completed",
-      value: user?.workoutsCompleted || 0,
-      icon: <Dumbbell size={22} />,
-      accentColor: "#3b82f6",
-      bgColor: "rgba(59, 130, 246, 0.12)",
-      description: "Finished AI sessions"
+      label: "Personal record streak",
+      value: `${user?.longestStreak || user?.currentStreak || 0} ${user?.longestStreak === 1 ? "day" : "days"}`,
+      icon: Trophy,
     },
     {
-      title: "Current Goal",
-      value: (user?.fitnessGoal || "muscle_gain").replace("_", " "),
-      icon: <Target size={22} />,
-      accentColor: "#10b981",
-      bgColor: "rgba(16, 185, 129, 0.12)",
-      description: "Active workout program",
-      isText: true
-    }
+      label: "Primary fitness goal",
+      value: goalText,
+      icon: Target,
+      isCapitalize: true,
+    },
   ];
 
   return (
-    <div className="workout-stats-section">
-      <div className="section-header-row">
-        <div className="section-title-group">
-          <BarChart2 className="section-title-icon text-orange" size={20} />
-          <h3 className="section-heading-title">Workout Statistics</h3>
-        </div>
-        <span className="live-sync-pill">
-          ⚡ Real-time Session Logs
-        </span>
-      </div>
-
-      <div className="stats-4col-grid">
-        {stats.map((stat, idx) => (
-          <div key={idx} className="card stat-card-compact">
-            <div className="stat-card-header">
-              <div className="stat-icon-bubble" style={{ background: stat.bgColor, color: stat.accentColor }}>
-                {stat.icon}
-              </div>
-              <span className="stat-card-title">{stat.title}</span>
+    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      {stats.map((s) => {
+        const Icon = s.icon;
+        return (
+          <div
+            key={s.label}
+            className="rounded-xl border border-border bg-card p-4 shadow-xs flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <Icon className="size-4 text-muted-foreground" />
             </div>
-
-            <div className="stat-card-body">
-              <div
-                className={`stat-card-value ${stat.isText ? "text-value" : ""}`}
-                style={{ color: stat.isText ? "#ffffff" : stat.accentColor }}
+            <div className="mt-3">
+              <p
+                className={`text-2xl font-semibold tracking-tight text-foreground ${
+                  s.isCapitalize ? "capitalize text-lg" : ""
+                }`}
               >
-                {stat.value}
-              </div>
-              <span className="stat-card-subtext">{stat.description}</span>
+                {s.value}
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">{s.label}</p>
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 };

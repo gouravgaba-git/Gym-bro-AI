@@ -1,38 +1,28 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { WorkoutProvider } from './context/WorkoutContext';
-import Navbar from './components/Navbar';
-import AuthModal from './components/AuthModal';
-import ProtectedRoute from './components/ProtectedRoute';
-import ToastNotification from './components/ToastNotification';
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { WorkoutProvider } from "./context/WorkoutContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import DashboardShell from "./components/layout/DashboardShell";
+import AuthModal from "./components/AuthModal";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ToastNotification from "./components/ToastNotification";
 
-import DashboardPage from './pages/DashboardPage';
-import WorkoutPlanPage from './pages/WorkoutPlanPage';
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
-import SettingsPage from './pages/SettingsPage';
-import CompleteProfilePage from './pages/CompleteProfilePage';
+import DashboardPage from "./pages/DashboardPage";
+import WorkoutPlanPage from "./pages/WorkoutPlanPage";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
+import CompleteProfilePage from "./pages/CompleteProfilePage";
 
-// Standard Application Layout with Navbar and Footer
+// Standard Application Layout with Sidebar DashboardShell
 function AppLayout() {
   return (
-    <div className="app-container">
-      <Navbar />
-
-      <main className="main-content">
-        <Outlet />
-      </main>
-
-      <footer className="app-footer">
-        <p>© 2026 <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>The Gym Bro MVP</span>. Built for premium athletes.</p>
-        <p style={{ marginTop: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
-          Disclaimer: Consult a physician before beginning any training program.
-        </p>
-      </footer>
-    </div>
+    <DashboardShell>
+      <Outlet />
+    </DashboardShell>
   );
 }
 
@@ -42,7 +32,7 @@ function AppContent() {
   return (
     <>
       <Routes>
-        {/* Standalone Public Authentication Route - No Navbar, No App Footer */}
+        {/* Standalone Public Authentication Route */}
         <Route path="/login" element={<LoginPage />} />
 
         {/* Main Application Layout for Dashboard, Workout Plan, Profile, Settings, etc. */}
@@ -100,15 +90,17 @@ function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID";
 
   return (
-    <GoogleOAuthProvider clientId={googleClientId}>
-      <AuthProvider>
-        <WorkoutProvider>
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
-        </WorkoutProvider>
-      </AuthProvider>
-    </GoogleOAuthProvider>
+    <ThemeProvider>
+      <GoogleOAuthProvider clientId={googleClientId}>
+        <AuthProvider>
+          <WorkoutProvider>
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </WorkoutProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
+    </ThemeProvider>
   );
 }
 

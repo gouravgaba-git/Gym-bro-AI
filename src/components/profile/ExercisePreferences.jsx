@@ -1,72 +1,75 @@
 import React from "react";
-import { Target, Award, Dumbbell, Activity, Edit3 } from "lucide-react";
+import { Edit3 } from "lucide-react";
 
-const ExercisePreferences = ({ user, onEdit }) => {
+export const ExercisePreferences = ({ user, onEdit }) => {
   const goalLabels = {
     muscle_gain: "Muscle Gain",
     fat_loss: "Fat Loss",
-    strength: "Raw Strength"
+    strength: "Raw Strength",
   };
 
   const levelLabels = {
-    beginner: "Beginner",
-    intermediate: "Intermediate",
-    advanced: "Advanced"
+    beginner: "Beginner (Full Body Focus)",
+    intermediate: "Intermediate (Upper / Lower)",
+    advanced: "Advanced (PPL / Custom)",
   };
 
-  const preferenceItems = [
+  const details = [
     {
       label: "Primary Goal",
-      value: goalLabels[user?.fitnessGoal] || (user?.fitnessGoal ? user.fitnessGoal.replace("_", " ") : "Muscle Gain"),
-      icon: <Target className="pref-icon text-orange" size={18} />,
-      highlight: true
+      value:
+        goalLabels[user?.fitnessGoal] ||
+        (user?.fitnessGoal ? user.fitnessGoal.replace("_", " ") : "Muscle Gain"),
     },
     {
       label: "Experience Level",
-      value: levelLabels[user?.experienceLevel] || user?.experienceLevel || "Intermediate",
-      icon: <Award className="pref-icon text-purple" size={18} />
+      value:
+        levelLabels[user?.experienceLevel] || user?.experienceLevel || "Intermediate",
     },
     {
       label: "Preferred Workout Type",
-      value: user?.fitnessGoal === "fat_loss" ? "HIIT & Conditioning" : user?.fitnessGoal === "strength" ? "Heavy Strength & Power" : "Hypertrophy & Muscle Building",
-      icon: <Dumbbell className="pref-icon text-blue" size={18} />
+      value:
+        user?.fitnessGoal === "fat_loss"
+          ? "HIIT & Conditioning"
+          : user?.fitnessGoal === "strength"
+          ? "Heavy Compound & Power"
+          : "Hypertrophy & Volume",
     },
     {
       label: "Activity Level",
-      value: user?.activityLevel || "Moderate (3-5 days/week)",
-      icon: <Activity className="pref-icon text-emerald" size={18} />
-    }
+      value: user?.activityLevel || "Moderate (3–5 days/week)",
+    },
   ];
 
   return (
-    <div className="card profile-info-card">
-      <div className="card-header-row">
-        <div className="card-title-group">
-          <Target className="section-title-icon text-orange" size={20} />
-          <h3 className="card-heading-title">Exercise Preferences</h3>
-        </div>
+    <section className="rounded-xl border border-border bg-card shadow-xs">
+      <div className="flex items-center justify-between border-b border-border px-5 py-4 md:px-6">
+        <h2 className="font-medium tracking-tight text-foreground">Training Preferences</h2>
         {onEdit && (
-          <button className="edit-icon-btn" onClick={onEdit} title="Edit preferences">
-            <Edit3 size={15} />
+          <button
+            type="button"
+            onClick={onEdit}
+            className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground cursor-pointer bg-transparent border-0"
+          >
+            <Edit3 className="size-3.5" />
             <span>Edit</span>
           </button>
         )}
       </div>
-
-      <div className="key-value-list">
-        {preferenceItems.map((item, idx) => (
-          <div key={idx} className="kv-row">
-            <div className="kv-label-group">
-              {item.icon}
-              <span className="kv-label-text">{item.label}</span>
-            </div>
-            <span className={`kv-value-text ${item.highlight ? "highlight-pill" : ""}`}>
-              {item.value}
-            </span>
+      <dl className="divide-y divide-border m-0 p-0">
+        {details.map((d) => (
+          <div
+            key={d.label}
+            className="flex items-center justify-between gap-4 px-5 py-3.5 md:px-6"
+          >
+            <dt className="text-sm text-muted-foreground">{d.label}</dt>
+            <dd className="text-sm font-medium tracking-tight text-foreground m-0">
+              {d.value}
+            </dd>
           </div>
         ))}
-      </div>
-    </div>
+      </dl>
+    </section>
   );
 };
 

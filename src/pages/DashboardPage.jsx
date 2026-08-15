@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import PageHeader from "../components/common/PageHeader";
 import WorkoutForm from "../components/WorkoutForm";
-import Spinner from "../components/Spinner";
 import { useAuth } from "../context/AuthContext";
 import { useWorkout } from "../context/WorkoutContext";
 
@@ -9,9 +9,10 @@ const DashboardPage = () => {
   const { user } = useAuth();
   const { generatePlan, isGenerating } = useWorkout();
   const navigate = useNavigate();
-  
+
   // Persist fitness goal from user profile or localStorage
-  const savedGoal = user?.fitnessGoal || localStorage.getItem("user_fitness_goal") || "muscle_gain";
+  const savedGoal =
+    user?.fitnessGoal || localStorage.getItem("user_fitness_goal") || "muscle_gain";
   const [goal, setGoal] = useState(savedGoal);
   const [level, setLevel] = useState("beginner");
   const [days, setDays] = useState(null);
@@ -36,39 +37,30 @@ const DashboardPage = () => {
       navigate("/workout-plan");
     } catch (err) {
       console.error("Plan generation error:", err);
-      // In case of error, if fallback succeeded in generatePlan it will still resolve and navigate
+      // Navigation happens even if fallback generator fulfilled the request
+      navigate("/workout-plan");
     }
   };
 
   return (
-    <div className="page-fade-in" style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
-      {/* Sleek Hero Header */}
-      <header className="compact-hero-header" style={{ marginBottom: "8px" }}>
-        <h1 className="compact-hero-title">
-          Train Smarter
-        </h1>
-        <p className="compact-hero-subtitle">
-          Choose your primary fitness goal.
-        </p>
-      </header>
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 md:px-8 md:py-8 animate-in fade-in duration-200">
+      <PageHeader
+        title="Train Smarter"
+        description="Choose your primary fitness goal and experience level, then generate a split built for you."
+      />
 
-      {/* Interactive Goal Form */}
-      <main style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
-        <WorkoutForm
-          goal={goal}
-          setGoal={handleGoalChange}
-          level={level}
-          setLevel={setLevel}
-          days={days}
-          setDays={setDays}
-          selectedMuscles={selectedMuscles}
-          setSelectedMuscles={setSelectedMuscles}
-          onSubmit={handleGeneratePlan}
-          isGenerating={isGenerating}
-        />
-
-        {isGenerating && <Spinner />}
-      </main>
+      <WorkoutForm
+        goal={goal}
+        setGoal={handleGoalChange}
+        level={level}
+        setLevel={setLevel}
+        days={days}
+        setDays={setDays}
+        selectedMuscles={selectedMuscles}
+        setSelectedMuscles={setSelectedMuscles}
+        onSubmit={handleGeneratePlan}
+        isGenerating={isGenerating}
+      />
     </div>
   );
 };

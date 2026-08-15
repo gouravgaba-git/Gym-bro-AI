@@ -1,130 +1,159 @@
-import React from 'react';
+import React from "react";
+import { Check, Info } from "lucide-react";
+import { cn } from "../lib/utils";
 
-const ADVANCED_MUSCLES = ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms', 'Core'];
+const ADVANCED_MUSCLES = [
+  { id: "Chest", label: "Chest", desc: "Pectorals & pushing power" },
+  { id: "Back", label: "Back", desc: "Lats, rhomboids & traps" },
+  { id: "Shoulders", label: "Shoulders", desc: "Deltoids & overhead drive" },
+  { id: "Legs", label: "Legs", desc: "Quads, hamstrings & calves" },
+  { id: "Arms", label: "Arms", desc: "Biceps & triceps isolation" },
+  { id: "Core", label: "Core", desc: "Abs, obliques & lower back" },
+];
 
-/**
- * LevelController renders different selection elements conditionally based on the user's selected level.
- */
-const LevelController = ({
+const SPLIT_OPTIONS = [
+  { id: "3", label: "3 Day Split", desc: "Push / Pull / Legs (PPL)" },
+  { id: "4", label: "4 Day Split", desc: "Upper / Lower Routine" },
+  { id: "5", label: "5 Day Split", desc: "PPL + Upper/Lower Hybrid" },
+  { id: "6", label: "6 Day Split", desc: "High Volume PPL x2" },
+];
+
+function StepBadge({ n }) {
+  return (
+    <span className="flex size-5 items-center justify-center rounded-full bg-foreground text-[11px] font-semibold text-background">
+      {n}
+    </span>
+  );
+}
+
+export const LevelController = ({
   level,
   days,
   setDays,
   selectedMuscles,
-  setSelectedMuscles
+  setSelectedMuscles,
 }) => {
-  // Beginner view: Lock to Full Body, display tips badge
-  if (level === 'beginner') {
+  // Beginner view is self-contained with info tip in step 2
+  if (level === "beginner") {
+    return null;
+  }
+
+  // Intermediate view: Frequency selection
+  if (level === "intermediate") {
     return (
-      <div className="conditional-container" id="beginner-settings">
-        <div className="tip-badge">
-          <span className="tip-badge-icon" role="img" aria-label="Tip Icon">💡</span>
-          <div>
-            <strong>Full Body Locked:</strong> Beginners excel best on 4-Day Full Body splits for maximum recovery, neural adaptations, and consistent progress.
-          </div>
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 transition-all animate-in fade-in duration-200">
+        <div className="mb-4 flex items-center gap-2.5">
+          <StepBadge n={3} />
+          <h2 className="text-base font-medium tracking-tight text-foreground">
+            Choose Weekly Frequency
+          </h2>
         </div>
-      </div>
+        
+        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+          {SPLIT_OPTIONS.map((opt) => {
+            const isSelected = days === opt.id;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => setDays(opt.id)}
+                aria-pressed={isSelected}
+                className={cn(
+                  "flex flex-col items-start gap-1 rounded-lg border p-4 text-left transition-colors cursor-pointer",
+                  isSelected
+                    ? "border-foreground bg-secondary/70 shadow-xs"
+                    : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"
+                )}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-semibold text-sm tracking-tight text-foreground">
+                    {opt.label}
+                  </span>
+                  {isSelected && (
+                    <span className="flex size-4 items-center justify-center rounded-full bg-foreground text-background">
+                      <Check className="size-2.5 stroke-[3]" />
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  {opt.desc}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
     );
   }
 
-  // Intermediate view: Select 3 Day or 4 Day Split
-  if (level === 'intermediate') {
-    return (
-      <div className="conditional-container" id="intermediate-settings">
-        <label className="section-label" htmlFor="day-selection">
-          <span className="label-number">3</span> Choose Weekly Frequency
-        </label>
-        <div className="days-grid" id="day-selection">
-          <div
-            id="day-split-3"
-            className={`day-option ${days === '3' ? 'selected' : ''}`}
-            onClick={() => setDays('3')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('3'); }}
-          >
-            <div className="day-option-title">3 Day Split</div>
-            <div className="day-option-desc">Ideal for Push / Pull / Legs (PPL) routines</div>
-          </div>
-          <div
-            id="day-split-4"
-            className={`day-option ${days === '4' ? 'selected' : ''}`}
-            onClick={() => setDays('4')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('4'); }}
-          >
-            <div className="day-option-title">4 Day Split</div>
-            <div className="day-option-desc">Ideal for Upper / Lower or Torso / Limbs splits</div>
-          </div>
-          <div
-            id="day-split-5"
-            className={`day-option ${days === '5' ? 'selected' : ''}`}
-            onClick={() => setDays('5')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('5'); }}
-          >
-            <div className="day-option-title">5 Day Split</div>
-            <div className="day-option-desc">PPL + Upper / Lower hybrid routine</div>
-          </div>
-          <div
-            id="day-split-6"
-            className={`day-option ${days === '6' ? 'selected' : ''}`}
-            onClick={() => setDays('6')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDays('6'); }}
-          >
-            <div className="day-option-title">6 Day Split</div>
-            <div className="day-option-desc">High volume PPL x2 workout split</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Advanced view: Multi-select muscle group checkboxes
-  if (level === 'advanced') {
-    const handleToggleMuscle = (muscle) => {
+  // Advanced view: Target muscle groups selection
+  if (level === "advanced") {
+    const handleToggleMuscle = (muscleId) => {
       const currentSelected = selectedMuscles || [];
-      if (currentSelected.includes(muscle)) {
-        setSelectedMuscles(currentSelected.filter(m => m !== muscle));
+      if (currentSelected.includes(muscleId)) {
+        setSelectedMuscles(currentSelected.filter((m) => m !== muscleId));
       } else {
-        setSelectedMuscles([...currentSelected, muscle]);
+        setSelectedMuscles([...currentSelected, muscleId]);
       }
     };
 
     return (
-      <div className="conditional-container" id="advanced-settings">
-        <label className="section-label">
-          <span className="label-number">3</span> Select Target Muscle Groups
-        </label>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '16px' }}>
-          Select at least one muscle group to custom-tailor your hypertrophic splits.
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 transition-all animate-in fade-in duration-200">
+        <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <StepBadge n={3} />
+            <h2 className="text-base font-medium tracking-tight text-foreground">
+              Select Target Muscle Groups
+            </h2>
+          </div>
+          <span className="text-xs text-muted-foreground">
+            {selectedMuscles?.length || 0} selected
+          </span>
+        </div>
+
+        <p className="text-sm text-muted-foreground mb-4">
+          Select target muscle groups to custom-tailor your hypertrophic splits.
         </p>
-        <div className="muscle-grid" role="group" aria-label="Select target muscle groups">
+
+        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
           {ADVANCED_MUSCLES.map((muscle) => {
-            const isSelected = (selectedMuscles || []).includes(muscle);
+            const isSelected = (selectedMuscles || []).includes(muscle.id);
             return (
-              <div
-                key={muscle}
-                id={`muscle-card-${muscle.toLowerCase()}`}
-                className={`muscle-checkbox-card ${isSelected ? 'selected' : ''}`}
-                onClick={() => handleToggleMuscle(muscle)}
-                role="checkbox"
-                aria-checked={isSelected}
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleToggleMuscle(muscle); }}
+              <button
+                key={muscle.id}
+                type="button"
+                onClick={() => handleToggleMuscle(muscle.id)}
+                aria-pressed={isSelected}
+                className={cn(
+                  "flex items-center justify-between rounded-lg border p-3.5 text-left transition-colors cursor-pointer",
+                  isSelected
+                    ? "border-foreground bg-secondary/70 shadow-xs"
+                    : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"
+                )}
               >
-                <div className="custom-checkbox" aria-hidden="true">
-                  {isSelected && '✓'}
+                <div className="flex flex-col min-w-0 pr-2">
+                  <span className="font-semibold text-sm tracking-tight text-foreground">
+                    {muscle.label}
+                  </span>
+                  <span className="text-xs text-muted-foreground truncate">
+                    {muscle.desc}
+                  </span>
                 </div>
-                <span className="muscle-name">{muscle}</span>
-              </div>
+                <span
+                  className={cn(
+                    "flex size-5 shrink-0 items-center justify-center rounded-md border transition-colors",
+                    isSelected
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border bg-secondary/50 text-transparent"
+                  )}
+                >
+                  <Check className="size-3 stroke-[3]" />
+                </span>
+              </button>
             );
           })}
         </div>
-      </div>
+      </section>
     );
   }
 

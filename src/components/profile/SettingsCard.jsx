@@ -1,190 +1,294 @@
 import React, { useState } from "react";
+import { Monitor, Moon, Sun, AlertTriangle, Loader2 } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { cn } from "../../lib/utils";
 
-const SettingsCard = () => {
-  const { user, deleteAccount } = useAuth();
+function Toggle({ checked, onChange, label }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={() => onChange(!checked)}
+      className={cn(
+        "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors cursor-pointer border-0",
+        checked ? "bg-foreground" : "bg-secondary"
+      )}
+    >
+      <span
+        className={cn(
+          "inline-block size-5 rounded-full bg-background shadow-xs transition-transform",
+          checked ? "translate-x-5.5" : "translate-x-0.5"
+        )}
+      />
+    </button>
+  );
+}
+
+const themeOptions = [
+  { value: "system", label: "System", icon: Monitor },
+  { value: "light", label: "Light", icon: Sun },
+  { value: "dark", label: "Dark", icon: Moon },
+];
+
+const units = ["Imperial (lb)", "Metric (kg)"];
+
+const notificationDefaults = [
+  {
+    key: "workout",
+    label: "Workout reminders",
+    description: "Get a nudge on your scheduled training days.",
+    on: true,
+  },
+  {
+    key: "streak",
+    label: "Streak alerts",
+    description: "Warn me before I lose my active streak.",
+    on: true,
+  },
+  {
+    key: "progress",
+    label: "Weekly progress report",
+    description: "A summary of volume and PRs every Sunday.",
+    on: false,
+  },
+  {
+    key: "product",
+    label: "Product updates",
+    description: "New features and coaching tips from Gym Bro.",
+    on: false,
+  },
+];
+
+export const SettingsCard = () => {
+  const { theme, setTheme } = useTheme();
+  const { deleteAccount, showToast } = useAuth();
   const navigate = useNavigate();
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [preferences, setPreferences] = useState({
-    darkMode: true,
-    workoutReminders: true,
-    streakAlerts: true
+
+  const [unit, setUnit] = useState(() => {
+    try {
+      return localStorage.getItem("gymbro_unit") || "Imperial (lb)";
+    } catch {
+      return "Imperial (lb)";
+    }
   });
 
-  const handleDeleteAccount = async () => {
+  const [prefs, setPrefs] = useState(() => {
     try {
-      await deleteAccount();
-      navigate("/login");
-    } catch (err) {
-      console.error("Delete failed:", err);
+      const saved = localStorage.getItem("gymbro_notifications");
+      return saved ? JSON.parse(saved) : Object.fromEntries(notificationDefaults.map((n) => [n.key, n.on]));
+    } catch {
+      return Object.fromEntries(notificationDefaults.map((n) => [n.key, n.on]));
+    }
+  });
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleUnitChange = (newUnit) => {
+    setUnit(newUnit);
+    try {
+      localStorage.setItem("gymbro_unit", newUnit);
+    } catch (e) {
+      console.warn("Storage error:", e);
+    }
+    showToast(`Measurement units set to ${newUnit}.`, "info");
+  };
+
+  const handleTogglePref = (key, value) => {
+    const updated = { ...prefs, [key]: value };
+    setPrefs(updated);
+    try {
+      localStorage.setItem("gymbro_notifications", JSON.stringify(updated));
+    } catch (e) {
+      console.warn("Storage error:", e);
     }
   };
 
-  const handleToggle = (key) => {
-    setPreferences((prev) => ({ ...prev, [key]: !prev[key] }));
+  const handleDeleteAccount = async () => {
+    try {
+      setIsDeleting(true);
+      await deleteAccount();
+      navigate("/login");
+    } catch (err) {
+      console.error("Delete account error:", err);
+      showToast("Account deletion failed. Please try again.", "error");
+    } finally {
+      setIsDeleting(false);
+      setShowConfirmDelete(false);
+    }
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
-      {/* 1. Account Section */}
-      <div className="settings-card-subtle">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <img
-              src={user?.profilePhoto || "https://lh3.googleusercontent.com/a/default-user"}
-              alt={user?.name || "User Avatar"}
-              style={{ width: "52px", height: "52px", borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(255, 75, 43, 0.4)" }}
-              onError={(e) => {
-                e.target.src = "https://lh3.googleusercontent.com/a/default-user";
-              }}
-            />
-            <div>
-              <h3 style={{ fontFamily: "var(--font-heading)", fontWeight: "800", fontSize: "18px", color: "#ffffff", margin: 0 }}>
-                {user?.name || "Athlete Profile"}
-              </h3>
-              <p style={{ fontSize: "13px", color: "var(--text-secondary)", margin: "2px 0 0 0" }}>
-                {user?.email || "athlete@gymbro.ai"}
-              </p>
-              <div style={{ display: "flex", gap: "8px", marginTop: "6px" }}>
-                <span className="target-badge" style={{ fontSize: "11px", textTransform: "capitalize" }}>
-                  🎯 {(user?.fitnessGoal || "muscle_gain").replace("_", " ")}
-                </span>
-                <span className="target-badge" style={{ fontSize: "11px", textTransform: "capitalize" }}>
-                  🏋️ {user?.experienceLevel || "Beginner"}
-                </span>
+    <div className="flex flex-col gap-6 w-full">
+      {/* Appearance Panel */}
+      <section className="rounded-xl border border-border bg-card shadow-xs">
+        <div className="border-b border-border px-5 py-4 md:px-6">
+          <h2 className="font-medium tracking-tight text-foreground">Appearance</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Customize how Gym Bro looks and measures.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-6 px-5 py-5 md:px-6">
+          <div className="flex flex-col gap-3">
+            <p className="text-sm font-medium tracking-tight text-foreground">Theme</p>
+            <div className="grid grid-cols-3 gap-2">
+              {themeOptions.map(({ value, label, icon: Icon }) => {
+                const active = theme === value;
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setTheme(value)}
+                    aria-pressed={active}
+                    className={cn(
+                      "flex flex-col items-center gap-2 rounded-lg border p-4 transition-colors cursor-pointer",
+                      active
+                        ? "border-foreground bg-secondary/70 shadow-xs ring-1 ring-foreground/10"
+                        : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"
+                    )}
+                  >
+                    <Icon className="size-5 text-foreground" />
+                    <span className="text-sm font-medium tracking-tight text-foreground">
+                      {label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <p className="text-sm font-medium tracking-tight text-foreground">Units</p>
+            <div className="grid grid-cols-1 gap-1 rounded-lg border border-border bg-secondary/40 p-1 sm:grid-cols-2">
+              {units.map((u) => {
+                const active = unit === u;
+                return (
+                  <button
+                    key={u}
+                    type="button"
+                    onClick={() => handleUnitChange(u)}
+                    aria-pressed={active}
+                    className={cn(
+                      "rounded-md px-4 py-2 text-sm font-medium tracking-tight transition-colors cursor-pointer border-0",
+                      active
+                        ? "bg-background text-foreground shadow-xs"
+                        : "bg-transparent text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {u}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Notifications Panel */}
+      <section className="rounded-xl border border-border bg-card shadow-xs">
+        <div className="border-b border-border px-5 py-4 md:px-6">
+          <h2 className="font-medium tracking-tight text-foreground">Notifications</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Choose what Gym Bro sends you.
+          </p>
+        </div>
+        <ul className="divide-y divide-border list-none p-0 m-0">
+          {notificationDefaults.map((n) => (
+            <li
+              key={n.key}
+              className="flex items-center justify-between gap-4 px-5 py-4 md:px-6"
+            >
+              <div>
+                <p className="text-sm font-medium tracking-tight text-foreground m-0">
+                  {n.label}
+                </p>
+                <p className="text-sm text-muted-foreground text-pretty m-0 mt-0.5">
+                  {n.description}
+                </p>
               </div>
-            </div>
-          </div>
+              <Toggle
+                label={n.label}
+                checked={prefs[n.key] ?? n.on}
+                onChange={(v) => handleTogglePref(n.key, v)}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
 
-          <button
-            type="button"
-            className="watch-btn"
-            onClick={() => navigate("/complete-profile")}
-            style={{ padding: "8px 16px" }}
-          >
-            <span>Edit Profile ✏️</span>
-          </button>
+      {/* Danger Zone */}
+      <section className="rounded-xl border border-destructive/30 bg-card shadow-xs">
+        <div className="border-b border-destructive/20 px-5 py-4 md:px-6">
+          <h2 className="font-medium tracking-tight text-destructive">Danger Zone</h2>
         </div>
-      </div>
-
-      {/* 2. Preferences Section */}
-      <div className="settings-card-subtle">
-        <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "14px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px", color: "var(--text-secondary)", marginBottom: "16px" }}>
-          Preferences
-        </h4>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {/* Dark Mode */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-            <div>
-              <div style={{ fontSize: "14px", fontWeight: "600", color: "#ffffff" }}>Dark Mode</div>
-              <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Sleek dark themes built for athletic focus</div>
-            </div>
-            <label className="ios-toggle-label">
-              <input
-                type="checkbox"
-                className="ios-toggle-input"
-                checked={preferences.darkMode}
-                onChange={() => handleToggle("darkMode")}
-              />
-              <span className="ios-toggle-slider" />
-            </label>
-          </div>
-
-          <div style={{ height: "1px", background: "rgba(255, 255, 255, 0.06)" }} />
-
-          {/* Workout Reminders */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-            <div>
-              <div style={{ fontSize: "14px", fontWeight: "600", color: "#ffffff" }}>Workout Reminders</div>
-              <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Daily alerts to keep your routine on schedule</div>
-            </div>
-            <label className="ios-toggle-label">
-              <input
-                type="checkbox"
-                className="ios-toggle-input"
-                checked={preferences.workoutReminders}
-                onChange={() => handleToggle("workoutReminders")}
-              />
-              <span className="ios-toggle-slider" />
-            </label>
-          </div>
-
-          <div style={{ height: "1px", background: "rgba(255, 255, 255, 0.06)" }} />
-
-          {/* Streak Protection Alerts */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-            <div>
-              <div style={{ fontSize: "14px", fontWeight: "600", color: "#ffffff" }}>Streak Reminders</div>
-              <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Alerts when active training streaks are at risk</div>
-            </div>
-            <label className="ios-toggle-label">
-              <input
-                type="checkbox"
-                className="ios-toggle-input"
-                checked={preferences.streakAlerts}
-                onChange={() => handleToggle("streakAlerts")}
-              />
-              <span className="ios-toggle-slider" />
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Privacy & Danger Zone */}
-      <div className="settings-card-subtle" style={{ borderColor: "rgba(239, 68, 68, 0.2)" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
+        <div className="flex flex-col items-start justify-between gap-3 px-5 py-4 sm:flex-row sm:items-center md:px-6">
           <div>
-            <div style={{ fontSize: "14px", fontWeight: "700", color: "#ef4444" }}>Delete Account</div>
-            <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Permanently remove your account and stored metrics</div>
+            <p className="text-sm font-medium tracking-tight text-foreground m-0">
+              Delete account
+            </p>
+            <p className="text-sm text-muted-foreground text-pretty m-0 mt-0.5">
+              Permanently remove your account and all training data.
+            </p>
           </div>
           <button
             type="button"
-            className="btn-danger-outline"
             onClick={() => setShowConfirmDelete(true)}
+            className="rounded-lg border border-destructive/40 bg-transparent px-4 py-2 text-sm font-medium tracking-tight text-destructive transition-colors hover:bg-destructive/10 cursor-pointer"
           >
-            Delete Account
+            Delete account
           </button>
         </div>
-      </div>
+      </section>
 
-      {/* Confirm Delete Account Modal */}
+      {/* Confirmation Dialog */}
       {showConfirmDelete && (
-        <div className="overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowConfirmDelete(false); }}>
-          <div className="modal card" style={{ maxWidth: "460px", padding: "28px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "18px", fontWeight: "800", color: "#ef4444", margin: 0 }}>
-                Confirm Account Deletion
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+          onClick={() => !isDeleting && setShowConfirmDelete(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-2xl border border-destructive/40 bg-card p-6 shadow-2xl text-foreground"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 text-destructive mb-3">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-destructive/10">
+                <AlertTriangle className="size-5" />
+              </span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                Delete Account?
               </h3>
-              <button
-                type="button"
-                className="modal-close-btn"
-                onClick={() => setShowConfirmDelete(false)}
-              >
-                ✕
-              </button>
             </div>
-            <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: "1.55", marginBottom: "24px" }}>
-              Are you sure you want to delete your account? This action cannot be undone and will delete your workout stats and preferences.
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+              This action cannot be undone. All your workout records, active streaks, biometric logs, and custom training routines will be permanently removed.
             </p>
-
-            <div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+            <div className="flex items-center justify-end gap-3">
               <button
                 type="button"
-                className="footer-close-btn"
+                disabled={isDeleting}
                 onClick={() => setShowConfirmDelete(false)}
-                style={{ padding: "8px 16px" }}
+                className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className="btn-danger-outline"
+                disabled={isDeleting}
                 onClick={handleDeleteAccount}
-                style={{ background: "#ef4444", color: "#ffffff", borderColor: "transparent" }}
+                className="flex items-center gap-2 rounded-lg bg-destructive px-5 py-2 text-sm font-semibold text-white hover:bg-destructive/90 cursor-pointer border-0"
               >
-                Yes, Delete
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <span>Yes, Delete Everything</span>
+                )}
               </button>
             </div>
           </div>

@@ -1,49 +1,65 @@
-import React from 'react';
-import LevelController from './LevelController';
+import React from "react";
+import {
+  ArrowRight,
+  Dumbbell,
+  Flame,
+  Info,
+  RotateCcw,
+  Sparkles,
+  Zap,
+  Loader2,
+} from "lucide-react";
+import LevelController from "./LevelController";
+import { cn } from "../lib/utils";
 
-const GOALS = [
+const goals = [
   {
-    id: 'muscle_gain',
-    title: 'Muscle Gain',
-    description: 'Optimize for hypertrophy, volume, and clean muscle mass retention.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 18h12M12 2v20M2 12h20M17 7l5 5-5 5M7 7l-5 5 5 5" />
-      </svg>
-    )
+    id: "muscle_gain",
+    stitchId: "muscle",
+    label: "Muscle Gain",
+    icon: Dumbbell,
+    description: "Optimize for hypertrophy, volume, and clean muscle mass retention.",
   },
   {
-    id: 'fat_loss',
-    title: 'Fat Loss',
-    description: 'High energy output, circuit sets, and metabolic conditioning.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-      </svg>
-    )
+    id: "fat_loss",
+    stitchId: "fatloss",
+    label: "Fat Loss",
+    icon: Flame,
+    description: "High energy output, circuit sets, and metabolic conditioning.",
   },
   {
-    id: 'strength',
-    title: 'Strength',
-    description: 'Focus on low reps, heavy compound movements, and neural drive.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-      </svg>
-    )
-  }
+    id: "strength",
+    stitchId: "strength",
+    label: "Strength",
+    icon: Zap,
+    description: "Focus on low reps, heavy compound movements, and neural drive.",
+  },
 ];
 
-const LEVELS = [
-  { id: 'beginner', label: 'Beginner' },
-  { id: 'intermediate', label: 'Intermediate' },
-  { id: 'advanced', label: 'Advanced' }
+const levels = [
+  { id: "beginner", label: "Beginner" },
+  { id: "intermediate", label: "Intermediate" },
+  { id: "advanced", label: "Advanced" },
 ];
 
-/**
- * WorkoutForm captures training goals, level, and conditional options.
- */
-const WorkoutForm = ({
+const tips = {
+  beginner:
+    "Full Body Locked: Beginners excel on 3–4 day full-body splits for maximum recovery, neural adaptation, and consistent progress.",
+  intermediate:
+    "Upper/Lower Recommended: You are ready for a 4-day upper/lower split to push frequency while keeping recovery in check.",
+  advanced:
+    "Push/Pull/Legs Unlocked: Advanced lifters thrive on a 5–6 day PPL split with targeted volume per muscle group.",
+};
+
+function StepBadge({ n }) {
+  return (
+    <span className="flex size-5 items-center justify-center rounded-full bg-foreground text-[11px] font-semibold text-background">
+      {n}
+    </span>
+  );
+}
+
+export function WorkoutForm({
   goal,
   setGoal,
   level,
@@ -53,94 +69,137 @@ const WorkoutForm = ({
   selectedMuscles,
   setSelectedMuscles,
   onSubmit,
-  isGenerating
-}) => {
-  const isFormValid = () => {
-    if (!goal) return false;
-    if (level === 'intermediate' && !days) return false;
-    if (level === 'advanced' && (!selectedMuscles || selectedMuscles.length === 0)) return false;
-    return true;
-  };
+  isGenerating,
+}) {
+  // Normalize goal identifier (handle both 'muscle_gain' and 'muscle', etc.)
+  const normalizedGoal =
+    goal === "muscle" ? "muscle_gain" : goal === "fatloss" ? "fat_loss" : goal;
 
   const handleLevelChange = (newLevel) => {
     setLevel(newLevel);
-    // Reset secondary states to avoid edge cases when toggling between levels
-    if (newLevel === 'beginner') {
+    if (newLevel === "beginner") {
       setDays(null);
       setSelectedMuscles([]);
-    } else if (newLevel === 'intermediate') {
-      setDays('3'); // Default to 3 days split
+    } else if (newLevel === "intermediate") {
+      setDays("4"); // default 4-day
       setSelectedMuscles([]);
-    } else if (newLevel === 'advanced') {
+    } else if (newLevel === "advanced") {
       setDays(null);
-      setSelectedMuscles([]); // Default selection is empty
+      setSelectedMuscles(["Chest", "Back", "Legs"]); // default suggested
     }
   };
 
-  const handleSubmitForm = (e) => {
+  const handleReset = () => {
+    setGoal("muscle_gain");
+    setLevel("beginner");
+    setDays(null);
+    setSelectedMuscles([]);
+  };
+
+  const isFormValid = () => {
+    if (!normalizedGoal) return false;
+    if (level === "intermediate" && !days) return false;
+    if (level === "advanced" && (!selectedMuscles || selectedMuscles.length === 0))
+      return false;
+    return true;
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (isFormValid()) {
+    if (isFormValid() && !isGenerating) {
       onSubmit();
     }
   };
 
   return (
-    <form className="card form-section" onSubmit={handleSubmitForm} id="workout-generator-form">
-      {/* 1. Goal Selection */}
-      <div>
-        <label className="section-label">
-          <span className="label-number">1</span> Choose Fitness Goal
-        </label>
-        <div className="goal-grid" role="radiogroup" aria-label="Fitness Goal">
-          {GOALS.map((g) => {
-            const isSelected = goal === g.id;
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
+      {/* Step 1: Choose Fitness Goal */}
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 shadow-xs">
+        <div className="mb-4 flex items-center gap-2.5">
+          <StepBadge n={1} />
+          <h2 className="text-base font-medium tracking-tight text-foreground">
+            Choose Fitness Goal
+          </h2>
+        </div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {goals.map((g) => {
+            const Icon = g.icon;
+            const selected =
+              normalizedGoal === g.id || normalizedGoal === g.stitchId;
             return (
-              <div
+              <button
                 key={g.id}
-                id={`goal-card-${g.id}`}
-                className={`goal-card ${isSelected ? 'selected' : ''}`}
+                type="button"
                 onClick={() => setGoal(g.id)}
-                role="radio"
-                aria-checked={isSelected}
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGoal(g.id); }}
+                aria-pressed={selected}
+                className={cn(
+                  "flex flex-col items-center gap-2 rounded-lg border p-5 text-center transition-all cursor-pointer",
+                  selected
+                    ? "border-foreground bg-secondary/70 shadow-xs ring-1 ring-foreground/10"
+                    : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"
+                )}
               >
-                <div className="goal-icon-wrapper">
-                  {g.icon}
-                </div>
-                <div className="goal-title">{g.title}</div>
-                <div className="goal-desc">{g.description}</div>
-              </div>
+                <span
+                  className={cn(
+                    "flex size-10 items-center justify-center rounded-lg transition-colors",
+                    selected
+                      ? "bg-foreground text-background"
+                      : "bg-secondary text-foreground"
+                  )}
+                >
+                  <Icon className="size-5" />
+                </span>
+                <span className="font-semibold text-sm tracking-tight text-foreground">
+                  {g.label}
+                </span>
+                <span className="text-xs leading-relaxed text-muted-foreground text-pretty">
+                  {g.description}
+                </span>
+              </button>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* 2. Level Selection */}
-      <div>
-        <label className="section-label" htmlFor="level-selector">
-          <span className="label-number">2</span> Choose Experience Level
-        </label>
-        <div className="level-group" id="level-selector" role="group" aria-label="Experience Level">
-          {LEVELS.map((l) => {
-            const isSelected = level === l.id;
+      {/* Step 2: Choose Experience Level */}
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 shadow-xs">
+        <div className="mb-4 flex items-center gap-2.5">
+          <StepBadge n={2} />
+          <h2 className="text-base font-medium tracking-tight text-foreground">
+            Choose Experience Level
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 gap-1 rounded-lg border border-border bg-secondary/40 p-1 sm:grid-cols-3">
+          {levels.map((l) => {
+            const selected = level === l.id;
             return (
               <button
                 key={l.id}
                 type="button"
-                id={`level-btn-${l.id}`}
-                className={`level-btn ${isSelected ? 'selected' : ''}`}
                 onClick={() => handleLevelChange(l.id)}
-                aria-pressed={isSelected}
+                aria-pressed={selected}
+                className={cn(
+                  "rounded-md px-4 py-2.5 text-sm font-semibold tracking-tight transition-all cursor-pointer border-0",
+                  selected
+                    ? "bg-background text-foreground shadow-xs"
+                    : "bg-transparent text-muted-foreground hover:text-foreground"
+                )}
               >
                 {l.label}
               </button>
             );
           })}
         </div>
-      </div>
 
-      {/* 3. Conditional Options based on Level */}
+        <div className="mt-4 flex items-start gap-2.5 rounded-lg border border-border bg-secondary/30 px-4 py-3">
+          <Info className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+          <p className="text-sm leading-relaxed text-muted-foreground text-pretty m-0">
+            {tips[level] || tips.beginner}
+          </p>
+        </div>
+      </section>
+
+      {/* Step 3: LevelController (for Intermediate / Advanced) */}
       <LevelController
         level={level}
         days={days}
@@ -149,22 +208,41 @@ const WorkoutForm = ({
         setSelectedMuscles={setSelectedMuscles}
       />
 
-      {/* 4. Action Submit Button */}
-      <button
-        type="submit"
-        id="generate-plan-button"
-        className="generate-btn"
-        disabled={isGenerating || !isFormValid()}
-      >
-        <span>{isGenerating ? 'Generating Plan...' : 'Generate Workout Plan'}</span>
-        {!isGenerating && (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        )}
-      </button>
+      {/* Actions */}
+      <div className="flex flex-col gap-3 sm:flex-row pt-1">
+        <button
+          type="submit"
+          disabled={isGenerating}
+          className={cn(
+            "group flex flex-1 items-center justify-center gap-2 rounded-lg bg-foreground px-5 py-3 text-sm font-semibold tracking-tight text-background transition-all hover:opacity-90 cursor-pointer border-0 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          )}
+        >
+          {isGenerating ? (
+            <>
+              <Loader2 className="size-4 animate-spin" />
+              <span>Generating Custom Workout Plan...</span>
+            </>
+          ) : (
+            <>
+              <Sparkles className="size-4" />
+              <span>Generate Workout Plan</span>
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </>
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={isGenerating}
+          className="flex items-center justify-center gap-2 rounded-lg border border-border bg-background px-5 py-3 text-sm font-medium tracking-tight text-foreground transition-colors hover:bg-secondary cursor-pointer disabled:opacity-50"
+        >
+          <RotateCcw className="size-4" />
+          <span>Reset</span>
+        </button>
+      </div>
     </form>
   );
-};
+}
 
 export default WorkoutForm;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { X, User, Ruler, Award, Lock } from "lucide-react";
+import { X, User, Loader2, Save } from "lucide-react";
 
-const EditProfileModal = ({ isOpen, onClose }) => {
+export const EditProfileModal = ({ isOpen, onClose }) => {
   const { user, updateUserProfile, showToast } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -10,13 +10,14 @@ const EditProfileModal = ({ isOpen, onClose }) => {
     name: user?.name || "",
     profilePhoto: user?.profilePhoto || "",
     age: user?.age || "",
-    gender: user?.gender || "",
+    gender: user?.gender || "Male",
     height: user?.height || "",
     weight: user?.weight || "",
+    targetWeight: user?.targetWeight || "",
     activityLevel: user?.activityLevel || "Moderate",
     experienceLevel: user?.experienceLevel || "beginner",
     fitnessGoal: user?.fitnessGoal || "muscle_gain",
-    bio: user?.bio || ""
+    bio: user?.bio || "",
   });
 
   if (!isOpen) return null;
@@ -25,7 +26,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -62,10 +63,11 @@ const EditProfileModal = ({ isOpen, onClose }) => {
         gender: formData.gender,
         height: formData.height ? Number(formData.height) : null,
         weight: formData.weight ? Number(formData.weight) : null,
+        targetWeight: formData.targetWeight ? Number(formData.targetWeight) : null,
         fitnessGoal: formData.fitnessGoal,
         experienceLevel: formData.experienceLevel,
         activityLevel: formData.activityLevel,
-        bio: formData.bio.trim()
+        bio: formData.bio.trim(),
       };
 
       if (formData.fitnessGoal) {
@@ -82,169 +84,174 @@ const EditProfileModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="overlay" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md p-4 overflow-y-auto"
+      onClick={onClose}
+    >
       <div
-        className="modal card edit-profile-modal-saas"
+        className="relative my-8 flex w-full max-w-xl flex-col rounded-2xl border border-border bg-card shadow-2xl text-foreground max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-header-saas">
-          <div className="modal-header-title-group">
-            <User size={20} className="text-orange" />
-            <h2 className="modal-title-text">Edit Personal & Training Profile</h2>
+        {/* Header */}
+        <div className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-card/95 backdrop-blur-sm px-6 py-4">
+          <div className="flex items-center gap-2">
+            <User className="size-4.5 text-foreground" />
+            <h2 className="text-base font-semibold tracking-tight text-foreground">
+              Edit Athlete Profile
+            </h2>
           </div>
-          <button className="modal-close-icon-btn" onClick={onClose} aria-label="Close modal">
-            <X size={18} />
+          <button
+            onClick={onClose}
+            aria-label="Close modal"
+            className="flex size-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer border-0 bg-transparent"
+          >
+            <X className="size-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="edit-profile-form">
-          <div className="read-only-notice-box">
-            <Lock size={15} className="notice-lock-icon" />
-            <span>
-              Account email (<strong>{user?.email}</strong>) is managed via Google OAuth. You can edit your avatar, personal metrics, and exercise preferences below.
-            </span>
-          </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-6">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <label className="text-xs font-semibold text-foreground">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+              />
+            </div>
 
-          <div className="form-group-section">
-            <div className="form-section-header">Identity & Avatar</div>
-            <div className="form-grid-2col">
-              <div className="form-field-item">
-                <label className="field-label-text">Display Name *</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Your full name"
-                  required
-                  className="input-field"
-                />
-              </div>
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <label className="text-xs font-semibold text-foreground">Profile Photo URL</label>
+              <input
+                type="url"
+                name="profilePhoto"
+                value={formData.profilePhoto}
+                onChange={handleChange}
+                placeholder="https://..."
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+              />
+            </div>
 
-              <div className="form-field-item">
-                <label className="field-label-text">Profile Photo URL</label>
-                <input
-                  type="url"
-                  name="profilePhoto"
-                  value={formData.profilePhoto}
-                  onChange={handleChange}
-                  placeholder="https://example.com/avatar.jpg"
-                  className="input-field"
-                />
-              </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-foreground">Age (years)</label>
+              <input
+                type="number"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="e.g. 25"
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-foreground">Gender</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-foreground focus:outline-none"
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Non-Binary">Non-Binary</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-foreground">Height (cm)</label>
+              <input
+                type="number"
+                name="height"
+                value={formData.height}
+                onChange={handleChange}
+                placeholder="e.g. 178"
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-foreground">Weight (kg)</label>
+              <input
+                type="number"
+                name="weight"
+                value={formData.weight}
+                onChange={handleChange}
+                placeholder="e.g. 75"
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-foreground">Fitness Goal</label>
+              <select
+                name="fitnessGoal"
+                value={formData.fitnessGoal}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-foreground focus:outline-none"
+              >
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="fat_loss">Fat Loss</option>
+                <option value="strength">Raw Strength</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-foreground">Experience Level</label>
+              <select
+                name="experienceLevel"
+                value={formData.experienceLevel}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground focus:border-foreground focus:outline-none"
+              >
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <label className="text-xs font-semibold text-foreground">Athlete Bio</label>
+              <textarea
+                name="bio"
+                rows="3"
+                value={formData.bio}
+                onChange={handleChange}
+                placeholder="Share your athletic goals or personal PR records..."
+                className="w-full rounded-lg border border-border bg-background px-3.5 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none resize-none"
+              />
             </div>
           </div>
 
-          <div className="form-group-section">
-            <div className="form-section-header">Personal Metrics</div>
-            <div className="form-grid-2col">
-              <div className="form-field-item">
-                <label className="field-label-text">Age (years)</label>
-                <input
-                  type="number"
-                  name="age"
-                  value={formData.age}
-                  onChange={handleChange}
-                  placeholder="e.g. 20"
-                  min="10"
-                  max="120"
-                  className="input-field"
-                />
-              </div>
-
-              <div className="form-field-item">
-                <label className="field-label-text">Gender</label>
-                <select name="gender" value={formData.gender} onChange={handleChange} className="input-field">
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Non-Binary">Non-Binary</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
-                </select>
-              </div>
-
-              <div className="form-field-item">
-                <label className="field-label-text">Height (cm)</label>
-                <input
-                  type="number"
-                  name="height"
-                  value={formData.height}
-                  onChange={handleChange}
-                  placeholder="e.g. 176"
-                  min="50"
-                  max="280"
-                  className="input-field"
-                />
-              </div>
-
-              <div className="form-field-item">
-                <label className="field-label-text">Weight (kg)</label>
-                <input
-                  type="number"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                  placeholder="e.g. 56"
-                  min="20"
-                  max="300"
-                  className="input-field"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group-section">
-            <div className="form-section-header">Exercise & Training Preferences</div>
-            <div className="form-grid-2col">
-              <div className="form-field-item">
-                <label className="field-label-text">Primary Fitness Goal</label>
-                <select name="fitnessGoal" value={formData.fitnessGoal} onChange={handleChange} className="input-field">
-                  <option value="muscle_gain">Muscle Gain</option>
-                  <option value="fat_loss">Fat Loss</option>
-                  <option value="strength">Raw Strength</option>
-                </select>
-              </div>
-
-              <div className="form-field-item">
-                <label className="field-label-text">Experience Level</label>
-                <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="input-field">
-                  <option value="beginner">Beginner</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
-                </select>
-              </div>
-
-              <div className="form-field-item full-span">
-                <label className="field-label-text">Activity Level</label>
-                <select name="activityLevel" value={formData.activityLevel} onChange={handleChange} className="input-field">
-                  <option value="Sedentary">Sedentary (Little to no exercise)</option>
-                  <option value="Lightly Active">Lightly Active (1-3 days/week)</option>
-                  <option value="Moderate">Moderate (3-5 days/week)</option>
-                  <option value="Very Active">Very Active (6-7 days/week)</option>
-                  <option value="Extremely Active">Extremely Active (Athletes)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-field-item full-span">
-            <label className="field-label-text">Bio / Notes</label>
-            <textarea
-              name="bio"
-              value={formData.bio}
-              onChange={handleChange}
-              placeholder="Tell the community about your fitness goals..."
-              rows="3"
-              className="input-field textarea-field"
-            />
-          </div>
-
-          <div className="modal-footer-actions-saas">
-            <button type="button" className="btn-cancel-saas" onClick={onClose}>
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary cursor-pointer"
+            >
               Cancel
             </button>
-            <button type="submit" className="btn-save-saas" disabled={loading}>
-              {loading ? "Saving..." : "Save Changes"}
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex items-center gap-2 rounded-lg bg-foreground px-5 py-2 text-sm font-semibold text-background hover:opacity-90 cursor-pointer disabled:opacity-50 border-0 shadow-sm"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  <span>Saving...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="size-4" />
+                  <span>Save Changes</span>
+                </>
+              )}
             </button>
           </div>
         </form>

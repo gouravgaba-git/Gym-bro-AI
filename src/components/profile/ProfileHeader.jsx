@@ -1,96 +1,87 @@
 import React from "react";
-import { User, Mail, Calendar, ShieldCheck, Edit3, Flame, Dumbbell, Target } from "lucide-react";
+import { Mail, Calendar, Edit3, ShieldCheck } from "lucide-react";
 
-const ProfileHeader = ({ user, onEdit }) => {
+function getInitials(name) {
+  if (!name) return "GB";
+  const parts = name.trim().split(" ");
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
+
+export const ProfileHeader = ({ user, onEdit }) => {
   const formattedJoinedDate = user?.joinedAt
     ? new Date(user.joinedAt).toLocaleDateString("en-US", {
         month: "short",
-        year: "numeric"
+        year: "numeric",
       })
     : "Member";
 
   const goalText = (user?.fitnessGoal || "muscle_gain").replace("_", " ");
 
   return (
-    <div className="card profile-hero-card">
-      {/* Left side: Avatar + Identity */}
-      <div className="hero-identity-section">
-        <div className="hero-avatar-wrapper">
-          <img
-            src={user?.profilePhoto || "https://lh3.googleusercontent.com/a/default-user"}
-            alt={user?.name || "User Avatar"}
-            className="hero-avatar-img"
-            onError={(e) => {
-              e.target.src = "https://lh3.googleusercontent.com/a/default-user";
-            }}
-          />
-          <span className="hero-verified-badge" title="Verified Google Account">
-            <ShieldCheck size={14} />
+    <section className="rounded-xl border border-border bg-card p-5 md:p-6 shadow-xs">
+      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
+          {user?.profilePhoto ? (
+            <img
+              src={user.profilePhoto}
+              alt={user?.name || "Athlete Avatar"}
+              className="size-16 rounded-full object-cover border border-border"
+              onError={(e) => {
+                e.target.style.display = "none";
+                e.target.nextElementSibling.style.display = "flex";
+              }}
+            />
+          ) : null}
+          <span
+            style={{ display: user?.profilePhoto ? "none" : "flex" }}
+            className="flex size-16 items-center justify-center rounded-full bg-secondary text-xl font-semibold tracking-tight text-foreground shrink-0"
+          >
+            {getInitials(user?.name)}
           </span>
+
+          <div>
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                {user?.name || "Athlete Bro"}
+              </h2>
+              <ShieldCheck className="size-4 text-emerald-500" title="Verified Account" />
+            </div>
+            <p className="text-sm text-muted-foreground">{user?.email || "athlete@gymbro.app"}</p>
+            <div className="mt-2 flex items-center justify-center sm:justify-start gap-2 flex-wrap">
+              <span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground uppercase">
+                PRO ATHLETE
+              </span>
+              <span className="rounded-md bg-secondary/70 px-2.5 py-1 text-xs font-medium text-muted-foreground capitalize">
+                {goalText}
+              </span>
+              <span className="text-xs text-muted-foreground hidden md:inline">
+                Joined {formattedJoinedDate}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="hero-user-info">
-          <div className="hero-name-row">
-            <h1 className="hero-user-name">{user?.name || "Athlete Bro"}</h1>
-            <span className="hero-tier-pill">PRO ATHLETE</span>
-          </div>
-
-          <div className="hero-meta-list">
-            <div className="hero-meta-item">
-              <Mail size={14} className="meta-icon-muted" />
-              <span className="hero-email-text">{user?.email}</span>
-            </div>
-            <div className="hero-meta-divider">•</div>
-            <div className="hero-meta-item">
-              <Calendar size={14} className="meta-icon-muted" />
-              <span>Joined {formattedJoinedDate}</span>
-            </div>
-          </div>
-
-          {user?.bio && <p className="hero-bio-quote">"{user.bio}"</p>}
-
-          {onEdit && (
-            <button className="hero-edit-btn" onClick={onEdit}>
-              <Edit3 size={15} />
-              <span>Edit Profile</span>
-            </button>
-          )}
-        </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium tracking-tight text-foreground transition-colors hover:bg-secondary cursor-pointer shrink-0"
+          >
+            <Edit3 className="size-4" />
+            <span>Edit Profile</span>
+          </button>
+        )}
       </div>
 
-      {/* Right side: Compact Quick Stats Snapshot */}
-      <div className="hero-quick-stats">
-        <div className="quick-stat-box">
-          <div className="qs-icon-wrapper text-orange">
-            <Flame size={18} />
-          </div>
-          <div className="qs-content">
-            <span className="qs-val">{user?.currentStreak || 0} Days</span>
-            <span className="qs-lbl">Streak</span>
-          </div>
+      {user?.bio && (
+        <div className="mt-4 border-t border-border pt-4 text-sm text-muted-foreground italic">
+          "{user.bio}"
         </div>
-
-        <div className="quick-stat-box">
-          <div className="qs-icon-wrapper text-blue">
-            <Dumbbell size={18} />
-          </div>
-          <div className="qs-content">
-            <span className="qs-val">{user?.workoutsCompleted || 0}</span>
-            <span className="qs-lbl">Workouts</span>
-          </div>
-        </div>
-
-        <div className="quick-stat-box">
-          <div className="qs-icon-wrapper text-emerald">
-            <Target size={18} />
-          </div>
-          <div className="qs-content">
-            <span className="qs-val capitalize">{goalText}</span>
-            <span className="qs-lbl">Current Goal</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </section>
   );
 };
 
