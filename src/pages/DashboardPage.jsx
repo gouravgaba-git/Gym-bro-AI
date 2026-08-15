@@ -43,7 +43,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 md:px-8 md:py-8 animate-in fade-in duration-200">
+    <div className="mx-auto flex w-full max-w-5xl xl:max-w-6xl 2xl:max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 animate-in fade-in duration-200">
       <PageHeader
         title="Train Smarter"
         description="Choose your primary fitness goal and experience level, then generate a split built for you."

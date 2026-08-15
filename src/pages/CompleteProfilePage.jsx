@@ -51,7 +51,7 @@ const CompleteProfilePage = () => {
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 animate-in fade-in duration-200">
-      <div className="flex w-full max-w-lg flex-col rounded-2xl border border-border bg-card p-6 md:p-8 shadow-2xl text-foreground">
+      <div className="flex w-full max-w-lg md:max-w-xl lg:max-w-2xl flex-col rounded-2xl border border-border bg-card p-6 md:p-8 shadow-2xl text-foreground">
         {/* Brand Header */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className="flex size-12 items-center justify-center rounded-xl bg-foreground text-background shadow-sm mb-3">

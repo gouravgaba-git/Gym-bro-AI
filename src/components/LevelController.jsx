@@ -41,7 +41,7 @@ export const LevelController = ({
   // Intermediate view: Frequency selection
   if (level === "intermediate") {
     return (
-      <section className="rounded-xl border border-border bg-card p-5 md:p-6 transition-all animate-in fade-in duration-200">
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 lg:p-7 transition-all animate-in fade-in duration-200 shadow-xs">
         <div className="mb-4 flex items-center gap-2.5">
           <StepBadge n={3} />
           <h2 className="text-base font-medium tracking-tight text-foreground">
@@ -49,7 +49,7 @@ export const LevelController = ({
           </h2>
         </div>
         
-        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {SPLIT_OPTIONS.map((opt) => {
             const isSelected = days === opt.id;
             return (
@@ -59,7 +59,7 @@ export const LevelController = ({
                 onClick={() => setDays(opt.id)}
                 aria-pressed={isSelected}
                 className={cn(
-                  "flex flex-col items-start gap-1 rounded-lg border p-4 text-left transition-colors cursor-pointer",
+                  "flex flex-col items-start gap-1 rounded-lg border p-4 lg:p-5 text-left transition-colors cursor-pointer",
                   isSelected
                     ? "border-foreground bg-secondary/70 shadow-xs"
                     : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"
@@ -98,7 +98,7 @@ export const LevelController = ({
     };
 
     return (
-      <section className="rounded-xl border border-border bg-card p-5 md:p-6 transition-all animate-in fade-in duration-200">
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 lg:p-7 transition-all animate-in fade-in duration-200 shadow-xs">
         <div className="mb-4 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2.5">
             <StepBadge n={3} />
@@ -106,7 +106,7 @@ export const LevelController = ({
               Select Target Muscle Groups
             </h2>
           </div>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs font-semibold text-muted-foreground">
             {selectedMuscles?.length || 0} selected
           </span>
         </div>
@@ -115,7 +115,7 @@ export const LevelController = ({
           Select target muscle groups to custom-tailor your hypertrophic splits.
         </p>
 
-        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6">
           {ADVANCED_MUSCLES.map((muscle) => {
             const isSelected = (selectedMuscles || []).includes(muscle.id);
             return (
@@ -125,7 +125,7 @@ export const LevelController = ({
                 onClick={() => handleToggleMuscle(muscle.id)}
                 aria-pressed={isSelected}
                 className={cn(
-                  "flex items-center justify-between rounded-lg border p-3.5 text-left transition-colors cursor-pointer",
+                  "flex items-center justify-between rounded-lg border p-3.5 lg:p-4 text-left transition-colors cursor-pointer",
                   isSelected
                     ? "border-foreground bg-secondary/70 shadow-xs"
                     : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"

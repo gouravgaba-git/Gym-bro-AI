@@ -114,14 +114,14 @@ export function WorkoutForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
       {/* Step 1: Choose Fitness Goal */}
-      <section className="rounded-xl border border-border bg-card p-5 md:p-6 shadow-xs">
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 lg:p-7 shadow-xs">
         <div className="mb-4 flex items-center gap-2.5">
           <StepBadge n={1} />
           <h2 className="text-base font-medium tracking-tight text-foreground">
             Choose Fitness Goal
           </h2>
         </div>
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 md:grid-cols-3 xl:gap-4">
           {goals.map((g) => {
             const Icon = g.icon;
             const selected =
@@ -133,7 +133,7 @@ export function WorkoutForm({
                 onClick={() => setGoal(g.id)}
                 aria-pressed={selected}
                 className={cn(
-                  "flex flex-col items-center gap-2 rounded-lg border p-5 text-center transition-all cursor-pointer",
+                  "flex flex-col items-center gap-2.5 rounded-lg border p-5 lg:p-6 text-center transition-all cursor-pointer",
                   selected
                     ? "border-foreground bg-secondary/70 shadow-xs ring-1 ring-foreground/10"
                     : "border-border bg-background hover:border-foreground/30 hover:bg-secondary/30"
@@ -141,18 +141,18 @@ export function WorkoutForm({
               >
                 <span
                   className={cn(
-                    "flex size-10 items-center justify-center rounded-lg transition-colors",
+                    "flex size-11 items-center justify-center rounded-lg transition-colors",
                     selected
                       ? "bg-foreground text-background"
                       : "bg-secondary text-foreground"
                   )}
                 >
-                  <Icon className="size-5" />
+                  <Icon className="size-5.5" />
                 </span>
                 <span className="font-semibold text-sm tracking-tight text-foreground">
                   {g.label}
                 </span>
-                <span className="text-xs leading-relaxed text-muted-foreground text-pretty">
+                <span className="text-xs leading-relaxed text-muted-foreground text-pretty max-w-xs">
                   {g.description}
                 </span>
               </button>
@@ -162,14 +162,14 @@ export function WorkoutForm({
       </section>
 
       {/* Step 2: Choose Experience Level */}
-      <section className="rounded-xl border border-border bg-card p-5 md:p-6 shadow-xs">
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 lg:p-7 shadow-xs">
         <div className="mb-4 flex items-center gap-2.5">
           <StepBadge n={2} />
           <h2 className="text-base font-medium tracking-tight text-foreground">
             Choose Experience Level
           </h2>
         </div>
-        <div className="grid grid-cols-1 gap-1 rounded-lg border border-border bg-secondary/40 p-1 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-1.5 rounded-lg border border-border bg-secondary/40 p-1.5 sm:grid-cols-3">
           {levels.map((l) => {
             const selected = level === l.id;
             return (
@@ -214,7 +214,7 @@ export function WorkoutForm({
           type="submit"
           disabled={isGenerating}
           className={cn(
-            "group flex flex-1 items-center justify-center gap-2 rounded-lg bg-foreground px-5 py-3 text-sm font-semibold tracking-tight text-background transition-all hover:opacity-90 cursor-pointer border-0 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            "group flex flex-1 items-center justify-center gap-2 rounded-lg bg-foreground px-6 py-3.5 text-sm font-semibold tracking-tight text-background transition-all hover:opacity-90 cursor-pointer border-0 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           )}
         >
           {isGenerating ? (
@@ -235,7 +235,7 @@ export function WorkoutForm({
           type="button"
           onClick={handleReset}
           disabled={isGenerating}
-          className="flex items-center justify-center gap-2 rounded-lg border border-border bg-background px-5 py-3 text-sm font-medium tracking-tight text-foreground transition-colors hover:bg-secondary cursor-pointer disabled:opacity-50"
+          className="flex items-center justify-center gap-2 rounded-lg border border-border bg-background px-6 py-3.5 text-sm font-medium tracking-tight text-foreground transition-colors hover:bg-secondary cursor-pointer disabled:opacity-50"
         >
           <RotateCcw className="size-4" />
           <span>Reset</span>
