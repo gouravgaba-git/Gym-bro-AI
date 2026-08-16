@@ -1,7 +1,5 @@
 /**
- * Exercise Information Database
- * Stores high-yield details, step-by-step form guides, and safety tips for exercises.
- * Designed to support both image placeholders and future video files (e.g., mp4, YouTube/Vimeo links).
+ * Exercise Information Database with YouTube Video Embeds
  */
 
 export const exerciseDetailsDb = {
@@ -15,12 +13,12 @@ export const exerciseDetailsDb = {
       "Exhale near the top of the movement and reset your brace for the next rep."
     ],
     tips: [
-      "Maintain a proud chest throughout the movement to prevent your hips from rising too fast (good morning squat).",
+      "Maintain a proud chest throughout the movement to prevent your hips from rising too fast.",
       "Actively screw your feet into the floor to activate the glutes and prevent knee cave-in.",
       "If ankle mobility is a bottleneck, try elevating your heels slightly or using weightlifting shoes."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image" // Can be changed to "video" in the future
+    mediaUrl: '<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/aOzrA4FgnM0?si=5AfmjivHaK_loDd2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   "Flat Barbell Bench Press": {
     steps: [
@@ -36,8 +34,39 @@ export const exerciseDetailsDb = {
       "Do not bounce the bar off your chest. Touch lightly, pause for a split second, and press.",
       "Maintain a natural arch in your lower back, but keep your glutes planted on the bench."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: '<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/ptpmRrzRtWQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  },
+  "Pec dec": {
+    steps: [
+      "Adjust the seat height so the handles align with your mid-chest level.",
+      "Keep your back firmly against the pad and retract your shoulder blades.",
+      "Bring the pads together in front of your chest in a smooth arc, squeezing your pecs.",
+      "Pause for 1 second at full contraction.",
+      "Slowly return to the starting stretch position under control."
+    ],
+    tips: [
+      "Avoid letting your shoulders roll forward at the peak contraction.",
+      "Keep a slight bend in your elbows throughout the movement."
+    ],
+    mediaUrl: '<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/K2VJ4HeXb4s?si=lHra8kMVk9k8p-FM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
+  },
+  "Leg Extension": {
+    steps: [
+      "Sit on the machine with your back flat against the pad and knees aligned with the pivot point.",
+      "Position the shin pad just above your ankles with feet pointed forward.",
+      "Grip the side handles firmly to keep your hips seated.",
+      "Extend your legs smoothly until your knees are straight, squeezing your quads at the top.",
+      "Hold the peak contraction for 1 second.",
+      "Lower the weight slowly under full control to the starting stretch position."
+    ],
+    tips: [
+      "Do not kick or use momentum; focus on quad isolation.",
+      "Control the lowering (eccentric) phase for 2 to 3 seconds."
+    ],
+    mediaUrl: '<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/YyvSfVjQeL0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   },
   "Lat Pulldown (Wide Grip)": {
     steps: [
@@ -51,73 +80,112 @@ export const exerciseDetailsDb = {
       "Use your hands as hooks. Focus on driving your elbows down rather than pulling with your forearms/biceps.",
       "Avoid using momentum or swinging your torso to pull the weight down."
     ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
-  },
-  "Seated Dumbbell Shoulder Press": {
-    steps: [
-      "Sit on an incline bench set to 90 degrees (or slightly less to protect shoulders). Clean the dumbbells to your shoulders.",
-      "Rotate your wrists so your palms face forward. Set your elbows slightly forward in the scapular plane.",
-      "Brace your core, press your back into the pad, and push the weights straight up over your head.",
-      "Stop just before the dumbbells touch or your elbows fully lock out to maintain tension.",
-      "Lower the weights slowly and under control back to your shoulders, feeling the stretch in your anterior delts."
-    ],
-    tips: [
-      "Avoid flaring your elbows directly out to the sides; tucking them slightly is safer for the rotator cuff.",
-      "Keep your ribs down and core braced to avoid hyperextending your lower back."
-    ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
-  },
-  "Dumbbell Bicep Incline Curl": {
-    steps: [
-      "Set an incline bench to around 45-60 degrees. Sit back with a dumbbell in each hand, arms hanging straight down.",
-      "Rotate your palms so they face forward (supination). Keep your elbows pinned back in space.",
-      "Curl the weights up towards your shoulders while keeping your upper arms locked in place.",
-      "Squeeze your biceps hard at the peak contraction.",
-      "Lower the dumbbells slowly to the starting position, getting a deep stretch in the biceps."
-    ],
-    tips: [
-      "Do not swing your elbows forward as you curl; keeping them back isolates the long head of the biceps.",
-      "Control the eccentric (lowering) phase for at least 2 seconds."
-    ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
-  },
-  "Hanging Leg Raise": {
-    steps: [
-      "Hang from a pull-up bar with a shoulder-width grip. Engage your shoulders and lats to stabilize your body.",
-      "Keep your legs straight and squeeze your core.",
-      "Raise your legs under control until they are parallel to the floor (or higher if flexible).",
-      "Pause for a brief second at the peak of the movement.",
-      "Lower your legs slowly, resisting gravity, to return to the starting dead-hang position."
-    ],
-    tips: [
-      "Avoid swinging or using momentum. If you swing, reset and focus on core activation.",
-      "If straight legs are too difficult, bend your knees and perform Hanging Knee Raises instead."
-    ],
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: '<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/O94yEoGXtBY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    mediaType: "video"
   }
 };
 
-/**
- * Helper function to retrieve detailed information for any exercise.
- * If the exercise name is not found in the custom DB, it dynamically generates
- * premium instructions based on its name and target muscle group.
- *
- * @param {string} exerciseName - Name of the exercise
- * @param {string} targetMuscle - Muscle target (e.g. Legs, Chest, Back)
- * @returns {object} The steps, tips, and media attributes.
- */
+const EXERCISE_YOUTUBE_LINKS = {
+  "incline dumbbell bench press": "https://www.youtube.com/embed/IP4oeKh1Sd4?si=0ApVvt2iryzpb-gO",
+  "flat barbell bench press": "https://www.youtube.com/embed/ptpmRrzRtWQ",
+  "cable chest fly": "https://www.youtube.com/embed/V5mlG3N-weQ?si=el2IXPDUHTf8Sm1_",
+  "dumbbell bench press": "https://www.youtube.com/embed/IP4oeKh1Sd4?si=0W1J9BfIFrvdOWGD",
+  "push-ups (to failure)": "https://www.youtube.com/embed/b6ouj88iBZs",
+  "incline cable press-fly": "https://www.youtube.com/embed/bGi0E9QbBTo?si=runsWmINDuK8JMXx",
+  "pec dec": "https://www.youtube.com/embed/K2VJ4HeXb4s?si=lHra8kMVk9k8p-FM",
+  "pec dec": "https://www.youtube.com/embed/K2VJ4HeXb4s?si=lHra8kMVk9k8p-FM",
+  "barbell bench press": "https://www.youtube.com/embed/lWFknlOTbyM?si=tti-ARDRf9qC5g3C",
+  "incline barbell bench press": "https://www.youtube.com/embed/SrqOu55lrYU?si=WcdTDNul0fZyFSLg",
+  "weighted chest dips": "https://www.youtube.com/embed/h_qLxCGaeU8?si=T3PAqElMqXosDMyQ",
+  "lat pulldown (wide grip)": "https://www.youtube.com/embed/O94yEoGXtBY",
+  "seated cable row": "https://www.youtube.com/embed/GZbfZ033f74",
+  "single-arm dumbbell row": "https://www.youtube.com/embed/dFzUjzfih7k?si=rOWoL18K5TpwV6b_",
+  "lat pulldown": "https://www.youtube.com/embed/43hWj8mfYGY?si=Telpv1JL6liwn_RF",
+  "assisted pull-ups": "https://www.youtube.com/embed/gnElpp3Fm50?si=FnJZjGDwRDUP7kWT",
+  "kettlebell gorilla rows": "https://www.youtube.com/embed/bLM3nLvoRdc",
+  "conventional deadlift": "https://www.youtube.com/embed/VL5Ab0T07e4",
+  "weighted pull-ups": "https://www.youtube.com/embed/fnJ0F1Xsu7Y",
+  "barbell pendlay row": "https://www.youtube.com/embed/h4nkoayPFWw",
+  "seated dumbbell shoulder press": "https://www.youtube.com/embed/21lYP86dHW4",
+  "standing dumbbell lateral raise": "https://www.youtube.com/embed/ssAo_xwFt5c",
+  "dumbbell rear delt fly": "https://www.youtube.com/embed/LsT-bR_zxLo",
+  "dumbbell arnold press": "https://www.youtube.com/embed/TEzehbTzBD0",
+  "cable lateral raise": "https://www.youtube.com/embed/zpbm-xRHB6k",
+  "face pulls": "https://www.youtube.com/embed/eQaSpG7aMYQ",
+  "standing military press": "https://www.youtube.com/embed/Ftb3rlCE-zo",
+  "push press": "https://www.youtube.com/embed/a8HQo8z20Uo",
+  "heavy dumbbell lateral raise": "https://www.youtube.com/embed/ssAo_xwFt5c",
+  "leg extension": "https://www.youtube.com/embed/YyvSfVjQeL0",
+  "barbell back squat": "https://www.youtube.com/embed/aOzrA4FgnM0?si=5AfmjivHaK_loDd2",
+  "romanian deadlift (dumbbell)": "https://www.youtube.com/embed/aa57T45iFSE",
+  "leg press": "https://www.youtube.com/embed/fKAmwrtUxI8",
+  "barbell goblet squat": "https://www.youtube.com/embed/zsN2WvklwDk",
+  "dumbbell walking lunges": "https://www.youtube.com/embed/I34ysEkPK7w",
+  "leg curls": "https://www.youtube.com/embed/3gZm9wGTsEo",
+  "low-bar back squat": "https://www.youtube.com/embed/Po9CDtfcLJI",
+  "front squat": "https://www.youtube.com/embed/6PLvU0rjw18",
+  "barbell romanian deadlift": "https://www.youtube.com/embed/xgusDooVfKU",
+  "dumbbell alternate bicep curl": "https://www.youtube.com/embed/ia7_90Ew-qs",
+  "hammer curl": "https://www.youtube.com/embed/8XLxfXROrTo",
+  "hammer curls": "https://www.youtube.com/embed/8XLxfXROrTo",
+  "barbell bicep preacher curl": "https://www.youtube.com/embed/jilTTmyEoYY",
+  "tricep overhead extension": "https://www.youtube.com/embed/O7e8j8K3cJo",
+  "overhead dumbbell tricep extension": "https://www.youtube.com/embed/O7e8j8K3cJo",
+  "cable tricep pushdown (straight bar)": "https://www.youtube.com/embed/8JBHlaS7Dkk",
+  "cable overhead rope extension": "https://www.youtube.com/embed/grtDyGNMjQ0",
+  "tricep bench dips": "https://www.youtube.com/embed/WVeZDBhZwLA",
+  "bench dips": "https://www.youtube.com/embed/WVeZDBhZwLA",
+  "barbell close-grip bench press": "https://www.youtube.com/embed/DzA2xZhDGeo",
+  "close-grip barbell bench press": "https://www.youtube.com/embed/DzA2xZhDGeo",
+  "barbell bicep curl (cheat curls)": "https://www.youtube.com/embed/CadCvP44Az0",
+  "tricep weighted dips": "https://www.youtube.com/embed/JannOlicL4w",
+  "hanging leg raise": "https://www.youtube.com/embed/vwl68EF9M2Q",
+  "lying leg raise": "https://www.youtube.com/embed/JB2oyawG9KI",
+  "ab-wheel rollout": "https://www.youtube.com/embed/NbudTqiwguk",
+  "plank": "https://www.youtube.com/embed/mwlp75MS6Rg",
+  "hanging knee raise": "https://www.youtube.com/embed/l7OroezzX9k",
+  "weighted plank": "https://www.youtube.com/embed/mwlp75MS6Rg",
+  "bicycle crunches": "https://www.youtube.com/embed/kDPxFoCmb-w",
+  "heavy standing cable crunch": "https://www.youtube.com/embed/wBzU6_YJPEU",
+  "pallof press (cable)": "https://www.youtube.com/embed/xeFp4MXad98",
+  "cable woodchopper": "https://www.youtube.com/embed/Gwcf4TOj1hc",
+  "dumbbell tricep kickback": "https://www.youtube.com/embed/m9me06UBPKc",
+  "skull crushers (ez-bar)": "https://www.youtube.com/embed/d_KZxkY_0cM",
+  "barbell wrist curl": "https://www.youtube.com/embed/3UWi44yN-wE",
+  "reverse ez-bar curl": "https://www.youtube.com/embed/nRgxYX2Ve9w",
+  "dumbbell hammer curl": "https://www.youtube.com/embed/8XLxfXROrTo",
+  "dumbbell wrist curls (palms down)": "https://www.youtube.com/embed/3UWi44yN-wE",
+  "wrist curls (palms up)": "https://www.youtube.com/embed/3UWi44yN-wE",
+  "forearms twist rope standing": "https://www.youtube.com/embed/9N4Cj9vO7dM",
+  "heavy farmer's carry": "https://www.youtube.com/embed/Fkzk_RqlYig",
+  "barbell static hold": "https://www.youtube.com/embed/0X9J5xPj6l8",
+  "behind-the-back wrist curl": "https://www.youtube.com/embed/3UWi44yN-wE"
+};
+
 export function getExerciseDetails(exerciseName, targetMuscle = "Full Body") {
-  const normalizedName = exerciseName?.trim();
-  
+  const normalizedName = (exerciseName || "").trim();
+  const lower = normalizedName.toLowerCase();
+
   if (exerciseDetailsDb[normalizedName]) {
     return exerciseDetailsDb[normalizedName];
   }
 
-  // Generative fallback for items not explicitly in the static DB
+  let videoSrc = EXERCISE_YOUTUBE_LINKS[lower];
+  if (!videoSrc) {
+    for (const [key, url] of Object.entries(EXERCISE_YOUTUBE_LINKS)) {
+      if (lower.includes(key) || key.includes(lower)) {
+        videoSrc = url;
+        break;
+      }
+    }
+  }
+
+  if (!videoSrc) {
+    videoSrc = "https://www.youtube.com/embed/aOzrA4FgnM0";
+  }
+
+  const iframeHtml = `<iframe width="100%" height="100%" style="width:100%;height:100%;border:0;" src="${videoSrc}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+
   const fallbackSteps = [
     `Set up safely for ${normalizedName} by checking your equipment, posture, and alignment.`,
     `Initiate the movement by contracting your target muscle group (${targetMuscle}) under control.`,
@@ -133,9 +201,11 @@ export function getExerciseDetails(exerciseName, targetMuscle = "Full Body") {
   ];
 
   return {
+    name: normalizedName,
+    target: targetMuscle,
     steps: fallbackSteps,
     tips: fallbackTips,
-    mediaUrl: "/exercise_placeholder.png",
-    mediaType: "image"
+    mediaUrl: iframeHtml,
+    mediaType: "video"
   };
 }

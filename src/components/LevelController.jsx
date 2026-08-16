@@ -7,8 +7,10 @@ const ADVANCED_MUSCLES = [
   { id: "Back", label: "Back", desc: "Lats, rhomboids & traps" },
   { id: "Shoulders", label: "Shoulders", desc: "Deltoids & overhead drive" },
   { id: "Legs", label: "Legs", desc: "Quads, hamstrings & calves" },
-  { id: "Arms", label: "Arms", desc: "Biceps & triceps isolation" },
+  { id: "Arms", label: "Arms", desc: "Biceps & arms isolation" },
   { id: "Core", label: "Core", desc: "Abs, obliques & lower back" },
+  { id: "Triceps", label: "Triceps", desc: "Lateral, medial & long heads" },
+  { id: "Forearms", label: "Forearms", desc: "Grip, flexors & extensors" },
 ];
 
 const SPLIT_OPTIONS = [
@@ -115,7 +117,7 @@ export const LevelController = ({
           Select target muscle groups to custom-tailor your hypertrophic splits.
         </p>
 
-        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6">
+        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {ADVANCED_MUSCLES.map((muscle) => {
             const isSelected = (selectedMuscles || []).includes(muscle.id);
             return (
