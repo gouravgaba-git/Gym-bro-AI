@@ -87,11 +87,14 @@ export default function PoseDetection({ exerciseName }) {
     };
   }, [exerciseName]);
 
-  // Re-attach video stream to videoRef element when toggling fullscreen
+  // Re-attach video stream to videoRef element when toggling fullscreen or camera
   useEffect(() => {
     if (isCameraOn && streamRef.current && videoRef.current) {
       videoRef.current.srcObject = streamRef.current;
       videoRef.current.play().catch(e => console.warn("Video play error:", e));
+      videoRef.current.onloadeddata = () => {
+        detectpose();
+      };
     }
   }, [isFullScreen, isCameraOn]);
 
@@ -328,22 +331,25 @@ export default function PoseDetection({ exerciseName }) {
   }
 
   async function startCamera() {
-    await CreatePoseLandmarker();
     try {
+      setIsCameraOn(true);
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }
+        video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" },
+        audio: false
       });
 
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.play().catch(e => console.warn("Video play error:", e));
         videoRef.current.onloadeddata = () => {
           detectpose();
         };
       }
-      setIsCameraOn(true);
+      CreatePoseLandmarker().catch(err => console.warn("Pose landmarker load:", err));
     } catch (err) {
       console.error("Error accessing webcam:", err);
+      setIsCameraOn(false);
       alert("Unable to access camera. Please allow camera permissions in your browser settings.");
     }
   }

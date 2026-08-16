@@ -149,10 +149,17 @@ app.get("/api/exercises/details/:name", async (req, res) => {
   try {
     const nameParam = req.params.name.trim();
     const liveLink = getLiveExerciseLink(nameParam);
-    const exercise = await Exercise.findOne({ name: nameParam });
+    let exercise = null;
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        exercise = await Exercise.findOne({ name: nameParam });
+      } catch (e) {
+        console.warn("MongoDB exercise query error:", e.message);
+      }
+    }
 
     if (!exercise) {
-      // Return a clean fallback structure if the database does not contain this specific entry
       const normalizedName = nameParam;
       const fallbackSteps = [
         `Set up safely for ${normalizedName} by checking your equipment, posture, and alignment.`,
@@ -166,18 +173,21 @@ app.get("/api/exercises/details/:name", async (req, res) => {
         `Prioritize form and precision over the total amount of weight lifted.`,
         `Breathe out during the hardest part of the lift (concentric) and breathe in as you lower the weight.`
       ];
+
+      const finalMedia = liveLink || formatMediaUrl("https://www.youtube.com/embed/aOzrA4FgnM0");
+
       return res.json({
         name: normalizedName,
         target: "Full Body",
         steps: fallbackSteps,
         tips: fallbackTips,
-        mediaUrl: liveLink || "/exercise_placeholder.mp4",
+        mediaUrl: finalMedia,
         mediaType: "video"
       });
     }
 
     const finalMediaUrl = liveLink || exercise.mediaUrl;
-    const isIframe = finalMediaUrl && finalMediaUrl.startsWith("<iframe");
+    const isIframe = finalMediaUrl && (finalMediaUrl.startsWith("<iframe") || finalMediaUrl.includes("<iframe"));
 
     res.json({
       name: exercise.name,
@@ -188,45 +198,167 @@ app.get("/api/exercises/details/:name", async (req, res) => {
       mediaType: isIframe ? "video" : (exercise.mediaType || "video")
     });
   } catch (error) {
+    console.error("Exercise details fetch error:", error);
     res.status(500).json({ error: "Failed to fetch exercise details." });
   }
 });
 
+const exerciseDb = {
+  Chest: {
+    muscle_gain: [
+      { name: "Pec dec", target: "Chest", setsReps: "4 sets x 10-15 reps", videoUrl: "#" },
+      { name: "Flat Barbell Bench Press", target: "Chest", setsReps: "3 sets x 10 reps", videoUrl: "#" },
+      { name: "Cable Chest Fly", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" },
+      { name: "Incline Barbell Bench Press", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Dumbbell Bench Press", target: "Chest", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Push-ups (to Failure)", target: "Chest", setsReps: "3 sets x max reps", videoUrl: "#" },
+      { name: "Incline Cable Press-Fly", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" },
+      { name: "Pec Dec", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Barbell Bench Press", target: "Chest", setsReps: "5 sets x 5 reps (Heavy)", videoUrl: "#" },
+      { name: "Incline Barbell Bench Press", target: "Chest", setsReps: "4 sets x 6 reps", videoUrl: "#" },
+      { name: "Weighted Chest Dips", target: "Chest", setsReps: "3 sets x 6-8 reps", videoUrl: "#" },
+      { name: "Pec Dec", target: "Chest", setsReps: "3 sets x 12-15 reps", videoUrl: "#" }
+    ]
+  },
+  Back: {
+    muscle_gain: [
+      { name: "Lat Pulldown (Wide Grip)", target: "Back", setsReps: "4 sets x 10 reps", videoUrl: "#" },
+      { name: "Seated Cable Row", target: "Back", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
+      { name: "Single-Arm Dumbbell Row", target: "Back", setsReps: "3 sets x 12 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Lat Pulldown", target: "Back", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Assisted Pull-ups", target: "Back", setsReps: "3 sets x 12 reps", videoUrl: "#" },
+      { name: "Seated Cable Row", target: "Back", setsReps: "3 sets x 15 reps (each arm)", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Conventional Deadlift", target: "Back", setsReps: "5 sets x 3 reps (Heavy)", videoUrl: "#" },
+      { name: "Weighted Pull-ups", target: "Back", setsReps: "4 sets x 5 reps", videoUrl: "#" },
+      { name: "Barbell Pendlay Row", target: "Back", setsReps: "4 sets x 6 reps", videoUrl: "#" }
+    ]
+  },
+  Shoulders: {
+    muscle_gain: [
+      { name: "Seated Dumbbell Shoulder Press", target: "Shoulders", setsReps: "4 sets x 8-10 reps", videoUrl: "#" },
+      { name: "Standing Dumbbell Lateral Raise", target: "Shoulders", setsReps: "4 sets x 12-15 reps", videoUrl: "#" },
+      { name: "Dumbbell Rear Delt Fly", target: "Shoulders", setsReps: "3 sets x 15 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Dumbbell Arnold Press", target: "Shoulders", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Standing Dumbbell Lateral Raise", target: "Shoulders", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Face Pulls", target: "Shoulders", setsReps: "3 sets x 20 reps", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Standing Military Press", target: "Shoulders", setsReps: "5 sets x 5 reps", videoUrl: "#" },
+      { name: "Push Press", target: "Shoulders", setsReps: "4 sets x 5 reps", videoUrl: "#" },
+      { name: "Heavy Dumbbell Lateral Raise", target: "Shoulders", setsReps: "3 sets x 8 reps", videoUrl: "#" }
+    ]
+  },
+  Legs: {
+    muscle_gain: [
+      { name: "Leg Extension", target: "Legs", setsReps: "3 sets x 12-15 reps", videoUrl: "/infopage.jsx" },
+      { name: "Leg Press", target: "Legs", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
+      { name: "Barbell Back Squat", target: "Legs", setsReps: "3 sets x 12 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Barbell Goblet Squat", target: "Legs", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Dumbbell Walking Lunges", target: "Legs", setsReps: "3 sets x 24 steps total", videoUrl: "#" },
+      { name: "Leg Curls", target: "Legs", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Leg Press", target: "Legs", setsReps: "3 sets x 10-12 reps", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Leg Press", target: "Legs", setsReps: "5 sets x 5 reps (Heavy)", videoUrl: "#" },
+      { name: "Front Squat", target: "Legs", setsReps: "4 sets x 6 reps", videoUrl: "#" },
+      { name: "Barbell Romanian Deadlift", target: "Legs", setsReps: "4 sets x 6 reps", videoUrl: "#" }
+    ]
+  },
+  Arms: {
+    muscle_gain: [
+      { name: "Dumbbell Alternate Bicep Curl", target: "Arms", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
+      { name: "Hammer Curl", target: "Arms", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
+      { name: "Barbell Bicep Preacher Curl", target: "Arms", setsReps: "3 sets x 12 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Dumbbell Alternate Bicep Curl", target: "Arms", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Tricep Bench Dips", target: "Arms", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Hammer Curls", target: "Arms", setsReps: "3 sets x 15 reps", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Barbell Close-Grip Bench Press", target: "Arms", setsReps: "4 sets x 6-8 reps", videoUrl: "#" },
+      { name: "Barbell Bicep Curl (Cheat Curls)", target: "Arms", setsReps: "3 sets x 6-8 reps", videoUrl: "#" },
+      { name: "Tricep Weighted Dips", target: "Arms", setsReps: "3 sets x 6 reps", videoUrl: "#" }
+    ]
+  },
+  Core: {
+    muscle_gain: [
+      { name: "Hanging Leg Raise", target: "Core", setsReps: "3 sets x 12-15 reps", videoUrl: "#" },
+      { name: "Lying Leg Raise", target: "Core", setsReps: "3 sets x 10 reps", videoUrl: "#" },
+      { name: "Plank", target: "Core", setsReps: "3 sets x 60 seconds", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Hanging Knee Raise", target: "Core", setsReps: "3 sets x 15-20 reps", videoUrl: "#" },
+      { name: "Plank", target: "Core", setsReps: "3 sets x 60 seconds", videoUrl: "#" },
+      { name: "Bicycle Crunches", target: "Core", setsReps: "3 sets x 20 reps", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Heavy Standing Cable Crunch", target: "Core", setsReps: "4 sets x 8-10 reps", videoUrl: "#" },
+      { name: "Pallof Press (Cable)", target: "Core", setsReps: "3 sets x 10 reps (each side)", videoUrl: "#" },
+      { name: "Cable Woodchopper", target: "Core", setsReps: "3 sets x 10 reps (each side)", videoUrl: "#" }
+    ]
+  },
+  Triceps: {
+    muscle_gain: [
+      { name: "Overhead Dumbbell Tricep Extension", target: "Triceps", setsReps: "3 sets x 10-12 reps", videoUrl: "#" },
+      { name: "Cable Tricep Pushdown (Straight Bar)", target: "Triceps", setsReps: "3 sets x 12 reps", videoUrl: "#" },
+      { name: "Cable Overhead Rope Extension", target: "Triceps", setsReps: "3 sets x 12-15 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Bench Dips", target: "Triceps", setsReps: "3 sets x 15-20 reps", videoUrl: "#" },
+      { name: "Dumbbell Tricep Kickback", target: "Triceps", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Cable Tricep Pushdown (Straight Bar)", target: "Triceps", setsReps: "3 sets x 15 reps", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Close-Grip Barbell Bench Press", target: "Triceps", setsReps: "4 sets x 6 reps", videoUrl: "#" },
+      { name: "Weighted Chest Dips", target: "Triceps", setsReps: "3 sets x 6-8 reps", videoUrl: "#" },
+      { name: "Skull Crushers (EZ-Bar)", target: "Triceps", setsReps: "3 sets x 8 reps", videoUrl: "#" }
+    ]
+  },
+  Forearms: {
+    muscle_gain: [
+      { name: "Barbell Wrist Curl", target: "Forearms", setsReps: "3 sets x 15 reps", videoUrl: "#" },
+      { name: "Reverse EZ-Bar Curl", target: "Forearms", setsReps: "3 sets x 12 reps", videoUrl: "#" },
+      { name: "Dumbbell Hammer Curl", target: "Forearms", setsReps: "3 sets x 12 reps", videoUrl: "#" }
+    ],
+    fat_loss: [
+      { name: "Dumbbell Wrist Curls (Palms Down)", target: "Forearms", setsReps: "3 sets x 15-20 reps", videoUrl: "#" },
+      { name: "Wrist Curls (Palms Up)", target: "Forearms", setsReps: "3 sets x 45 seconds", videoUrl: "#" },
+      { name: "Forearms Twist Rope Standing", target: "Forearms", setsReps: "3 sets x 60 seconds", videoUrl: "#" }
+    ],
+    strength: [
+      { name: "Heavy Farmer's Carry", target: "Forearms", setsReps: "3 sets x 30-45 seconds", videoUrl: "#" },
+      { name: "Barbell Static Hold", target: "Forearms", setsReps: "3 sets x max hold time", videoUrl: "#" },
+      { name: "Behind-the-Back Wrist Curl", target: "Forearms", setsReps: "3 sets x 8-10 reps", videoUrl: "#" }
+    ]
+  }
+};
+
 // 3. Post a request to generate a custom workout split
 app.post("/api/workout-plan", async (req, res) => {
   try {
-    const { goal, level, days, selectedMuscles } = req.body;
-
-    if (mongoose.connection.readyState !== 1) {
-      throw new Error("Database not connected");
-    }
-
-    // Fetch exercises from MongoDB matching this fitness goal
-    const rawExercises = await Exercise.find({ goal });
-
-    // Group exercises by target muscle group
-    const exerciseDb = {};
-    rawExercises.forEach(ex => {
-      if (!exerciseDb[ex.target]) {
-        exerciseDb[ex.target] = [];
-      }
-      exerciseDb[ex.target].push({
-        name: ex.name,
-        target: ex.target,
-        setsReps: ex.setsReps,
-        videoUrl: ex.videoUrl
-      });
-    });
+    const { goal = "muscle_gain", level = "beginner", days = "4", selectedMuscles = [] } = req.body;
 
     const getExercisesForMuscle = (muscle, count = 2) => {
-      const list = exerciseDb[muscle] || [];
+      const list = exerciseDb[muscle]?.[goal] || [];
       return list.slice(0, count);
     };
 
     let plan = null;
 
     if (level === 'beginner') {
-      // Beginner locked to 4-day Full Body split
       plan = {
         splitName: "4-Day Full Body Split",
         goalLabel: goalLabels[goal] || goal,
@@ -261,23 +393,23 @@ app.post("/api/workout-plan", async (req, res) => {
             focus: "Hypertrophy & Volume Emphasis",
             exercises: [
               ...getExercisesForMuscle('Legs', 3).slice(2, 3),
-              ...getExercisesForMuscle('Chest').slice(0, 1),
+              ...getExercisesForMuscle('Chest', 4).slice(3, 4),
               ...getExercisesForMuscle('Back').slice(0, 1),
               ...getExercisesForMuscle('Shoulders').slice(0, 1),
               ...getExercisesForMuscle('Arms').slice(0, 1),
-              ...getExercisesForMuscle('Core').slice(0, 1),
+              ...getExercisesForMuscle('Core', 3).slice(2, 3),
             ]
           },
           {
-            name: "Day 4 (Full Body B)",
-            focus: "Hinge & Pull Emphasis",
+            name: "Day 4 (Full Body D)",
+            focus: "Squat & Push Emphasis",
             exercises: [
-              ...getExercisesForMuscle('Legs').slice(1, 2),
-              ...getExercisesForMuscle('Back').slice(1, 2),
-              ...getExercisesForMuscle('Chest').slice(1, 2),
-              ...getExercisesForMuscle('Shoulders').slice(1, 2),
-              ...getExercisesForMuscle('Arms').slice(1, 2),
-              ...getExercisesForMuscle('Core').slice(1, 2),
+              ...getExercisesForMuscle('Legs', 1),
+              ...getExercisesForMuscle('Chest', 1),
+              ...getExercisesForMuscle('Back', 1),
+              ...getExercisesForMuscle('Shoulders', 1),
+              ...getExercisesForMuscle('Arms', 1),
+              ...getExercisesForMuscle('Core', 1),
             ]
           }
         ]
@@ -285,190 +417,176 @@ app.post("/api/workout-plan", async (req, res) => {
     } else if (level === 'intermediate') {
       if (days === '3') {
         plan = {
-          splitName: "3-Day Push / Pull / Legs (PPL)",
+          splitName: "3-Day Intermediate Split",
           goalLabel: goalLabels[goal] || goal,
           levelLabel: levelLabels[level] || level,
           days: [
             {
-              name: "Day 1 (Push Focus)",
-              focus: "Chest, Shoulders & Triceps",
+              name: "Day 1 (Back + Biceps)",
+              focus: "Back & Biceps",
               exercises: [
-                ...getExercisesForMuscle('Chest', 2),
-                ...getExercisesForMuscle('Shoulders', 2),
-                ...getExercisesForMuscle('Arms', 1)
+                ...getExercisesForMuscle('Back', 3),
+                ...getExercisesForMuscle('Arms', 3)
               ]
             },
             {
-              name: "Day 2 (Pull Focus)",
-              focus: "Back, Rear Delts & Biceps",
+              name: "Day 2 (Chest + Triceps)",
+              focus: "Chest & Triceps",
               exercises: [
-                ...getExercisesForMuscle('Back', 2),
-                ...getExercisesForMuscle('Shoulders').slice(2, 3),
-                ...getExercisesForMuscle('Arms').slice(1, 2),
-                ...getExercisesForMuscle('Core', 1)
+                ...getExercisesForMuscle('Chest', 3),
+                ...getExercisesForMuscle('Triceps', 3)
               ]
             },
             {
-              name: "Day 3 (Leg Focus)",
-              focus: "Quads, Hamstrings & Calves",
+              name: "Day 3 (Legs + Shoulders)",
+              focus: "Legs & Shoulders",
               exercises: [
                 ...getExercisesForMuscle('Legs', 3),
-                ...getExercisesForMuscle('Core', 2)
+                ...getExercisesForMuscle('Shoulders', 3)
               ]
             }
           ]
         };
       } else if (days === '4') {
         plan = {
-          splitName: "4-Day Upper / Lower Split",
+          splitName: "4-Day Intermediate Split",
           goalLabel: goalLabels[goal] || goal,
           levelLabel: levelLabels[level] || level,
           days: [
             {
-              name: "Day 1 (Upper A)",
-              focus: "Chest & Back Emphasis",
+              name: "Day 1 (Back + Biceps)",
+              focus: "Back & Biceps",
               exercises: [
-                ...getExercisesForMuscle('Chest', 2),
-                ...getExercisesForMuscle('Back', 2),
-                ...getExercisesForMuscle('Shoulders', 1)
+                ...getExercisesForMuscle('Back', 3),
+                ...getExercisesForMuscle('Arms', 3)
               ]
             },
             {
-              name: "Day 2 (Lower A)",
-              focus: "Squat Heavy & Core",
+              name: "Day 2 (Chest + Triceps)",
+              focus: "Chest & Triceps",
               exercises: [
-                ...getExercisesForMuscle('Legs', 2),
-                ...getExercisesForMuscle('Core', 2)
+                ...getExercisesForMuscle('Chest', 3),
+                ...getExercisesForMuscle('Triceps', 3)
               ]
             },
             {
-              name: "Day 3 (Upper B)",
-              focus: "Shoulder Overhead & Arms Volume",
+              name: "Day 3 (Legs + Shoulders)",
+              focus: "Legs & Shoulders",
               exercises: [
-                ...getExercisesForMuscle('Shoulders', 2),
-                ...getExercisesForMuscle('Arms', 2),
-                ...getExercisesForMuscle('Chest').slice(1, 2)
+                ...getExercisesForMuscle('Legs', 3),
+                ...getExercisesForMuscle('Shoulders', 3)
               ]
             },
             {
-              name: "Day 4 (Lower B)",
-              focus: "Hinge Emphasis & Hams",
+              name: "Day 4 (Core + Forearms)",
+              focus: "Core & Forearms",
               exercises: [
-                ...getExercisesForMuscle('Legs').slice(0, 3),
-                ...getExercisesForMuscle('Back').slice(0, 2),
-                ...getExercisesForMuscle('Core', 2)
+                ...getExercisesForMuscle('Core', 3),
+                ...getExercisesForMuscle('Forearms', 3)
               ]
             }
           ]
         };
       } else if (days === '5') {
         plan = {
-          splitName: "5-Day Push / Pull / Legs / Upper / Lower Split",
+          splitName: "5-Day Intermediate Split",
           goalLabel: goalLabels[goal] || goal,
           levelLabel: levelLabels[level] || level,
           days: [
             {
-              name: "Day 1 (Push Focus)",
-              focus: "Chest, Shoulders & Triceps",
+              name: "Day 1 (Back + Biceps)",
+              focus: "Back & Biceps",
               exercises: [
-                ...getExercisesForMuscle('Chest', 2),
-                ...getExercisesForMuscle('Shoulders', 2),
-                ...getExercisesForMuscle('Triceps', 1)
+                ...getExercisesForMuscle('Back', 3),
+                ...getExercisesForMuscle('Arms', 3)
               ]
             },
             {
-              name: "Day 2 (Pull Focus)",
-              focus: "Back, Rear Delts & Biceps",
+              name: "Day 2 (Chest + Triceps)",
+              focus: "Chest & Triceps",
               exercises: [
-                ...getExercisesForMuscle('Back', 2),
-                ...getExercisesForMuscle('Shoulders', 1),
-                ...getExercisesForMuscle('Arms', 2)
+                ...getExercisesForMuscle('Chest', 3),
+                ...getExercisesForMuscle('Triceps', 3)
               ]
             },
             {
-              name: "Day 3 (Leg Focus)",
-              focus: "Quads, Hamstrings & Calves",
+              name: "Day 3 (Legs + Shoulders)",
+              focus: "Legs & Shoulders",
               exercises: [
                 ...getExercisesForMuscle('Legs', 3),
-                ...getExercisesForMuscle('Core', 2)
+                ...getExercisesForMuscle('Shoulders', 3)
               ]
             },
             {
-              name: "Day 4 (Upper Body Volume)",
-              focus: "Chest, Back, Shoulders & Arms",
+              name: "Day 4 (Core + Forearms)",
+              focus: "Core & Forearms",
               exercises: [
-                ...getExercisesForMuscle('Chest', 2),
-                ...getExercisesForMuscle('Back', 2),
-                ...getExercisesForMuscle('Shoulders', 1),
-                ...getExercisesForMuscle('Arms', 2)
+                ...getExercisesForMuscle('Core', 3),
+                ...getExercisesForMuscle('Forearms', 3)
               ]
             },
             {
-              name: "Day 5 (Lower Body Focus)",
-              focus: "Legs Heavy & Core Power",
+              name: "Day 5 (Chest + Triceps)",
+              focus: "Chest & Triceps",
               exercises: [
-                ...getExercisesForMuscle('Legs', 3),
-                ...getExercisesForMuscle('Core', 2)
+                ...getExercisesForMuscle('Chest', 3),
+                ...getExercisesForMuscle('Triceps', 3)
               ]
             }
           ]
         };
       } else {
         plan = {
-          splitName: "6-Day Push / Pull / Legs Split",
+          splitName: "6-Day Intermediate Split",
           goalLabel: goalLabels[goal] || goal,
           levelLabel: levelLabels[level] || level,
           days: [
             {
-              name: "Day 1 (Push A)",
-              focus: "Chest, Shoulders & Triceps Focus",
+              name: "Day 1 (Back + Biceps)",
+              focus: "Back & Biceps",
               exercises: [
-                ...getExercisesForMuscle('Chest', 2),
-                ...getExercisesForMuscle('Shoulders', 2),
-                ...getExercisesForMuscle('Triceps', 1)
+                ...getExercisesForMuscle('Back', 3),
+                ...getExercisesForMuscle('Arms', 3)
               ]
             },
             {
-              name: "Day 2 (Pull A)",
-              focus: "Back, Rear Delts & Biceps Focus",
+              name: "Day 2 (Chest + Triceps)",
+              focus: "Chest & Triceps",
               exercises: [
-                ...getExercisesForMuscle('Back', 2),
-                ...getExercisesForMuscle('Shoulders', 1),
-                ...getExercisesForMuscle('Arms', 2)
+                ...getExercisesForMuscle('Chest', 3),
+                ...getExercisesForMuscle('Triceps', 3)
               ]
             },
             {
-              name: "Day 3 (Legs A)",
-              focus: "Quads, Hamstrings & Calves",
+              name: "Day 3 (Legs + Shoulders)",
+              focus: "Legs & Shoulders",
               exercises: [
                 ...getExercisesForMuscle('Legs', 3),
-                ...getExercisesForMuscle('Core', 1)
+                ...getExercisesForMuscle('Shoulders', 3)
               ]
             },
             {
-              name: "Day 4 (Push B)",
-              focus: "Chest, Shoulders & Triceps Hypertrophy",
+              name: "Day 4 (Back + Biceps)",
+              focus: "Back & Biceps",
               exercises: [
-                ...getExercisesForMuscle('Chest', 2),
-                ...getExercisesForMuscle('Shoulders', 1),
-                ...getExercisesForMuscle('Arms', 2)
+                ...getExercisesForMuscle('Back', 3),
+                ...getExercisesForMuscle('Arms', 3)
               ]
             },
             {
-              name: "Day 5 (Pull B)",
-              focus: "Back, Rear Delts & Biceps Hypertrophy",
+              name: "Day 5 (Chest + Triceps)",
+              focus: "Chest & Triceps",
               exercises: [
-                ...getExercisesForMuscle('Back', 2),
-                ...getExercisesForMuscle('Shoulders', 1),
-                ...getExercisesForMuscle('Arms', 2)
+                ...getExercisesForMuscle('Chest', 3),
+                ...getExercisesForMuscle('Triceps', 3)
               ]
             },
             {
-              name: "Day 6 (Legs B)",
-              focus: "Quads, Hamstrings & Calves",
+              name: "Day 6 (Core + Forearms)",
+              focus: "Core & Forearms",
               exercises: [
-                ...getExercisesForMuscle('Legs', 3),
-                ...getExercisesForMuscle('Core', 2)
+                ...getExercisesForMuscle('Core', 3),
+                ...getExercisesForMuscle('Forearms', 3)
               ]
             }
           ]
@@ -505,9 +623,7 @@ app.post("/api/workout-plan", async (req, res) => {
           name: "Workout Session",
           focus: "General Hypertrophy Focus",
           exercises: [
-            ...getExercisesForMuscle('Chest', 1),
-            ...getExercisesForMuscle('Back', 1),
-            ...getExercisesForMuscle('Legs', 1)
+            ...getExercisesForMuscle('Chest', 1)
           ]
         });
       }
