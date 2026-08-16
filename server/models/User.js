@@ -2,12 +2,17 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    // Google Profile & Identity
+    // Identity & Authentication
     googleId: {
       type: String,
-      required: true,
-      unique: true,
+      default: null,
+      sparse: true,
       index: true
+    },
+    username: {
+      type: String,
+      trim: true,
+      default: ""
     },
     name: {
       type: String,
@@ -20,6 +25,14 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true
+    },
+    password: {
+      type: String,
+      default: ""
+    },
+    verified: {
+      type: Boolean,
+      default: false
     },
     profilePhoto: {
       type: String,

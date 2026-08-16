@@ -44,7 +44,8 @@ export const AuthProvider = ({ children }) => {
         const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`
-          }
+          },
+          credentials: "include"
         });
 
         if (!res.ok) {
@@ -66,7 +67,107 @@ export const AuthProvider = ({ children }) => {
     fetchCurrentUser();
   }, [token]);
 
-  // Login with Google GIS Credential token, CredentialResponse object, or Profile object
+  // Register with manual credentials (Email, Password, Name) -> Triggers OTP Email
+  const register = async ({ name, username, email, password }) => {
+    try {
+      setLoading(true);
+      if (!email || !email.includes("@")) {
+        throw new Error("Please enter a valid email address");
+      }
+      if (!password || password.length < 6) {
+        throw new Error("Password must be at least 6 characters");
+      }
+
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name, username, email, password })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Registration failed");
+      }
+
+      showToast("Verification OTP sent to your email! 📬", "info");
+      return data;
+    } catch (error) {
+      console.error("Register error:", error);
+      showToast(error.message || "Registration failed", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Verify 6-digit OTP code to activate account and sign in
+  const verifyOtp = async ({ email, otp }) => {
+    try {
+      setLoading(true);
+      if (!email || !otp) {
+        throw new Error("Please enter the 6-digit verification code");
+      }
+
+      const res = await fetch(`${API_BASE_URL}/api/auth/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, otp })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "OTP verification failed");
+      }
+
+      localStorage.setItem("gym_bro_token", data.token);
+      setToken(data.token);
+      setUser(data.user);
+      closeAuthModal();
+      showToast(`Welcome to Gym Bro, ${data.user.name}! 💪`, "success");
+      return data.user;
+    } catch (error) {
+      console.error("Verify OTP error:", error);
+      showToast(error.message || "Invalid or expired OTP", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Resend fresh OTP verification code
+  const resendOtp = async (email) => {
+    try {
+      setLoading(true);
+      if (!email) {
+        throw new Error("Email is required");
+      }
+
+      const res = await fetch(`${API_BASE_URL}/api/auth/resend-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to resend code");
+      }
+
+      showToast("New 6-digit OTP sent! Check your inbox. 🚀", "success");
+      return data;
+    } catch (error) {
+      console.error("Resend OTP error:", error);
+      showToast(error.message || "Failed to resend code", "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Login with Google GIS Credential token or Profile object
   const loginWithGoogle = async (credentialOrProfile) => {
     try {
       setLoading(true);
@@ -86,9 +187,9 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify(payload)
       });
-
 
       const data = await res.json();
 
@@ -122,47 +223,38 @@ export const AuthProvider = ({ children }) => {
       if (!email || !email.includes("@")) {
         throw new Error("Please enter a valid email address");
       }
+      if (!password) {
+        throw new Error("Please enter your password");
+      }
 
-      const res = await fetch(`${API_BASE_URL}/api/auth/email`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password })
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Email authentication failed");
+        throw new Error(data.error || "Authentication failed");
+      }
+
+      // If user is unverified, prompt OTP step
+      if (data.requireOtp) {
+        showToast("Please verify the OTP sent to your email 📬", "info");
+        return { requireOtp: true, email: data.email };
       }
 
       localStorage.setItem("gym_bro_token", data.token);
       setToken(data.token);
       setUser(data.user);
       closeAuthModal();
-      showToast(`Welcome, ${data.user.name}! 🚀`, "success");
+      showToast(`Welcome back, ${data.user.name}! 🚀`, "success");
       return data.user;
     } catch (error) {
-      console.warn("Email login backend notice:", error.message);
-      // Seamless local fallback if backend server isn't reached
-      const fallbackName = email.split("@")[0].charAt(0).toUpperCase() + email.split("@")[0].slice(1);
-      const fallbackUser = {
-        _id: "demo_usr_" + Date.now(),
-        googleId: "email_" + Date.now(),
-        email: email.toLowerCase().trim(),
-        name: fallbackName || "Gym Bro Athlete",
-        profilePhoto: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(email)}`,
-        joinedAt: new Date().toISOString(),
-        isProfileComplete: false,
-        workoutsCompleted: 0,
-        currentStreak: 0,
-        longestStreak: 0
-      };
-      const fallbackToken = "demo_jwt_token_" + Date.now();
-      localStorage.setItem("gym_bro_token", fallbackToken);
-      setToken(fallbackToken);
-      setUser(fallbackUser);
-      closeAuthModal();
-      showToast(`Welcome, ${fallbackUser.name}! 🚀`, "success");
-      return fallbackUser;
+      console.error("Login error:", error);
+      showToast(error.message || "Authentication failed", "error");
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -179,6 +271,7 @@ export const AuthProvider = ({ children }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
+        credentials: "include",
         body: JSON.stringify(profileData)
       });
 
@@ -201,7 +294,7 @@ export const AuthProvider = ({ children }) => {
   const logWorkoutSession = async (workoutPayload) => {
     try {
       if (!token) {
-        openAuthModal("Please sign in with Google to log completed workout sessions and track your athletic streak!");
+        openAuthModal("Please sign in to log completed workout sessions and track your athletic streak!");
         throw new Error("Please log in to track workout completions.");
       }
 
@@ -211,6 +304,7 @@ export const AuthProvider = ({ children }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
+        credentials: "include",
         body: JSON.stringify(workoutPayload)
       });
 
@@ -229,13 +323,41 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout
-  const logout = () => {
-    localStorage.removeItem("gym_bro_token");
-    setToken(null);
-    setUser(null);
-    closeAuthModal();
-    showToast("Logged out successfully.", "info");
+  // Logout current session
+  const logout = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/api/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+      }).catch(() => {});
+    } finally {
+      localStorage.removeItem("gym_bro_token");
+      setToken(null);
+      setUser(null);
+      closeAuthModal();
+      showToast("Logged out successfully.", "info");
+    }
+  };
+
+  // Logout from all devices
+  const logoutAll = async () => {
+    try {
+      if (token) {
+        await fetch(`${API_BASE_URL}/api/auth/logoutAll`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          credentials: "include"
+        }).catch(() => {});
+      }
+    } finally {
+      localStorage.removeItem("gym_bro_token");
+      setToken(null);
+      setUser(null);
+      closeAuthModal();
+      showToast("Logged out from all devices.", "info");
+    }
   };
 
   // Delete Account
@@ -247,7 +369,8 @@ export const AuthProvider = ({ children }) => {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
-        }
+        },
+        credentials: "include"
       });
 
       if (!res.ok) {
@@ -278,11 +401,15 @@ export const AuthProvider = ({ children }) => {
         authModalReason,
         openAuthModal,
         closeAuthModal,
+        register,
+        verifyOtp,
+        resendOtp,
         loginWithGoogle,
         loginWithEmail,
         updateUserProfile,
         logWorkoutSession,
         logout,
+        logoutAll,
         deleteAccount,
         isAuthenticated: !!user
       }}
