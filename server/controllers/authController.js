@@ -221,20 +221,25 @@ export async function login(req, res) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
+    console.log(`🔑 [Login Attempt] Email: "${cleanEmail}"`);
+
     const user = await User.findOne({ email: cleanEmail });
 
     if (!user) {
+      console.log(`❌ [Login Failed] No account found for "${cleanEmail}"`);
       return res.status(400).json({ error: "No account found with this email" });
     }
 
     if (!user.password) {
+      console.log(`❌ [Login Failed] "${cleanEmail}" was registered via Google and has no password`);
       return res.status(400).json({
-        error: "This account was registered using Google. Please click 'Continue with Google'."
+        error: "This account was registered using Google. Please click 'Continue with Google' or register a password on the Create Account tab."
       });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log(`❌ [Login Failed] Incorrect password for "${cleanEmail}"`);
       return res.status(400).json({ error: "Invalid password. Please check your credentials." });
     }
 
