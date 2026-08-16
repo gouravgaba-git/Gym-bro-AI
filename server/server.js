@@ -40,6 +40,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+// Health check endpoints for Render
+app.get("/health", (req, res) => res.json({ status: "ok", time: new Date() }));
+app.get("/api/health", (req, res) => res.json({ status: "ok", time: new Date() }));
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

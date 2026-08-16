@@ -166,21 +166,27 @@ export async function sendOtpEmail(toEmail, otp, name = "Athlete") {
 
   const transporter = getTransporter();
 
-  // If email transporter is configured, attempt sending
+  // If email transporter is configured, attempt sending with timeout
   if (transporter) {
     try {
-      const info = await transporter.sendMail({
+      const sendPromise = transporter.sendMail({
         from: `"The Gym Bro" <${senderEmail}>`,
         to: toEmail,
         subject,
         text: textBody,
         html: htmlBody
       });
+
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Email dispatch timed out after 8s")), 8000)
+      );
+
+      const info = await Promise.race([sendPromise, timeoutPromise]);
       console.log(`✅ Verification email sent to ${toEmail} (MessageId: ${info.messageId})`);
       return { success: true, messageId: info.messageId };
     } catch (err) {
-      console.error(`❌ Failed to send email to ${toEmail}:`, err.message);
-      // Fall through to console log in dev
+      console.error(`⚠️ Email dispatch warning for ${toEmail}:`, err.message);
+      // Fall through to console log in dev / background
     }
   }
 
